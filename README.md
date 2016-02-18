@@ -22,7 +22,7 @@ Material Design风格，热门推荐、每日一笑、板块分类、一键下�
 
 豌豆荚市场：http://www.wandoujia.com/apps/com.example.administrator.searchpicturetool
 
-#dependencies
+#dependencies(技术相关)
 
 ### Material Design 官方支持库   http://www.jianshu.com/p/1078568e859f
 ### 响应式编程框架 Rxjava   http://gank.io/post/560e15be2dca930e00da1083

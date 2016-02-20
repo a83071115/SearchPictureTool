@@ -21,6 +21,7 @@ Material Design风格，热门推荐、每日一笑、板块分类、一键下�
 应用宝市场：http://android.myapp.com/myapp/detail.htm?apkName=com.example.administrator.searchpicturetool
 
 豌豆荚市场：http://www.wandoujia.com/apps/com.example.administrator.searchpicturetool
+小米应用市场：http://app.mi.com/detail/235067?ref=search
 
 #dependencies(技术相关)
 

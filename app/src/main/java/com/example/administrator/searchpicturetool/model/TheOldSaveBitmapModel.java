@@ -23,6 +23,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 /**
  * Created by wenhuaijun on 2015/11/7 0007.
+ * 这就是不用Rxjava的痛点，IO线程和UI线程进行切换需要层层嵌套
  */
 @Deprecated
 public class TheOldSaveBitmapModel {

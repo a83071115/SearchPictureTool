@@ -35,10 +35,10 @@ public class MyPagerAdapter extends FragmentPagerAdapter {
             case 0:
                 fragment = new MainFragment();
                 break;
-            case 1:
+            /*case 1:
                 fragment = new JoyImgFragment();
 
-                break;
+                break;*/
             default:
                 fragment = new NetImgFragment();
                 Bundle bundle = new Bundle();

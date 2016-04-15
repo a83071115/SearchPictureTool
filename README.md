@@ -31,7 +31,7 @@ Material Design风格，使用Rxjava，MVP快速开发框架，封装的Recycler
 ### 响应式编程框架 Rxjava   http://gank.io/post/560e15be2dca930e00da1083
 ### 网络请求库 retrofit   https://github.com/square/retrofit
 ### 强大的图片加载组件 fresco   http://www.fresco-cn.org/
-
+### 专为移动端提供的后端服务平台（热门推荐都是这个做的） bmob   http://www.bmob.cn/
 
 
 ##以下是好朋友Jude写的快速开发库，亲测好用，强烈推荐给大家
@@ -43,7 +43,15 @@ Material Design风格，使用Rxjava，MVP快速开发框架，封装的Recycler
 #API
 搜索图片接口：通过抓包抓到的接口，由于版权问题不好直接公布，请clone项目后在项目中查找
 
-搞笑图片接口：http://www.laifudao.com/api.asp
+搞笑图片接口：http://www.laifudao.com/api.asp（该接口已经不行了，返回的搞笑图片json数据每天都不变）
+
+#补充说明
+由于本人才疏学浅，代码难免还是有很多的问题，请大家多多见谅，有问题多提提意见。
+
+由于最近在找实习工作好久没维护代码，请各位挚友见谅见谅。
+
+后期会加入更多功能，例如未实现的图片剪辑、缩放、标签管理、搜索排行、图片广场（用户图片交流平台）等，再优化下代码（Rx用得太渣了），敬请期待
+
 
 #License#
 

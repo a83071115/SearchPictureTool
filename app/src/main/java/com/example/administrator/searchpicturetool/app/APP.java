@@ -37,10 +37,7 @@ public class APP extends Application{
         RequestManager.getInstance().setDebugMode(true, "heheda");*/
         Bmob.initialize(this,"633edd745d4d8630d88c73a16440cb9a");
         JUtils.initialize(this);
-        JUtils.setDebug(false, "heheda");
+        JUtils.setDebug(true, "heheda");
         //JFileManager.getInstance().init(this,Dir.values());
-    }
-    public enum Dir{
-        Image,Text,Object,
     }
 }

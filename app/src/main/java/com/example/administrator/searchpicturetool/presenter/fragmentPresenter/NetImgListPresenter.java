@@ -1,7 +1,12 @@
 package com.example.administrator.searchpicturetool.presenter.fragmentPresenter;
 
 import android.content.Intent;
+import android.database.DataSetObserver;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.widget.AbsListView;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
 
 import com.example.administrator.searchpicturetool.R;
 import com.example.administrator.searchpicturetool.model.GetImagelistModel;
@@ -23,7 +28,7 @@ import rx.Subscriber;
  */
 
 public class NetImgListPresenter extends BeamListFragmentPresenter<NetImgFragment,NetImage> implements RecyclerArrayAdapter.OnItemClickListener{
-    private int page =1;
+    private int page =0;
     private String tab;
     private ArrayList<NetImage> netImages;
     @Override
@@ -33,27 +38,31 @@ public class NetImgListPresenter extends BeamListFragmentPresenter<NetImgFragmen
         view.getListView().setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         netImages = new ArrayList<NetImage>();
         onRefresh();
+
     }
     @Override
     public void onRefresh() {
         super.onRefresh();
-        page=1;
+        page=0;
         GetImagelistModel.getImageList(tab,page).subscribe(new Observer<NetImage[]>() {
             @Override
             public void onCompleted() {
                 JUtils.Log("onCompleted");
             }
+
             @Override
             public void onError(Throwable e) {
                 JUtils.Log("onError");
                 getRefreshSubscriber().onError(e);
             }
+
             @Override
             public void onNext(NetImage[] imgs) {
                 netImages.clear();
                 netImages.addAll(Arrays.asList(imgs));
                 getRefreshSubscriber().onNext(netImages);
-                page++;
+               // JUtils.Log("size:"+imgs.length);
+                page+=imgs.length;
                 getAdapter().setOnItemClickListener(NetImgListPresenter.this);
             }
         });
@@ -61,14 +70,16 @@ public class NetImgListPresenter extends BeamListFragmentPresenter<NetImgFragmen
     @Override
     public void onLoadMore() {
         super.onLoadMore();
-        GetImagelistModel.getImageList(tab,page).subscribe(new Subscriber<NetImage[]>() {
+        GetImagelistModel.getImageList(tab, page).subscribe(new Subscriber<NetImage[]>() {
             @Override
             public void onCompleted() {
             }
+
             @Override
             public void onError(Throwable e) {
                 getMoreSubscriber().onError(e);
             }
+
             @Override
             public void onNext(NetImage[] imgs) {
                 netImages.addAll(Arrays.asList(imgs));
@@ -83,6 +94,7 @@ public class NetImgListPresenter extends BeamListFragmentPresenter<NetImgFragmen
         intent.putExtra("position", position);
         intent.putExtra("netImages", netImages);
         intent.setClass(getView().getContext(), ShowLargeImgActivity.class);
-        getView().getActivity().startActivityForResult(intent,100);
+        getView().getActivity().startActivityForResult(intent, 100);
     }
+
 }

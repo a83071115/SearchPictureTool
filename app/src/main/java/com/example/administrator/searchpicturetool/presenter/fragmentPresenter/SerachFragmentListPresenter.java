@@ -21,7 +21,7 @@ import rx.Subscriber;
  */
 public class SerachFragmentListPresenter extends BeamListFragmentPresenter<SearchFragment,NetImage> implements RecyclerArrayAdapter.OnItemClickListener{
 
-    private int page =1;
+    private int page =0;
     private String tab;
     private ArrayList<NetImage> netImages;
     @Override
@@ -58,7 +58,7 @@ public class SerachFragmentListPresenter extends BeamListFragmentPresenter<Searc
                 netImages.clear();
                 netImages.addAll(Arrays.asList(imgs));
                 getRefreshSubscriber().onNext(netImages);
-                page++;
+                page+=imgs.length;
                 getAdapter().setOnItemClickListener(SerachFragmentListPresenter.this);
             }
         });

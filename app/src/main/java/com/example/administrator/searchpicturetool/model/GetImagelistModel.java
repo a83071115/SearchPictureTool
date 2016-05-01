@@ -13,7 +13,7 @@ import rx.schedulers.Schedulers;
 public class GetImagelistModel {
     public static Observable<NetImage[]> getImageList( final String word,final int page){
         Observable<NetImage[]> observable =ServiceCilent.getService()
-                .getImageList("ajax", "result", word, page * 24)
+                .getImageList("ajax", "result", word, page)
                 .map(new Func1<SosoSearcher.SosoImage.WallImageResult, NetImage[]>() {
                     @Override
                     public NetImage[] call(SosoSearcher.SosoImage.WallImageResult wallImageResult) {

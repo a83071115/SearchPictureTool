@@ -1,7 +1,11 @@
 package com.example.administrator.searchpicturetool.view.activity;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -14,6 +18,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
 
 import com.example.administrator.searchpicturetool.R;
 import com.example.administrator.searchpicturetool.model.ImageJoyModel;
@@ -30,6 +35,7 @@ import com.umeng.update.UmengUpdateAgent;
 
 
 import java.util.ArrayList;
+import java.util.concurrent.Executors;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -126,6 +132,7 @@ public class MainActivity extends BeamBaseActivity<MainActivityPresenter> implem
     public void openShare(){
         ShareConfig config = new ShareConfig();
         config.init(this, this).openShare(this, false);
+
     }
     @Override
     public void onBackPressed() {

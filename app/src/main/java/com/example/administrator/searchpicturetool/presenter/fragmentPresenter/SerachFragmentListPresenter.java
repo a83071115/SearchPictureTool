@@ -21,7 +21,7 @@ import rx.Subscriber;
  */
 public class SerachFragmentListPresenter extends BeamListFragmentPresenter<SearchFragment,NetImage> implements RecyclerArrayAdapter.OnItemClickListener{
 
-    private int page =1;
+    private int page =0;
     private String tab;
     private ArrayList<NetImage> netImages;
     @Override
@@ -38,7 +38,7 @@ public class SerachFragmentListPresenter extends BeamListFragmentPresenter<Searc
     @Override
     public void onRefresh() {
         super.onRefresh();
-        page=1;
+        page=0;
         GetImagelistModel.getImageList(tab, page).subscribe(new Observer<NetImage[]>() {
             @Override
             public void onCompleted() {
@@ -58,29 +58,10 @@ public class SerachFragmentListPresenter extends BeamListFragmentPresenter<Searc
                 netImages.clear();
                 netImages.addAll(Arrays.asList(imgs));
                 getRefreshSubscriber().onNext(netImages);
-                page++;
+                page+=imgs.length;
                 getAdapter().setOnItemClickListener(SerachFragmentListPresenter.this);
             }
         });
-        /*NetImgModel.getImageList(tab, page, new NetImgModel.NetImageListCallback() {
-            @Override
-            public void onSuccess(NetImage[] imgs) {
-                netImages.clear();
-                netImages.addAll(Arrays.asList(imgs));
-                getRefreshSubscriber().onNext(netImages);
-                page++;
-                getAdapter().setOnItemClickListener(SerachFragmentListPresenter.this);
-            }
-
-            @Override
-            public void onError(String error) {
-                getView().getListView().getSwipeToRefresh().setRefreshing(false);
-                JUtils.Toast("网络不给力");
-                if(getAdapter().getCount()==0){
-                    getView().getListView().showError();
-                }
-            }
-        });*/
     }
 
     @Override
@@ -100,22 +81,9 @@ public class SerachFragmentListPresenter extends BeamListFragmentPresenter<Searc
             public void onNext(NetImage[] imgs) {
                 netImages.addAll(Arrays.asList(imgs));
                 getMoreSubscriber().onNext(Arrays.asList(imgs));
-                page++;
+                page+=imgs.length;
             }
         });
-       /* NetImgModel.getImageList(tab, page, new NetImgModel.NetImageListCallback() {
-            @Override
-            public void onSuccess(NetImage[] imgs) {
-                netImages.addAll(Arrays.asList(imgs));
-                getMoreSubscriber().onNext(Arrays.asList(imgs));
-                page++;
-            }
-
-            @Override
-            public void onError(String error) {
-                getMoreSubscriber().onError(e);
-            }
-        });*/
     }
 
     @Override

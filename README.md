@@ -34,7 +34,7 @@ Material Design风格，使用Rxjava，MVP快速开发框架，封装的Recycler
  
  强大的图片加载组件 fresco   http://www.fresco-cn.org/
  
- ##如果不想用比较复杂的图片加载库（依赖后apk增加1M多）
+ 如果不想用比较复杂的图片加载库（依赖后apk增加1M多）
  
  可以使用我做的轻量级图片加载库 EasyImageLoader  https://github.com/wenhuaijun/EasyImageLoader
  

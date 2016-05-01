@@ -34,6 +34,10 @@ Material Design风格，使用Rxjava，MVP快速开发框架，封装的Recycler
  
  强大的图片加载组件 fresco   http://www.fresco-cn.org/
  
+ ##如果不想用比较复杂的图片加载库（依赖后apk增加1M多）
+ 
+ 可以使用我做的轻量级图片加载库 EasyImageLoader  https://github.com/wenhuaijun/EasyImageLoader
+ 
  专为移动端提供的后端服务平台（热门推荐后台是这个做的） bmob   http://www.bmob.cn
  
  友盟社会化分享组件：意见反馈、分享、数据统计、更新推送全家桶  http://mobile.umeng.com/

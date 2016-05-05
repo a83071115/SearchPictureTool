@@ -1,30 +1,23 @@
 package com.example.administrator.searchpicturetool.view.activity;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ListView;
+import android.view.View;
 
 import com.example.administrator.searchpicturetool.R;
-import com.example.administrator.searchpicturetool.model.ImageJoyModel;
-import com.example.administrator.searchpicturetool.model.bean.ImageJoy;
-import com.example.administrator.searchpicturetool.presenter.activitPresenter.MainActivityPresenter;
 import com.example.administrator.searchpicturetool.config.ShareConfig;
+import com.example.administrator.searchpicturetool.presenter.activitPresenter.MainActivityPresenter;
 import com.jude.beam.bijection.RequiresPresenter;
 import com.jude.beam.expansion.BeamBaseActivity;
 import com.jude.utils.JUtils;
@@ -33,38 +26,33 @@ import com.umeng.fb.FeedbackAgent;
 import com.umeng.message.PushAgent;
 import com.umeng.update.UmengUpdateAgent;
 
-
-import java.util.ArrayList;
-import java.util.concurrent.Executors;
-
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import butterknife.OnClick;
-import rx.Subscriber;
 
 @RequiresPresenter(MainActivityPresenter.class)
 public class MainActivity extends BeamBaseActivity<MainActivityPresenter> implements NavigationView.OnNavigationItemSelectedListener {
-        @InjectView(R.id.toolbar)
+        @BindView(R.id.toolbar)
         Toolbar toolbar;
-        @InjectView(R.id.search_view)
+        @BindView(R.id.search_view)
         MaterialSearchView searchView;
-        @InjectView(R.id.drawer_layout)
+        @BindView(R.id.drawer_layout)
         DrawerLayout drawer;
-        @InjectView(R.id.nav_view)
+        @BindView(R.id.nav_view)
         NavigationView navigationView;
-        @InjectView(R.id.tabLayout)
+        @BindView(R.id.tabLayout)
         TabLayout tabLayout;
-        @InjectView(R.id.viewPager)
+        @BindView(R.id.viewPager)
         ViewPager viewPager;
-    @InjectView(R.id.appBarLayout)
+    @BindView(R.id.appBarLayout)
     AppBarLayout appBarLayout;
-    @InjectView(R.id.fab)
+    @BindView(R.id.fab)
     FloatingActionButton fab;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
         setSupportActionBar(toolbar);
      //   showErrorView(false);
         setDrawerLayout();

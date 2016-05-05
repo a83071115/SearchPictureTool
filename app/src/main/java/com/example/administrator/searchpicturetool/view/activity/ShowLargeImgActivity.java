@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.BindView;
 
 
 /**
@@ -35,11 +35,11 @@ import butterknife.InjectView;
 @RequiresPresenter(ShowLargeImgActivityPresenter.class)
 public class ShowLargeImgActivity extends BeamBaseActivity<ShowLargeImgActivityPresenter> implements OnMenuItemClickListener,
         OnMenuItemLongClickListener {
-    @InjectView(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @InjectView(R.id.large_page)
+    @BindView(R.id.large_page)
     TextView pg_tv;
-    @InjectView(R.id.large_viewPager)
+    @BindView(R.id.large_viewPager)
     ViewPager viewPager;
     FragmentManager fragmentManager;
     private DialogFragment mMenuDialogFragment;
@@ -50,7 +50,7 @@ public class ShowLargeImgActivity extends BeamBaseActivity<ShowLargeImgActivityP
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_large_img);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
         onSetToolbar(toolbar);
         toolbar.setTitle("");
         hasCollected = getIntent().getBooleanExtra("hasCollected", false);

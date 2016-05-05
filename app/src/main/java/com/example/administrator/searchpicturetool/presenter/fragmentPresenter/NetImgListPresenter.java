@@ -1,18 +1,13 @@
 package com.example.administrator.searchpicturetool.presenter.fragmentPresenter;
 
 import android.content.Intent;
-import android.database.DataSetObserver;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.widget.AbsListView;
-import android.widget.BaseAdapter;
-import android.widget.ListView;
 
 import com.example.administrator.searchpicturetool.R;
 import com.example.administrator.searchpicturetool.model.GetImagelistModel;
 import com.example.administrator.searchpicturetool.model.bean.NetImage;
-import com.example.administrator.searchpicturetool.view.fragment.NetImgFragment;
 import com.example.administrator.searchpicturetool.view.activity.ShowLargeImgActivity;
+import com.example.administrator.searchpicturetool.view.fragment.NetImgFragment;
 import com.jude.beam.expansion.list.BeamListFragmentPresenter;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
 import com.jude.utils.JUtils;
@@ -43,12 +38,12 @@ public class NetImgListPresenter extends BeamListFragmentPresenter<NetImgFragmen
     }
     @Override
     public void onRefresh() {
+        JUtils.Log("onRefresh");
         super.onRefresh();
         page=0;
         GetImagelistModel.getImageList(tab,page).subscribe(new Observer<NetImage[]>() {
             @Override
             public void onCompleted() {
-                JUtils.Log("onCompleted");
             }
 
             @Override
@@ -70,6 +65,7 @@ public class NetImgListPresenter extends BeamListFragmentPresenter<NetImgFragmen
     }
     @Override
     public void onLoadMore() {
+        JUtils.Log("onLoadMore");
         super.onLoadMore();
         GetImagelistModel.getImageList(tab, page).subscribe(new Subscriber<NetImage[]>() {
             @Override

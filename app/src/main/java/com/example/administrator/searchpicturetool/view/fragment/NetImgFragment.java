@@ -1,5 +1,9 @@
 package com.example.administrator.searchpicturetool.view.fragment;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.administrator.searchpicturetool.R;
@@ -10,11 +14,21 @@ import com.jude.beam.bijection.RequiresPresenter;
 import com.jude.beam.expansion.list.BeamListFragment;
 import com.jude.beam.expansion.list.ListConfig;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
-    @RequiresPresenter(NetImgListPresenter.class)
+import com.jude.utils.JUtils;
+
+@RequiresPresenter(NetImgListPresenter.class)
 public class NetImgFragment extends BeamListFragment<NetImgListPresenter,NetImage> {
         @Override
         public void onResume() {
             super.onResume();
+        }
+
+
+        @Nullable
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            View view = super.onCreateView(inflater, container, savedInstanceState);
+            return view;
         }
 
         @Override

@@ -1,7 +1,5 @@
 package com.example.administrator.searchpicturetool.view.activity;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
@@ -26,19 +24,19 @@ import com.yalantis.contextmenu.lib.interfaces.OnMenuItemClickListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 /**
  * Created by wenhuaijun on 2015/11/13 0013.
  */
 @RequiresPresenter(ShowDownlargeImgPresenter.class)
 public class ShowDownloadImgActivity extends BeamBaseActivity<ShowDownlargeImgPresenter> implements OnMenuItemClickListener {
-    @InjectView(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @InjectView(R.id.large_page)
+    @BindView(R.id.large_page)
     TextView pg_tv;
-    @InjectView(R.id.large_viewPager)
+    @BindView(R.id.large_viewPager)
     ViewPager viewPager;
     FragmentManager fragmentManager;
     private DialogFragment mMenuDialogFragment;
@@ -47,7 +45,7 @@ public class ShowDownloadImgActivity extends BeamBaseActivity<ShowDownlargeImgPr
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_large_img);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
         toolbar.setTitle("");
         fragmentManager = getSupportFragmentManager();
         initMenuFragment();

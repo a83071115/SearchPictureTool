@@ -10,15 +10,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.example.administrator.searchpicturetool.R;
 import com.example.administrator.searchpicturetool.presenter.activitPresenter.UserActivityPresenter;
 import com.jude.beam.bijection.RequiresPresenter;
 import com.jude.beam.expansion.BeamBaseActivity;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import butterknife.OnClick;
 
 /**
@@ -26,22 +25,22 @@ import butterknife.OnClick;
  */
 @RequiresPresenter(UserActivityPresenter.class)
 public class UserActivity extends BeamBaseActivity<UserActivityPresenter> implements ViewPager.OnPageChangeListener{
-    @InjectView(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @InjectView(R.id.tabLayout)
+    @BindView(R.id.tabLayout)
     TabLayout tabLayout;
-    @InjectView(R.id.viewPager)
+    @BindView(R.id.viewPager)
     ViewPager viewPager;
-    @InjectView(R.id.appBarLayout)
+    @BindView(R.id.appBarLayout)
     AppBarLayout appBarLayout;
-    @InjectView(R.id.fab)
+    @BindView(R.id.fab)
     FloatingActionButton fab;
     Menu menu;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
         tabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.white));
         tabLayout.setTabMode(TabLayout.MODE_FIXED);
         initAppBarSetting();

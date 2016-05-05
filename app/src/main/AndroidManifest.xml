@@ -50,12 +50,19 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar" >
-        <meta-data android:value="56413c70e0f55ab75e002f16" android:name="UMENG_APPKEY"></meta-data>
+        <meta-data
+            android:value="${UMENG_APPKEY}"
+            android:name="UMENG_APPKEY"/>
+
         <meta-data
             android:name="UMENG_MESSAGE_SECRET"
-            android:value="20648810536264b42810627f01185cab" >
+            android:value="${UMENG_MESSAGE_SECRET}" >
         </meta-data>
-        <meta-data android:value="default2.1" android:name="UMENG_CHANNEL"/>
+
+        <meta-data android:value="${UMENG_CHANNEL}"
+            android:name="UMENG_CHANNEL"/>
+
+
         <activity android:name=".view.activity.LaunchActivity"
             android:theme="@style/LaunchTheme"
             >

@@ -1,7 +1,6 @@
 package com.example.administrator.searchpicturetool.view.activity;
 
 import android.os.Bundle;
-import android.view.View;
 
 import com.example.administrator.searchpicturetool.R;
 import com.example.administrator.searchpicturetool.presenter.activitPresenter.SettingPresenter;
@@ -25,7 +24,7 @@ public class SettingActivity extends BeamBaseActivity<SettingPresenter>{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
         compat = (android.support.v7.widget.SwitchCompat)findViewById(R.id.setting_switch);
         if(JUtils.getSharedPreference().getBoolean("shouldPush",true)){
             compat.setChecked(true);

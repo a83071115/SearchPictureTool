@@ -17,7 +17,7 @@ import com.jude.beam.bijection.RequiresPresenter;
 import com.jude.beam.expansion.BeamBaseActivity;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
@@ -25,15 +25,15 @@ import butterknife.OnClick;
  */
     @RequiresPresenter(SearchActivityPresenter.class)
 public class SearchActivity extends BeamBaseActivity<SearchActivityPresenter>{
-    @InjectView(R.id.bg_img)
+    @BindView(R.id.bg_img)
     ImageView imageView;
-    @InjectView(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @InjectView(R.id.collapsingToolbarLayout)
+    @BindView(R.id.collapsingToolbarLayout)
     CollapsingToolbarLayout collapsingToolbarLayout;
-    @InjectView(R.id.search_fab)
+    @BindView(R.id.search_fab)
     FloatingActionButton fab;
-    @InjectView(R.id.appbar)
+    @BindView(R.id.appbar)
     AppBarLayout appBarLayout;
     FragmentManager manager;
     private SearchFragment searchFragment;
@@ -41,7 +41,7 @@ public class SearchActivity extends BeamBaseActivity<SearchActivityPresenter>{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
-         ButterKnife.inject(this);
+         ButterKnife.bind(this);
         onSetToolbar(toolbar);
         collapsingToolbarLayout.setTitle(getIntent().getBundleExtra("search").getString("search"));
         imageView.setImageResource(getPresenter().getBgImg());

@@ -31,7 +31,7 @@ public class JoyImgFragmentPresenter extends BeamListFragmentPresenter<JoyImgFra
             @Override
             public void onError(Throwable e) {
                 getView().stopRefresh();
-                getView().showError();
+                getView().showError(e);
             }
 
             @Override

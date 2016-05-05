@@ -5,14 +5,10 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.view.ViewGroup;
-
 
 import com.example.administrator.searchpicturetool.R;
-import com.example.administrator.searchpicturetool.view.fragment.JoyImgFragment;
 import com.example.administrator.searchpicturetool.view.fragment.MainFragment;
 import com.example.administrator.searchpicturetool.view.fragment.NetImgFragment;
-import com.jude.beam.expansion.list.BeamListFragment;
 
 import java.util.HashMap;
 
@@ -72,12 +68,6 @@ public class MyPagerAdapter extends FragmentPagerAdapter {
        return tabs[position];
     }
 
-    @Override
-    public void destroyItem(ViewGroup container, int position, Object object) {
-        super.destroyItem(container, position, object);
-            fragments.remove(position);
-
-    }
     public Fragment getFragment(int position){
         return fragments.get(position+"");
     }

@@ -31,7 +31,7 @@ public class DownloadImgViewHolder extends BaseViewHolder<DownloadImg>{
     ViewGroup.LayoutParams layoutParams;
     public DownloadImgViewHolder(ViewGroup parent) {
         super(parent, R.layout.item_netimage);
-        image =(SimpleDraweeView)itemView.findViewById(R.id.net_img);
+        //image =(SimpleDraweeView)itemView.findViewById(R.id.net_img);
         view_bg =itemView.findViewById(R.id.bg_layout);
         img_selected =(ImageView)itemView.findViewById(R.id.img_selected);
         sccrenWidth = JUtils.getScreenWidth()/2;

@@ -1,6 +1,8 @@
 package com.example.administrator.searchpicturetool.presenter.fragmentPresenter;
 
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 
 import com.example.administrator.searchpicturetool.R;
@@ -10,86 +12,49 @@ import com.example.administrator.searchpicturetool.view.activity.ShowLargeImgAct
 import com.example.administrator.searchpicturetool.view.fragment.NetImgFragment;
 import com.jude.beam.expansion.list.BeamListFragmentPresenter;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
-import com.jude.utils.JUtils;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-
-import rx.Observer;
-import rx.Subscriber;
 
 /**
  * Created by wenhuaijun on 2015/11/2 0002.
  */
 
 public class NetImgListPresenter extends BeamListFragmentPresenter<NetImgFragment,NetImage> implements RecyclerArrayAdapter.OnItemClickListener{
-    private int page =0;
     private String tab;
-    private ArrayList<NetImage> netImages;
+
+    @Override
+    protected void onCreate(@NonNull NetImgFragment view, Bundle savedState) {
+        super.onCreate(view, savedState);
+        tab =view.getResources().getStringArray(R.array.search_tab)[view.getArguments().getInt("tab")];
+        onRefresh();
+        getAdapter().setOnItemClickListener(NetImgListPresenter.this);
+    }
+
     @Override
     protected void onCreateView(NetImgFragment view) {
         super.onCreateView(view);
-        tab =view.getResources().getStringArray(R.array.search_tab)[view.getArguments().getInt("tab")];
         view.getListView().setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
-        netImages = new ArrayList<NetImage>();
-        onRefresh();
-        getAdapter().clear();
-
     }
+
     @Override
     public void onRefresh() {
-        JUtils.Log("onRefresh");
         super.onRefresh();
-        page=0;
-        GetImagelistModel.getImageList(tab,page).subscribe(new Observer<NetImage[]>() {
-            @Override
-            public void onCompleted() {
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                JUtils.Log("onError");
-                getRefreshSubscriber().onError(e);
-            }
-
-            @Override
-            public void onNext(NetImage[] imgs) {
-                netImages.clear();
-                netImages.addAll(Arrays.asList(imgs));
-                getRefreshSubscriber().onNext(netImages);
-               // JUtils.Log("size:"+imgs.length);
-                page+=imgs.length;
-                getAdapter().setOnItemClickListener(NetImgListPresenter.this);
-            }
-        });
+        GetImagelistModel.getImageList(tab,0)
+                .map(Arrays::asList)
+                .unsafeSubscribe(getRefreshSubscriber());
     }
     @Override
     public void onLoadMore() {
-        JUtils.Log("onLoadMore");
         super.onLoadMore();
-        GetImagelistModel.getImageList(tab, page).subscribe(new Subscriber<NetImage[]>() {
-            @Override
-            public void onCompleted() {
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                getMoreSubscriber().onError(e);
-            }
-
-            @Override
-            public void onNext(NetImage[] imgs) {
-                netImages.addAll(Arrays.asList(imgs));
-                getMoreSubscriber().onNext(Arrays.asList(imgs));
-                page+=imgs.length;
-            }
-        });
+        GetImagelistModel.getImageList(tab, getCurPage())
+                .map(Arrays::asList)
+                .unsafeSubscribe(getRefreshSubscriber());
     }
     @Override
     public void onItemClick(int position) {
         Intent intent = new Intent();
         intent.putExtra("position", position);
-        intent.putExtra("netImages", netImages);
+        intent.putExtra("netImages", getAdapter().getItem(position));
         intent.setClass(getView().getContext(), ShowLargeImgActivity.class);
         getView().getActivity().startActivityForResult(intent, 100);
     }

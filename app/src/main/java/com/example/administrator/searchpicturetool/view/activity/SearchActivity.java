@@ -16,8 +16,8 @@ import com.example.administrator.searchpicturetool.view.fragment.SearchFragment;
 import com.jude.beam.bijection.RequiresPresenter;
 import com.jude.beam.expansion.BeamBaseActivity;
 
-import butterknife.ButterKnife;
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**

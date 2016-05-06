@@ -14,7 +14,6 @@ import com.jude.beam.bijection.RequiresPresenter;
 import com.jude.beam.expansion.list.BeamListFragment;
 import com.jude.beam.expansion.list.ListConfig;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
-import com.jude.utils.JUtils;
 
 @RequiresPresenter(NetImgListPresenter.class)
 public class NetImgFragment extends BeamListFragment<NetImgListPresenter,NetImage> {
@@ -31,7 +30,7 @@ public class NetImgFragment extends BeamListFragment<NetImgListPresenter,NetImag
             return view;
         }
 
-        @Override
+    @Override
         protected ListConfig getConfig() {
             return super.getConfig()
                     .setRefreshAble(true)

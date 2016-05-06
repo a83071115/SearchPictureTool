@@ -33,7 +33,10 @@ android {
     productFlavors.all { flavor ->
         manifestPlaceholders.put("UMENG_CHANNEL",name)
     }
-
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
     buildTypes {
         release {
             minifyEnabled false
@@ -92,7 +95,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'com.android.support:design:23.3.0'
     compile 'com.android.support:cardview-v7:23.3.0'
-    compile 'com.jude:beam:2.8.6'
+    compile 'com.jude:beam:2.8.7-alpha1'
     compile 'com.jude:fitsystemwindowlayout:1.0.8'
     compile 'com.jakewharton:butterknife:8.0.1'
     apt 'com.jakewharton:butterknife-compiler:8.0.1'

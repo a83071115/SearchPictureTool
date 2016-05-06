@@ -25,8 +25,8 @@ import com.yalantis.contextmenu.lib.interfaces.OnMenuItemLongClickListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.ButterKnife;
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 
 /**

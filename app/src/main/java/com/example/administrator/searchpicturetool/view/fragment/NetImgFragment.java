@@ -22,7 +22,6 @@ public class NetImgFragment extends BeamListFragment<NetImgListPresenter,NetImag
             super.onResume();
         }
 
-
         @Nullable
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -41,7 +40,7 @@ public class NetImgFragment extends BeamListFragment<NetImgListPresenter,NetImag
                     .setContainerErrorRes(R.layout.view_net_error)
                     .setContainerProgressRes(R.layout.page_progress)
                    // .setContainerEmptyRes(R.layout.view_empty)
-                    .setContainerEmptyRes(R.layout.page_progress)
+                   // .setContainerEmptyRes(R.layout.page_progress)
                     .setLoadMoreRes(R.layout.page_loadmore);
         }
     @Override

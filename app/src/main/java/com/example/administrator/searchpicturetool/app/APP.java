@@ -1,13 +1,9 @@
 package com.example.administrator.searchpicturetool.app;
 
-import android.app.Activity;
 import android.app.Application;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.jude.beam.Beam;
-import com.jude.beam.bijection.ActivityLifeCycleDelegate;
-import com.jude.beam.bijection.ActivityLifeCycleDelegateProvider;
-import com.jude.easyrecyclerview.EasyRecyclerView;
 import com.jude.utils.JUtils;
 
 import cn.bmob.v3.Bmob;
@@ -24,14 +20,8 @@ public class APP extends Application{
     public void onCreate() {
         super.onCreate();
         instance=this;
-        EasyRecyclerView.DEBUG = true;
         Beam.init(this);
-        Beam.setActivityLifeCycleDelegateProvider(new ActivityLifeCycleDelegateProvider() {
-            @Override
-            public ActivityLifeCycleDelegate createActivityLifeCycleDelegate(Activity activity) {
-                return new ActivityDelegate(activity);
-            }
-        });
+        Beam.setActivityLifeCycleDelegateProvider(ActivityDelegate::new);
         Fresco.initialize(this);
       /*  RequestManager.getInstance().init(this);
         RequestManager.getInstance().setDebugMode(true, "heheda");*/

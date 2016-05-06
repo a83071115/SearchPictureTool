@@ -1,6 +1,5 @@
 package com.example.administrator.searchpicturetool.util;
 
-import com.example.administrator.searchpicturetool.model.bean.RecommendContent;
 import com.example.administrator.searchpicturetool.model.bean.RecommendTip;
 
 import java.util.Comparator;
@@ -8,11 +7,13 @@ import java.util.Comparator;
 /**
  * Created by wenhuaijun on 2016/2/12 0012.
  */
-public class RecommendComparator implements Comparator {
-    RecommendTip tip1;
-    RecommendTip tip2;
+public class RecommendComparator implements Comparator<Object> {
+
     @Override
     public int compare(Object ob1, Object ob2) {
+        RecommendTip tip1 = null;
+        RecommendTip tip2 = null;
+
         //ob1向下转型
         if(ob1 instanceof RecommendTip) {
             tip1 = (RecommendTip) ob1;

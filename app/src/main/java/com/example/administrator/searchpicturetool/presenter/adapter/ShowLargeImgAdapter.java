@@ -1,6 +1,8 @@
 package com.example.administrator.searchpicturetool.presenter.adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
@@ -13,23 +15,24 @@ import com.example.administrator.searchpicturetool.model.bean.NetImage;
 import com.example.administrator.searchpicturetool.widght.PinchImageView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.jude.utils.JUtils;
+import com.pnikosis.materialishprogress.ProgressWheel;
 
 import java.util.ArrayList;
 
 /**
  * Created by wenhuaijun on 2015/11/8 0008.
  */
-public  class ShowLargeImgAdapter extends PagerAdapter {
+public  class ShowLargeImgAdapter extends PagerAdapter implements View.OnClickListener {
     private PinchImageView pinchImageView;
     private ArrayList<NetImage> netImages;
-    private Context context;
+    private Activity context;
     private LayoutInflater inflater;
     private int screenHeight;
     private int screenWidth;
     private View view;
     ViewGroup.LayoutParams mLayoutParams;
 
-    public ShowLargeImgAdapter(ArrayList<NetImage> netImages, Context context) {
+    public ShowLargeImgAdapter(ArrayList<NetImage> netImages, Activity context) {
         this.netImages = netImages;
         this.context = context;
         screenHeight = JUtils.getScreenHeight();
@@ -57,7 +60,10 @@ public  class ShowLargeImgAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         view = inflater.inflate(R.layout.item_large_img, null);
+
         pinchImageView = (PinchImageView) view.findViewById(R.id.photoView);
+        pinchImageView.setOnClickListener(this);
+
      //   mLayoutParams = pinchImageView.getLayoutParams();
         /*if (netImages.get(position).getWidth() != 0 && netImages.get(position).getHeight() != 0) {
            *//* float mHeight = ((float) (netImages.get(position).getHeight()) / ((float) (netImages.get(position).getWidth()))) * screenWidth;
@@ -85,5 +91,10 @@ public  class ShowLargeImgAdapter extends PagerAdapter {
             EasyImageLoader.getInstance(context).bindBitmap(netImages.get(position).getLargeImg(),pinchImageView);
             container.addView(view);
             return view;
+    }
+
+    @Override
+    public void onClick(View v) {
+        context.finish();
     }
 }

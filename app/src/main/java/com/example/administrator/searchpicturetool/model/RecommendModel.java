@@ -5,7 +5,6 @@ import android.content.Context;
 import com.example.administrator.searchpicturetool.model.bean.RecommendContent;
 import com.example.administrator.searchpicturetool.model.bean.RecommendTip;
 import com.example.administrator.searchpicturetool.util.RecommendComparator;
-import com.jude.utils.JUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,7 +12,7 @@ import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.listener.FindListener;
-import rx.Subscriber;
+import rx.Observable;
 
 /**
  * Created by wenhuaijun on 2016/2/12 0012.
@@ -55,36 +54,42 @@ public class RecommendModel {
        Collections.sort(recommends,comparator);
        return  recommends;
    }
-    public static ArrayList<Object> getRecommends2(final Context context, final Subscriber<ArrayList<Object>> subscriber){
-        final ArrayList<Object> recommends = new ArrayList<>();
-        BmobQuery<RecommendTip> queryTip = new BmobQuery<>();
-        queryTip.findObjects(context, new FindListener<RecommendTip>() {
-            @Override
-            public void onSuccess(List<RecommendTip> list) {
-                recommends.addAll(list);
-                BmobQuery<RecommendContent> queryContent = new BmobQuery<>();
-                queryContent.findObjects(context, new FindListener<RecommendContent>() {
-                    @Override
-                    public void onSuccess(List<RecommendContent> list) {
-                        recommends.addAll(list);
-                        RecommendComparator comparator  = new RecommendComparator();
-                        Collections.sort(recommends, comparator);
-                        subscriber.onNext(recommends);
-                    }
+    public static Observable<List<Object>> getRecommends2(final Context context){
+        return Observable.create(subscriber1 -> {
+            BmobQuery<RecommendTip> queryTip = new BmobQuery<>();
+            queryTip.findObjects(context, new FindListener<RecommendTip>() {
+                        @Override
+                        public void onSuccess(List<RecommendTip> list) {
+                            for (RecommendTip recommendTip : list) {
+                                subscriber1.onNext(recommendTip);
+                            }
+                            subscriber1.onCompleted();
+                        }
 
-                    @Override
-                    public void onError(int i, String s) {
-                        JUtils.Log(i+":"+s);
-                        subscriber.onError(new Throwable("query error"));
-                    }
-                });
-            }
+                        @Override
+                        public void onError(int i, String s) {
+                            subscriber1.onError(new Throwable(i+" "+s));
+                        }
+                    });
+                })
+                .mergeWith(Observable.create(subscriber1 -> {
+                    BmobQuery<RecommendContent> queryContent = new BmobQuery<>();
+                    queryContent.findObjects(context, new FindListener<RecommendContent>() {
+                        @Override
+                        public void onSuccess(List<RecommendContent> list) {
+                            for (RecommendTip recommendContent : list) {
+                                subscriber1.onNext(recommendContent);
+                            }
+                            subscriber1.onCompleted();
+                        }
 
-            @Override
-            public void onError(int i, String s) {
-                subscriber.onError(new Throwable("query error"));
-            }
-        });
-        return null;
+                        @Override
+                        public void onError(int i, String s) {
+                            subscriber1.onError(new Throwable(i+" "+s));
+                        }
+                    });
+                }))
+                .toList()
+                .doOnNext(list -> Collections.sort(list, new RecommendComparator()));
     }
 }

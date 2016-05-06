@@ -58,11 +58,11 @@ public  class ShowLargeImgAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, int position) {
         view = inflater.inflate(R.layout.item_large_img, null);
         pinchImageView = (PinchImageView) view.findViewById(R.id.photoView);
-        mLayoutParams = pinchImageView.getLayoutParams();
-        if (netImages.get(position).getWidth() != 0 && netImages.get(position).getHeight() != 0) {
-           /* float mHeight = ((float) (netImages.get(position).getHeight()) / ((float) (netImages.get(position).getWidth()))) * screenWidth;
+     //   mLayoutParams = pinchImageView.getLayoutParams();
+        /*if (netImages.get(position).getWidth() != 0 && netImages.get(position).getHeight() != 0) {
+           *//* float mHeight = ((float) (netImages.get(position).getHeight()) / ((float) (netImages.get(position).getWidth()))) * screenWidth;
                 mLayoutParams.width = screenWidth;
-                mLayoutParams.height = (int) mHeight;*/
+                mLayoutParams.height = (int) mHeight;*//*
             if(netImages.get(position).getHeight()<=netImages.get(position).getWidth()*2){
                 float mHeight = ((float) (netImages.get(position).getHeight()) / ((float) (netImages.get(position).getWidth()))) * screenWidth;
                 mLayoutParams.width = screenWidth;
@@ -79,7 +79,7 @@ public  class ShowLargeImgAdapter extends PagerAdapter {
             mLayoutParams.width = screenWidth;
             mLayoutParams.height = screenHeight;
             pinchImageView.setLayoutParams(mLayoutParams);
-        }
+        }*/
            // pinchImageView.setImageURI(Uri.parse(netImages.get(position).getLargeImg()));
             //加载图片
             EasyImageLoader.getInstance(context).bindBitmap(netImages.get(position).getLargeImg(),pinchImageView);

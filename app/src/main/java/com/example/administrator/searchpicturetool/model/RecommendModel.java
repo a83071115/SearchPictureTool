@@ -5,15 +5,14 @@ import android.content.Context;
 import com.example.administrator.searchpicturetool.model.bean.RecommendContent;
 import com.example.administrator.searchpicturetool.model.bean.RecommendTip;
 import com.example.administrator.searchpicturetool.util.RecommendComparator;
+import com.jude.utils.JUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.listener.FindListener;
-import rx.Observable;
 import rx.Subscriber;
 
 /**
@@ -75,6 +74,7 @@ public class RecommendModel {
 
                     @Override
                     public void onError(int i, String s) {
+                        JUtils.Log(i+":"+s);
                         subscriber.onError(new Throwable("query error"));
                     }
                 });

@@ -8,7 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.administrator.searchpicturetool.R;
+import com.example.administrator.searchpicturetool.imageLoader.EasyImageLoader;
 import com.example.administrator.searchpicturetool.model.bean.NetImage;
+import com.example.administrator.searchpicturetool.widght.PinchImageView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.jude.utils.JUtils;
 
@@ -18,7 +20,7 @@ import java.util.ArrayList;
  * Created by wenhuaijun on 2015/11/8 0008.
  */
 public  class ShowLargeImgAdapter extends PagerAdapter {
-    private SimpleDraweeView simpleDraweeView;
+    private PinchImageView pinchImageView;
     private ArrayList<NetImage> netImages;
     private Context context;
     private LayoutInflater inflater;
@@ -55,8 +57,8 @@ public  class ShowLargeImgAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         view = inflater.inflate(R.layout.item_large_img, null);
-        simpleDraweeView = (SimpleDraweeView) view.findViewById(R.id.photoView);
-        mLayoutParams = simpleDraweeView.getLayoutParams();
+        pinchImageView = (PinchImageView) view.findViewById(R.id.photoView);
+        mLayoutParams = pinchImageView.getLayoutParams();
         if (netImages.get(position).getWidth() != 0 && netImages.get(position).getHeight() != 0) {
            /* float mHeight = ((float) (netImages.get(position).getHeight()) / ((float) (netImages.get(position).getWidth()))) * screenWidth;
                 mLayoutParams.width = screenWidth;
@@ -71,14 +73,16 @@ public  class ShowLargeImgAdapter extends PagerAdapter {
                 mLayoutParams.width = (int)mWidth;
             }
 
-                simpleDraweeView.setLayoutParams(mLayoutParams);
+                pinchImageView.setLayoutParams(mLayoutParams);
 
         }else{
             mLayoutParams.width = screenWidth;
             mLayoutParams.height = screenHeight;
-            simpleDraweeView.setLayoutParams(mLayoutParams);
+            pinchImageView.setLayoutParams(mLayoutParams);
         }
-            simpleDraweeView.setImageURI(Uri.parse(netImages.get(position).getLargeImg()));
+           // pinchImageView.setImageURI(Uri.parse(netImages.get(position).getLargeImg()));
+            //加载图片
+            EasyImageLoader.getInstance(context).bindBitmap(netImages.get(position).getLargeImg(),pinchImageView);
             container.addView(view);
             return view;
     }

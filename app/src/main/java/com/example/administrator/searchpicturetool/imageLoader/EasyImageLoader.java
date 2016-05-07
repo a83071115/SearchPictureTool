@@ -72,7 +72,7 @@ public class EasyImageLoader {
      * @param reqWidth 需求宽度
      * @param reqHeight 需求高度
      */
-    public void getBitmap(final String url, final BitmapCallback callback,int reqWidth,int reqHeight){
+    public synchronized void getBitmap(final String url, final BitmapCallback callback,int reqWidth,int reqHeight){
         //从内存缓存中获取bitmap
         final Bitmap bitmap = imageLrucache.loadBitmapFromMemCache(url);
         if(bitmap!=null){

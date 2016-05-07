@@ -4,12 +4,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.example.administrator.searchpicturetool.R;
 import com.example.administrator.searchpicturetool.presenter.fragmentPresenter.MainFragmentPresenter;
 import com.jude.beam.bijection.BeamFragment;
 import com.jude.beam.bijection.RequiresPresenter;
 import com.jude.easyrecyclerview.EasyRecyclerView;
-import com.jude.rollviewpager.RollPagerView;
 
 
 /**
@@ -23,7 +23,7 @@ public class MainFragment extends BeamFragment<MainFragmentPresenter>{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-       View view = inflater.inflate(R.layout.fragment_main,null);
+       View view = inflater.inflate(R.layout.fragment_main,container,false);
      //   mRollPagerView =(RollPagerView)view.findViewById(R.id.roll_view_pager);
         recyclerView = (EasyRecyclerView)view.findViewById(R.id.easy_recyclerview);
         recyclerView.setErrorView(R.layout.view_net_error);

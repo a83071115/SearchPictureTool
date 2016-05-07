@@ -1,16 +1,10 @@
 package com.example.administrator.searchpicturetool.presenter.activitPresenter;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
 
 import com.example.administrator.searchpicturetool.R;
-import com.example.administrator.searchpicturetool.db.DBManager;
-import com.example.administrator.searchpicturetool.presenter.adapter.UserPagerAdapter;
-import com.example.administrator.searchpicturetool.view.activity.MainActivity;
 import com.example.administrator.searchpicturetool.presenter.adapter.MyPagerAdapter;
-import com.example.administrator.searchpicturetool.view.activity.UserActivity;
+import com.example.administrator.searchpicturetool.view.activity.MainActivity;
 import com.example.administrator.searchpicturetool.view.fragment.MainFragment;
 import com.jude.beam.bijection.Presenter;
 import com.jude.beam.expansion.list.BeamListFragment;
@@ -30,14 +24,12 @@ public class MainActivityPresenter extends Presenter<MainActivity>{
         replaceFragment(0);
     }
     public void replaceFragment(int position){
-                item=position;
-                if(adapter==null){
-                    adapter = new MyPagerAdapter(getView(),fragmentManager);
-                }
-                getView().getViewPager().setAdapter(adapter);
-                getView().getTabLayout().setupWithViewPager(getView().getViewPager());
+        item=position;
+        adapter = new MyPagerAdapter(getView(),fragmentManager);
+        getView().getViewPager().setAdapter(adapter);
+        getView().getTabLayout().setupWithViewPager(getView().getViewPager());
 
-        }
+    }
     public void goToUp(int position){
 
         if(adapter.getFragment(getView().getViewPager().getCurrentItem())!=null){

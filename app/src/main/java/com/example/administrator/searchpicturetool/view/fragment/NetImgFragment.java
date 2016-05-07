@@ -17,16 +17,11 @@ import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 
 @RequiresPresenter(NetImgListPresenter.class)
 public class NetImgFragment extends BeamListFragment<NetImgListPresenter,NetImage> {
-        @Override
-        public void onResume() {
-            super.onResume();
-        }
 
         @Nullable
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            View view = super.onCreateView(inflater, container, savedInstanceState);
-            return view;
+            return super.onCreateView(inflater, container, savedInstanceState);
         }
 
     @Override

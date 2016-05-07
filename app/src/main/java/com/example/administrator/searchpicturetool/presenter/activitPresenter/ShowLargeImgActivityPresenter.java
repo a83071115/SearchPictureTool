@@ -15,6 +15,7 @@ import com.example.administrator.searchpicturetool.model.bean.NetImage;
 import com.example.administrator.searchpicturetool.util.Utils;
 import com.example.administrator.searchpicturetool.view.activity.ShowLargeImgActivity;
 import com.example.administrator.searchpicturetool.presenter.adapter.ShowLargeImgAdapter;
+import com.example.administrator.searchpicturetool.widght.PinchImageViewPager;
 import com.facebook.common.executors.CallerThreadExecutor;
 import com.facebook.common.references.CloseableReference;
 import com.facebook.datasource.DataSource;
@@ -32,7 +33,7 @@ import rx.functions.Action1;
 /**
  * Created by wenhuaijun on 2015/11/4 0004.
  */
-public class ShowLargeImgActivityPresenter extends Presenter<ShowLargeImgActivity> implements ViewPager.OnPageChangeListener{
+public class ShowLargeImgActivityPresenter extends Presenter<ShowLargeImgActivity> implements PinchImageViewPager.OnPageChangeListener{
     private NetImage netImage;
     int currentPosition=0;
     private ArrayList<NetImage> netImages;
@@ -54,7 +55,7 @@ public class ShowLargeImgActivityPresenter extends Presenter<ShowLargeImgActivit
         adapter  = new ShowLargeImgAdapter(netImages,getView());
         getView().getViewPager().setAdapter(adapter);
         getView().getViewPager().setCurrentItem(currentPosition);
-        getView().getViewPager().addOnPageChangeListener(this);
+        getView().getViewPager().setOnPageChangeListener(this);
         getView().getPg_tv().setText((currentPosition + 1) + "/" + netImages.size());
     }
     public void savePicture(){

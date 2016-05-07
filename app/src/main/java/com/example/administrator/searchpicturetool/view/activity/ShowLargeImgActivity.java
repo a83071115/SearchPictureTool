@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.example.administrator.searchpicturetool.R;
 import com.example.administrator.searchpicturetool.presenter.activitPresenter.ShowLargeImgActivityPresenter;
+import com.example.administrator.searchpicturetool.widght.PinchImageViewPager;
 import com.jude.beam.bijection.RequiresPresenter;
 import com.jude.beam.expansion.BeamBaseActivity;
 import com.jude.utils.JUtils;
@@ -40,7 +41,7 @@ public class ShowLargeImgActivity extends BeamBaseActivity<ShowLargeImgActivityP
     @BindView(R.id.large_page)
     TextView pg_tv;
     @BindView(R.id.large_viewPager)
-    ViewPager viewPager;
+    PinchImageViewPager viewPager;
     FragmentManager fragmentManager;
     private DialogFragment mMenuDialogFragment;
     private boolean hasCollected =false;
@@ -175,7 +176,7 @@ public class ShowLargeImgActivity extends BeamBaseActivity<ShowLargeImgActivityP
     //    JUtils.Toast("Long clicked on position " + position);
     }
 
-    public ViewPager getViewPager() {
+    public PinchImageViewPager getViewPager() {
         return viewPager;
     }
     public TextView getPg_tv(){

@@ -114,6 +114,7 @@ dependencies {
     compile 'com.squareup.okhttp3:logging-interceptor:3.0.1'
     compile 'com.jude:rollviewpager:1.2.9'
     compile 'com.tbruyelle.rxpermissions:rxpermissions:0.7.0@aar'
+    compile 'com.jakewharton:disklrucache:2.0.2'
     compile project(':library')
     compile project(':umengfamily')
     compile project(':umeng_sharelibrary')

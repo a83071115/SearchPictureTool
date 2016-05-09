@@ -1,15 +1,19 @@
 package com.example.administrator.searchpicturetool.presenter.fragmentPresenter;
 
+import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 
+import com.example.administrator.searchpicturetool.app.APP;
 import com.example.administrator.searchpicturetool.model.RecommendModel;
 import com.example.administrator.searchpicturetool.presenter.adapter.RecommendAdapter;
 import com.example.administrator.searchpicturetool.view.RollViewPagerItemView;
 import com.example.administrator.searchpicturetool.view.fragment.MainFragment;
 import com.jude.beam.bijection.Presenter;
+import com.jude.utils.JFileManager;
 import com.jude.utils.JUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import rx.Subscriber;
@@ -19,20 +23,35 @@ import rx.Subscriber;
  */
 public class MainFragmentPresenter extends Presenter<MainFragment> implements SwipeRefreshLayout.OnRefreshListener{
     private RecommendAdapter adapter;
+    private boolean isInit =true;
+    JFileManager.Folder folder;
     @Override
     protected void onCreateView(MainFragment view) {
         super.onCreateView(view);
-        adapter = new RecommendAdapter(getView().getContext());
+        if(isInit){
+            adapter.addHeader(new RollViewPagerItemView(getView().recyclerView.getSwipeToRefresh()));
+            isInit =false;
+        }
         getView().recyclerView.setLayoutManager(new LinearLayoutManager(getView().getContext()));
         getView().recyclerView.setAdapterWithProgress(adapter);
-        adapter.addHeader(new RollViewPagerItemView(getView().recyclerView.getSwipeToRefresh()));
         getView().recyclerView.setRefreshListener(this);
+
+    }
+
+    @Override
+    protected void onCreate(MainFragment view, Bundle savedState) {
+        super.onCreate(view, savedState);
+        folder = JFileManager.getInstance().getFolder(APP.Dir.Object);
+        adapter = new RecommendAdapter(getView().getContext());
         onRefresh();
     }
 
     @Override
     public void onRefresh() {
-        RecommendModel.getRecommends2(getView().getContext())
+        //打开首先从缓存获取数据显示
+        adapter.addAll((ArrayList<Object>)folder.readObjectFromFile("recommend"));
+        //请求一次最新数据
+        RecommendModel.getRecommends2(APP.instance)
                 .subscribe(new Subscriber<List<Object>>() {
                     @Override
                     public void onCompleted() {
@@ -41,14 +60,16 @@ public class MainFragmentPresenter extends Presenter<MainFragment> implements Sw
 
                     @Override
                     public void onError(Throwable e) {
-                        JUtils.Log(e.getMessage());
                         JUtils.Toast("网络不给力");
-                        getView().recyclerView.showError();
-                        getView().recyclerView.getSwipeToRefresh().setRefreshing(false);
+                        if(getView().recyclerView!=null&&adapter.getCount()==0){
+                            getView().recyclerView.showError();
+                            getView().recyclerView.getSwipeToRefresh().setRefreshing(false);
+                        }
                     }
 
                     @Override
                     public void onNext(List<Object> objects) {
+                        folder.writeObjectToFile(objects,"recommend");
                         adapter.clear();
                         adapter.addAll(objects);
                     }

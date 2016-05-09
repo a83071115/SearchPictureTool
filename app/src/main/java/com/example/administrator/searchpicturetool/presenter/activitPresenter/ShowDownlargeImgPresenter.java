@@ -11,6 +11,7 @@ import com.example.administrator.searchpicturetool.model.SqlModel;
 import com.example.administrator.searchpicturetool.model.bean.DownloadImg;
 import com.example.administrator.searchpicturetool.presenter.adapter.ShowDownloadLargeImgAdapter;
 import com.example.administrator.searchpicturetool.view.activity.ShowDownloadImgActivity;
+import com.example.administrator.searchpicturetool.widght.PinchImageViewPager;
 import com.jude.beam.bijection.Presenter;
 import com.jude.utils.JUtils;
 
@@ -23,7 +24,7 @@ import java.util.ArrayList;
 /**
  * Created by wenhuaijun on 2015/11/13 0013.
  */
-public class ShowDownlargeImgPresenter extends Presenter<ShowDownloadImgActivity> implements ViewPager.OnPageChangeListener{
+public class ShowDownlargeImgPresenter extends Presenter<ShowDownloadImgActivity> implements PinchImageViewPager.OnPageChangeListener{
     int currentPosition=0;
     ArrayList<DownloadImg> downloadImgs;
     ShowDownloadLargeImgAdapter adapter;
@@ -36,7 +37,7 @@ public class ShowDownlargeImgPresenter extends Presenter<ShowDownloadImgActivity
         adapter =new ShowDownloadLargeImgAdapter(downloadImgs,getView());
         getView().getViewPager().setAdapter(adapter);
         getView().getViewPager().setCurrentItem(currentPosition);
-        getView().getViewPager().addOnPageChangeListener(this);
+        getView().getViewPager().setOnPageChangeListener(this);
         getView().getPg_tv().setText((currentPosition + 1) + "/" + downloadImgs.size());
     }
     public void sharePicture(){

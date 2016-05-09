@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.jude.beam.Beam;
+import com.jude.utils.JFileManager;
 import com.jude.utils.JUtils;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
@@ -34,6 +35,10 @@ public class APP extends Application{
         Bmob.initialize(this,"633edd745d4d8630d88c73a16440cb9a");
         JUtils.initialize(this);
         JUtils.setDebug(true, "heheda");
-        //JFileManager.getInstance().init(this,Dir.values());
+        JFileManager.getInstance().init(this, Dir.values());
+    }
+    //文件目录列表
+    public enum Dir{
+       Object
     }
 }

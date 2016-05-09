@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.example.administrator.searchpicturetool.R;
 import com.example.administrator.searchpicturetool.presenter.activitPresenter.ShowDownlargeImgPresenter;
+import com.example.administrator.searchpicturetool.widght.PinchImageViewPager;
 import com.jude.beam.bijection.RequiresPresenter;
 import com.jude.beam.expansion.BeamBaseActivity;
 import com.jude.utils.JUtils;
@@ -37,7 +38,7 @@ public class ShowDownloadImgActivity extends BeamBaseActivity<ShowDownlargeImgPr
     @BindView(R.id.large_page)
     TextView pg_tv;
     @BindView(R.id.large_viewPager)
-    ViewPager viewPager;
+    PinchImageViewPager viewPager;
     FragmentManager fragmentManager;
     private DialogFragment mMenuDialogFragment;
 
@@ -147,7 +148,7 @@ public class ShowDownloadImgActivity extends BeamBaseActivity<ShowDownlargeImgPr
                 break;
         }
     }
-    public ViewPager getViewPager() {
+    public PinchImageViewPager getViewPager() {
         return viewPager;
     }
     public TextView getPg_tv(){

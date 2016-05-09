@@ -13,11 +13,17 @@ import com.jude.beam.expansion.list.BeamListFragmentPresenter;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
 import com.jude.utils.JUtils;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import rx.functions.Action1;
+
 /**
  * Created by wenhuaijun on 2015/11/12 0012.
  */
 public class CollectListPresenter extends BeamListFragmentPresenter<CollectFragment,NetImage> implements RecyclerArrayAdapter.OnItemClickListener{
-
+    private ArrayList<NetImage> netImages;
     @Override
     protected void onCreate(@NonNull CollectFragment view, Bundle savedState) {
         super.onCreate(view, savedState);
@@ -36,7 +42,12 @@ public class CollectListPresenter extends BeamListFragmentPresenter<CollectFragm
     public void onRefresh() {
         super.onRefresh();
         SqlModel.getCollectImgs(getView().getContext())
-                .doOnError(e-> JUtils.Log(e.getMessage()))
+                .doOnNext(new Action1<List<NetImage>>() {
+                    @Override
+                    public void call(List<NetImage> netImages) {
+                        CollectListPresenter.this.netImages = new ArrayList<NetImage>(netImages);
+                    }
+                })
                 .unsafeSubscribe(getRefreshSubscriber());
     }
 
@@ -45,7 +56,7 @@ public class CollectListPresenter extends BeamListFragmentPresenter<CollectFragm
     public void onItemClick(int position) {
         Intent intent = new Intent();
         intent.putExtra("position", position);
-        intent.putExtra("netImages", getAdapter().getItem(position));
+        intent.putExtra("netImages", netImages);
         intent.putExtra("hasCollected",true);
         intent.setClass(getView().getContext(), ShowLargeImgActivity.class);
         getView().startActivityForResult(intent,100);

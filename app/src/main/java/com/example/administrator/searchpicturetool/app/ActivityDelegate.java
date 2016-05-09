@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.os.Bundle;
 
 import com.jude.beam.bijection.ActivityLifeCycleDelegate;
-import com.jude.utils.JActivityManager;
-import com.jude.utils.JUtils;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.message.PushAgent;
 
@@ -21,6 +19,7 @@ public class ActivityDelegate extends ActivityLifeCycleDelegate{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         PushAgent.getInstance(getActivity()).onAppStart();
+        APP.getInstance().mRefWatcher.watch(getActivity());
     }
 
     @Override

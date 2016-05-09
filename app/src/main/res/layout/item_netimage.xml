@@ -3,33 +3,34 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
+    android:layout_margin="1dp"
+    android:background="@drawable/bg_card"
+    android:foreground="?selectableItemBackground"
     android:layout_height="wrap_content">
-
-    <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/net_img"
-        android:layout_width="match_parent"
-        android:layout_height="320dp"
-        android:padding="4dp"
-        android:scaleType="centerInside"
-        app:progressBarImage="@drawable/ic_loading"
-        app:progressBarImageScaleType="centerInside"
-        />
-
-    <View
-        android:id="@+id/bg_layout"
-        android:layout_width="match_parent"
-        android:layout_height="320dp"
-        android:padding="4dp"
-        android:background="@android:color/black"
-        android:alpha="0.5"
-        android:visibility="gone"
-        />
-    <ImageView
-        android:id="@+id/img_selected"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:layout_alignParentRight="true"
-        android:visibility="gone"
-        />
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/net_img"
+            android:layout_width="match_parent"
+            android:layout_height="320dp"
+            android:scaleType="centerInside"
+            app:progressBarImage="@drawable/ic_loading"
+            app:progressBarImageScaleType="centerInside"
+            android:padding="4dp"
+            />
+        <View
+            android:id="@+id/bg_layout"
+            android:layout_width="match_parent"
+            android:layout_height="320dp"
+            android:padding="4dp"
+            android:background="@android:color/black"
+            android:alpha="0.5"
+            android:visibility="gone"
+            />
+        <ImageView
+            android:id="@+id/img_selected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_alignParentRight="true"
+            android:visibility="gone"
+            />
 </RelativeLayout>

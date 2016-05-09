@@ -35,7 +35,7 @@ import butterknife.ButterKnife;
  */
 @RequiresPresenter(ShowLargeImgActivityPresenter.class)
 public class ShowLargeImgActivity extends BeamBaseActivity<ShowLargeImgActivityPresenter> implements OnMenuItemClickListener,
-        OnMenuItemLongClickListener {
+        OnMenuItemLongClickListener, View.OnClickListener {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.large_page)
@@ -57,6 +57,7 @@ public class ShowLargeImgActivity extends BeamBaseActivity<ShowLargeImgActivityP
         hasCollected = getIntent().getBooleanExtra("hasCollected", false);
         fragmentManager = getSupportFragmentManager();
         initMenuFragment();
+        viewPager.setOnClickListener(this);
     }
 
     @Override
@@ -184,5 +185,10 @@ public class ShowLargeImgActivity extends BeamBaseActivity<ShowLargeImgActivityP
     }
     public void setHasCollected(boolean hasCollected) {
         this.hasCollected = hasCollected;
+    }
+
+    @Override
+    public void onClick(View v) {
+        this.finish();
     }
 }

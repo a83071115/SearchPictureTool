@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.administrator.searchpicturetool">
 
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -19,30 +18,8 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <!-- 可选 -->
-    <uses-permission android:name="android.permission.BROADCAST_PACKAGE_ADDED" />
-    <uses-permission android:name="android.permission.BROADCAST_PACKAGE_CHANGED" />
-    <uses-permission android:name="android.permission.BROADCAST_PACKAGE_INSTALL" />
-    <uses-permission android:name="android.permission.BROADCAST_PACKAGE_REPLACED" />
-    <uses-permission android:name="android.permission.RESTART_PACKAGES" />
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
 
-    <!-- youmi-->
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
-    <!-- 如果使用积分墙广告,还需要配置下面权限 -->
-    <uses-permission android:name="android.permission.GET_TASKS" />
-    <uses-permission
-        android:name="android.permission.PACKAGE_USAGE_STATS"
-        tools:ignore="ProtectedPermissions" />
-    <uses-permission
-        android:name="android.permission.PACKAGE_USAGE_STATS"
-        tools:ignore="ProtectedPermissions" />
-
-    <!-- 以下为可选权限 -->
-    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />;
-    <!-- youmi-->
     <application
         android:name=".app.APP"
         android:allowBackup="true"
@@ -78,9 +55,14 @@
         </activity>
         <activity android:name=".view.activity.SearchActivity"/>
         <activity android:name=".view.activity.ShowLargeImgActivity"/>
-        <activity android:name=".view.activity.UserActivity"/>
+        <activity
+            android:name=".view.activity.UserActivity"
+            android:label="我的图片"
+            />
         <activity android:name=".view.activity.ShowDownloadImgActivity"/>
-        <activity android:name=".view.activity.SettingActivity"/>
+        <activity android:name=".view.activity.SettingActivity"
+            android:label="设置"
+            />
 
         <!-- umeng -->
 

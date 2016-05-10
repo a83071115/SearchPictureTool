@@ -3,9 +3,9 @@ package com.example.administrator.searchpicturetool.presenter.activitPresenter;
 import android.support.v4.app.FragmentManager;
 
 import com.example.administrator.searchpicturetool.R;
-import com.example.administrator.searchpicturetool.presenter.adapter.MyPagerAdapter;
+import com.example.administrator.searchpicturetool.presenter.adapter.MyTabFragmentAdapter;
 import com.example.administrator.searchpicturetool.view.activity.MainActivity;
-import com.example.administrator.searchpicturetool.view.fragment.MainFragment;
+import com.example.administrator.searchpicturetool.view.fragment.RecommendFragment;
 import com.jude.beam.bijection.Presenter;
 import com.jude.beam.expansion.list.BeamListFragment;
 
@@ -13,7 +13,7 @@ import com.jude.beam.expansion.list.BeamListFragment;
  * Created by wenhuaijun on 2015/11/2 0002.
  */
 public class MainActivityPresenter extends Presenter<MainActivity>{
-    MyPagerAdapter adapter;
+    MyTabFragmentAdapter adapter;
     FragmentManager fragmentManager;
     public int item =1;
     @Override
@@ -25,16 +25,17 @@ public class MainActivityPresenter extends Presenter<MainActivity>{
     }
     public void replaceFragment(int position){
         item=position;
-        adapter = new MyPagerAdapter(getView(),fragmentManager);
+        adapter = new MyTabFragmentAdapter(getView(),fragmentManager);
         getView().getViewPager().setAdapter(adapter);
         getView().getTabLayout().setupWithViewPager(getView().getViewPager());
 
     }
+
     public void goToUp(int position){
 
         if(adapter.getFragment(getView().getViewPager().getCurrentItem())!=null){
             if(getView().getViewPager().getCurrentItem()==0){
-                ((MainFragment)adapter.getFragment(0)).recyclerView.scrollToPosition(position);
+                ((RecommendFragment)adapter.getFragment(0)).recyclerView.scrollToPosition(position);
             }else{
                 ((BeamListFragment)adapter.getFragment((getView().getViewPager().getCurrentItem()))).getListView().scrollToPosition(position);
             }

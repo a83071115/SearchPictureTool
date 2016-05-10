@@ -22,14 +22,9 @@ import java.util.List;
  * Created by wenhuaijun on 2016/2/6 0006.
  */
 public class ImageLoopAdapter extends DynamicPagerAdapter {
-    /*private String[] imageUrl={"http://img1.imgtn.bdimg.com/it/u=3783098954,3739904331&fm=21&gp=0.jpg"
-    ,"http://img0.imgtn.bdimg.com/it/u=1576452016,3706819836&fm=21&gp=0.jpg"
-            ,"http://img0.imgtn.bdimg.com/it/u=2076375700,2476864830&fm=206&gp=0.jpg"
-            ,"http://img3.imgtn.bdimg.com/it/u=3680937390,3514330375&fm=206&gp=0.jpg"
-    };*/
     private List<Banner> banners;
-    public ImageLoopAdapter(List<Banner> banners) {
-        this.banners =banners;
+    public ImageLoopAdapter() {
+
     }
 
     @Override
@@ -54,6 +49,16 @@ public class ImageLoopAdapter extends DynamicPagerAdapter {
 
     @Override
     public int getCount() {
-        return banners.size();
+        if(banners!=null){
+            return banners.size();
+        }else{
+            return 0;
+        }
+
     }
+
+    public void setBanners(List<Banner> banners) {
+        this.banners = banners;
+    }
+
 }

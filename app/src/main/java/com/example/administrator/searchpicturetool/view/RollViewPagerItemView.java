@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.administrator.searchpicturetool.R;
+import com.example.administrator.searchpicturetool.app.APP;
 import com.example.administrator.searchpicturetool.model.BannerModel;
 import com.example.administrator.searchpicturetool.model.bean.Banner;
 import com.example.administrator.searchpicturetool.presenter.adapter.ImageLoopAdapter;
@@ -19,8 +20,10 @@ import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
 import com.jude.easyrecyclerview.swipe.SwipeRefreshLayout;
 import com.jude.rollviewpager.RollPagerView;
 import com.jude.rollviewpager.hintview.TextHintView;
+import com.jude.utils.JFileManager;
 import com.jude.utils.JUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import rx.Subscriber;
@@ -34,6 +37,7 @@ public class RollViewPagerItemView implements RecyclerArrayAdapter.ItemView, Vie
     SwipeRefreshLayout swipeRefreshLayout;
     Context context;
     List<Banner> banners;
+    JFileManager.Folder folder;
     public RollViewPagerItemView(SwipeRefreshLayout swipeRefreshLayout) {
         this.swipeRefreshLayout =swipeRefreshLayout;
     }
@@ -41,6 +45,7 @@ public class RollViewPagerItemView implements RecyclerArrayAdapter.ItemView, Vie
     @Override
     public View onCreateView(ViewGroup parent) {
         context =parent.getContext();
+        folder = JFileManager.getInstance().getFolder(APP.Dir.Object);
        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.include_viewpager,parent,false);
         rollPagerView =(RollPagerView)view.findViewById(R.id.roll_view_pager);
         //解决viewPager和swipeRefreshLayout的冲突
@@ -65,6 +70,8 @@ public class RollViewPagerItemView implements RecyclerArrayAdapter.ItemView, Vie
 
     @Override
     public void onBindView(View headerView) {
+        //加载缓存数据
+        getBannerFromCache();
         BannerModel.getBanners(context, new Subscriber<List<Banner>>() {
             @Override
             public void onCompleted() {
@@ -78,16 +85,24 @@ public class RollViewPagerItemView implements RecyclerArrayAdapter.ItemView, Vie
 
             @Override
             public void onNext(final List<Banner> banners) {
+                folder.writeObjectToFile(banners, "banner");
                 RollViewPagerItemView.this.banners =banners;
                 adapter = new ImageLoopAdapter(banners);
-                rollPagerView.setHintView(new BannerTextHintView(context,banners));
+                rollPagerView.setHintView(new BannerTextHintView(context, banners));
                 rollPagerView.setAdapter(adapter);
 
     }
 
 });
     }
-
+    public void getBannerFromCache(){
+        banners =(ArrayList<Banner>)folder.readObjectFromFile("banner");
+        if(banners!=null&&banners.size()!=0){
+            adapter = new ImageLoopAdapter(banners);
+            rollPagerView.setHintView(new BannerTextHintView(context,banners));
+            rollPagerView.setAdapter(adapter);
+        }
+    }
     @Override
     public void onClick(View v) {
         JUtils.Log("onClick---banner");

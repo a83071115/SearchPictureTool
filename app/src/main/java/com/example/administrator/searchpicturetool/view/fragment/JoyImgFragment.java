@@ -5,7 +5,7 @@ import android.view.ViewGroup;
 import com.example.administrator.searchpicturetool.R;
 import com.example.administrator.searchpicturetool.model.bean.ImageJoy;
 import com.example.administrator.searchpicturetool.presenter.fragmentPresenter.JoyImgFragmentPresenter;
-import com.example.administrator.searchpicturetool.view.JoyImageViewHolder;
+import com.example.administrator.searchpicturetool.view.viewHolder.JoyImageViewHolder;
 import com.jude.beam.bijection.RequiresPresenter;
 import com.jude.beam.expansion.list.BeamListFragment;
 import com.jude.beam.expansion.list.ListConfig;

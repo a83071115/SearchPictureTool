@@ -18,13 +18,11 @@ import com.jude.easyrecyclerview.EasyRecyclerView;
 
 @RequiresPresenter(RecommendFragmentPresenter.class)
 public class RecommendFragment extends BeamFragment<RecommendFragmentPresenter>{
-   // public RollPagerView mRollPagerView;
     public EasyRecyclerView recyclerView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
        View view = inflater.inflate(R.layout.fragment_main,container,false);
-     //   mRollPagerView =(RollPagerView)view.findViewById(R.id.roll_view_pager);
         recyclerView = (EasyRecyclerView)view.findViewById(R.id.easy_recyclerview);
         recyclerView.setErrorView(R.layout.view_net_error);
         return view;

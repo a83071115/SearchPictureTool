@@ -4,7 +4,7 @@ import android.view.ViewGroup;
 import com.example.administrator.searchpicturetool.R;
 import com.example.administrator.searchpicturetool.model.bean.NetImage;
 import com.example.administrator.searchpicturetool.presenter.fragmentPresenter.SerachFragmentListPresenter;
-import com.example.administrator.searchpicturetool.view.NetImageListViewHolder;
+import com.example.administrator.searchpicturetool.view.viewHolder.NetImageListViewHolder;
 import com.jude.beam.bijection.RequiresPresenter;
 import com.jude.beam.expansion.list.BeamListFragment;
 import com.jude.beam.expansion.list.ListConfig;

@@ -5,12 +5,10 @@ import android.view.ViewGroup;
 
 import com.example.administrator.searchpicturetool.model.bean.RecommendContent;
 import com.example.administrator.searchpicturetool.model.bean.RecommendTip;
-import com.example.administrator.searchpicturetool.view.RecommendContentViewHolder;
-import com.example.administrator.searchpicturetool.view.RecommendTipVewHolder;
+import com.example.administrator.searchpicturetool.view.viewHolder.RecommendContentViewHolder;
+import com.example.administrator.searchpicturetool.view.viewHolder.RecommendTipVewHolder;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
-
-import java.util.List;
 
 /**
  * Created by wenhuaijun on 2016/2/7 0007.

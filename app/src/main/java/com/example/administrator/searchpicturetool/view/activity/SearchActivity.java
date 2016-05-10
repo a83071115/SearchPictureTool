@@ -1,20 +1,25 @@
 package com.example.administrator.searchpicturetool.view.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.example.administrator.searchpicturetool.R;
+import com.example.administrator.searchpicturetool.imageLoader.EasyImageLoader;
 import com.example.administrator.searchpicturetool.presenter.activitPresenter.SearchActivityPresenter;
 import com.example.administrator.searchpicturetool.view.fragment.SearchFragment;
 import com.jude.beam.bijection.RequiresPresenter;
 import com.jude.beam.expansion.BeamBaseActivity;
+import com.jude.utils.JUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,6 +42,7 @@ public class SearchActivity extends BeamBaseActivity<SearchActivityPresenter>{
     AppBarLayout appBarLayout;
     FragmentManager manager;
     private SearchFragment searchFragment;
+    private String imagUrl;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +50,18 @@ public class SearchActivity extends BeamBaseActivity<SearchActivityPresenter>{
          ButterKnife.bind(this);
         onSetToolbar(toolbar);
         collapsingToolbarLayout.setTitle(getIntent().getBundleExtra("search").getString("search"));
-        imageView.setImageResource(getPresenter().getBgImg());
+        imagUrl =getIntent().getBundleExtra("search").getString("imagUrl");
+        if (TextUtils.isEmpty(imagUrl)){
+            imageView.setImageResource(getPresenter().getBgImg());
+        }else{
+            EasyImageLoader.getInstance(this).getBitmap(imagUrl, new EasyImageLoader.BitmapCallback() {
+                @Override
+                public void onResponse(Bitmap bitmap) {
+                    imageView.setImageBitmap(bitmap);
+                }
+            });
+        }
+
         manager =getSupportFragmentManager();
        searchFragment = new SearchFragment();
         searchFragment.setArguments(getIntent().getBundleExtra("search"));
@@ -56,6 +73,7 @@ public class SearchActivity extends BeamBaseActivity<SearchActivityPresenter>{
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
+                JUtils.Log("i:"+i);
                 if (i == 0) {
                     fab.hide();
                 } else {

@@ -1,4 +1,4 @@
-package com.example.administrator.searchpicturetool.view;
+package com.example.administrator.searchpicturetool.view.viewHolder;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.view.ViewGroup;

@@ -5,13 +5,11 @@ import android.view.ViewGroup;
 import com.example.administrator.searchpicturetool.R;
 import com.example.administrator.searchpicturetool.model.bean.DownloadImg;
 import com.example.administrator.searchpicturetool.presenter.fragmentPresenter.DownloadListPresenter;
-import com.example.administrator.searchpicturetool.view.DownloadImgViewHolder;
+import com.example.administrator.searchpicturetool.view.viewHolder.DownloadImgViewHolder;
 import com.jude.beam.bijection.RequiresPresenter;
 import com.jude.beam.expansion.list.BeamListFragment;
 import com.jude.beam.expansion.list.ListConfig;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
-
-import java.io.File;
 
 /**
  * Created by wenhuaijun on 2015/11/1 0001.

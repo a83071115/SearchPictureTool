@@ -1,4 +1,4 @@
-package com.example.administrator.searchpicturetool.view;
+package com.example.administrator.searchpicturetool.view.viewHolder;
 
 import android.net.Uri;
 import android.view.View;
@@ -6,17 +6,19 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.administrator.searchpicturetool.R;
-import com.example.administrator.searchpicturetool.model.CollectImgSelected;
-import com.example.administrator.searchpicturetool.model.bean.NetImage;
+import com.example.administrator.searchpicturetool.model.DownloadImgSelected;
+import com.example.administrator.searchpicturetool.model.bean.DownloadImg;
 import com.example.administrator.searchpicturetool.presenter.activitPresenter.UserActivityPresenter;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 import com.jude.utils.JUtils;
 
+import java.io.File;
+
 /**
- * Created by wenhuaijun on 2016/2/2 0002.
+ * Created by wenhuaijun on 2015/11/12 0012.
  */
-public class CollectImageListViewHolder extends BaseViewHolder<NetImage> {
+public class DownloadImgViewHolder extends BaseViewHolder<DownloadImg>{
     SimpleDraweeView image;
     View view_bg;
     ImageView img_selected;
@@ -24,8 +26,10 @@ public class CollectImageListViewHolder extends BaseViewHolder<NetImage> {
     float width;
     float height;
     float sccrenWidth;
+
+
     ViewGroup.LayoutParams layoutParams;
-    public CollectImageListViewHolder(ViewGroup parent) {
+    public DownloadImgViewHolder(ViewGroup parent) {
         super(parent, R.layout.item_netimage);
         image =(SimpleDraweeView)itemView.findViewById(R.id.net_img);
         view_bg =itemView.findViewById(R.id.bg_layout);
@@ -34,14 +38,14 @@ public class CollectImageListViewHolder extends BaseViewHolder<NetImage> {
     }
 
     @Override
-    public void setData(final NetImage data) {
+    public void setData(final DownloadImg data) {
         super.setData(data);
         height =data.getHeight();
         width = data.getWidth();
         layoutParams= image.getLayoutParams();
         layoutParams.height= (int)((height/width)*sccrenWidth);
         image.setLayoutParams(layoutParams);
-        image.setImageURI(Uri.parse(data.getThumbImg()));
+        image.setImageURI(Uri.fromFile(new File(data.getName())));
         if(UserActivityPresenter.isTransactioning){
             view_bg.setLayoutParams(layoutParams);
             view_bg.setVisibility(View.VISIBLE);
@@ -52,11 +56,13 @@ public class CollectImageListViewHolder extends BaseViewHolder<NetImage> {
                 public void onClick(View v) {
                     if(!isSelected){
                         img_selected.setImageResource(R.drawable.ic_selected);
-                        CollectImgSelected.add(data);
+                      //  DownloadImgSelected.getSelectedImgs().add(data);
+                        DownloadImgSelected.add(data);
                         isSelected=true;
                     }else{
                         img_selected.setImageResource(R.drawable.ic_not_selected);
-                        CollectImgSelected.remove(data);
+                       // DownloadImgSelected.getSelectedImgs().remove(data);
+                        DownloadImgSelected.remove(data);
                         isSelected=false;
                     }
 

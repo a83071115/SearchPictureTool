@@ -1,4 +1,4 @@
-package com.example.administrator.searchpicturetool.view;
+package com.example.administrator.searchpicturetool.view.viewHolder;
 
 import android.content.Context;
 import android.graphics.Bitmap;

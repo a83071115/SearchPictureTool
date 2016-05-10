@@ -1,8 +1,6 @@
-package com.example.administrator.searchpicturetool.view;
+package com.example.administrator.searchpicturetool.view.viewHolder;
 
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -13,15 +11,11 @@ import com.example.administrator.searchpicturetool.app.APP;
 import com.example.administrator.searchpicturetool.model.BannerModel;
 import com.example.administrator.searchpicturetool.model.bean.Banner;
 import com.example.administrator.searchpicturetool.presenter.adapter.ImageLoopAdapter;
-import com.example.administrator.searchpicturetool.presenter.adapter.RecommendAdapter;
-import com.example.administrator.searchpicturetool.view.activity.SearchActivity;
 import com.example.administrator.searchpicturetool.widght.BannerTextHintView;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
 import com.jude.easyrecyclerview.swipe.SwipeRefreshLayout;
 import com.jude.rollviewpager.RollPagerView;
-import com.jude.rollviewpager.hintview.TextHintView;
 import com.jude.utils.JFileManager;
-import com.jude.utils.JUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +25,7 @@ import rx.Subscriber;
 /**
  * Created by wenhuaijun on 2016/2/9 0009.
  */
-public class RollViewPagerItemView implements RecyclerArrayAdapter.ItemView, View.OnClickListener {
+public class RollViewPagerItemView implements RecyclerArrayAdapter.ItemView{
     RollPagerView rollPagerView;
     ImageLoopAdapter adapter;
     SwipeRefreshLayout swipeRefreshLayout;
@@ -108,14 +102,5 @@ public class RollViewPagerItemView implements RecyclerArrayAdapter.ItemView, Vie
             adapter.notifyDataSetChanged();
         }
     }
-    @Override
-    public void onClick(View v) {
-        JUtils.Log("onClick---banner");
-        Bundle bundle = new Bundle();
-        bundle.putString("search",banners.get(rollPagerView.getViewPager().getCurrentItem()).getSearchTip());
-        Intent intent = new Intent();
-        intent.putExtra("search", bundle);
-        intent.setClass(context, SearchActivity.class);
-        context.startActivity(intent);
-    }
+
 }

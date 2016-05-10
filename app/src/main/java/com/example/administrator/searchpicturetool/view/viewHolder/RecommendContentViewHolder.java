@@ -1,4 +1,4 @@
-package com.example.administrator.searchpicturetool.view;
+package com.example.administrator.searchpicturetool.view.viewHolder;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -60,9 +60,11 @@ public class RecommendContentViewHolder extends BaseViewHolder<RecommendContent>
         switch (v.getId()){
             case R.id.recommend_cardview1:
                 bundle.putString("search",recommendContent.getTitle1());
+                bundle.putString("imagUrl",recommendContent.getImgUrl1());
                 break;
             case R.id.recommend_cardview2:
                 bundle.putString("search",recommendContent.getTitle2());
+                bundle.putString("imagUrl",recommendContent.getImgUrl2());
                 break;
         }
         Intent intent = new Intent();

@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * Created by wenhuaijun on 2016/2/6 0006.
  */
-public class ImageLoopAdapter extends DynamicPagerAdapter {
+public class ImageLoopAdapter extends DynamicPagerAdapter{
     private List<Banner> banners;
     public ImageLoopAdapter() {
 
@@ -36,6 +36,7 @@ public class ImageLoopAdapter extends DynamicPagerAdapter {
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putString("search",banners.get(position).getSearchTip());
+                bundle.putString("imagUrl",banners.get(position).getImageUrl());
                 Intent intent = new Intent();
                 intent.putExtra("search", bundle);
                 intent.setClass(container.getContext(), SearchActivity.class);

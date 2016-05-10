@@ -44,6 +44,7 @@ public class RollViewPagerItemView implements RecyclerArrayAdapter.ItemView, Vie
 
     @Override
     public View onCreateView(ViewGroup parent) {
+        adapter = new ImageLoopAdapter();
         context =parent.getContext();
         folder = JFileManager.getInstance().getFolder(APP.Dir.Object);
        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.include_viewpager,parent,false);
@@ -64,6 +65,8 @@ public class RollViewPagerItemView implements RecyclerArrayAdapter.ItemView, Vie
                 return false;
             }
         });
+
+        rollPagerView.setAdapter(adapter);
       //  rollPagerView.getViewPager().setOnClickListener(this);
         return view;
     }
@@ -87,9 +90,11 @@ public class RollViewPagerItemView implements RecyclerArrayAdapter.ItemView, Vie
             public void onNext(final List<Banner> banners) {
                 folder.writeObjectToFile(banners, "banner");
                 RollViewPagerItemView.this.banners =banners;
-                adapter = new ImageLoopAdapter(banners);
                 rollPagerView.setHintView(new BannerTextHintView(context, banners));
-                rollPagerView.setAdapter(adapter);
+                adapter.setBanners(banners);
+                adapter.notifyDataSetChanged();
+                //rollPagerView.setHintView(new BannerTextHintView(context, banners));
+
 
     }
 
@@ -98,9 +103,9 @@ public class RollViewPagerItemView implements RecyclerArrayAdapter.ItemView, Vie
     public void getBannerFromCache(){
         banners =(ArrayList<Banner>)folder.readObjectFromFile("banner");
         if(banners!=null&&banners.size()!=0){
-            adapter = new ImageLoopAdapter(banners);
-            rollPagerView.setHintView(new BannerTextHintView(context,banners));
-            rollPagerView.setAdapter(adapter);
+            adapter.setBanners(banners);
+            rollPagerView.setHintView(new BannerTextHintView(context, banners));
+            adapter.notifyDataSetChanged();
         }
     }
     @Override

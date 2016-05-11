@@ -62,7 +62,10 @@
         <activity android:name=".view.activity.ShowDownloadImgActivity"/>
         <activity android:name=".view.activity.SettingActivity"
             android:label="设置"
+            /><activity android:name=".view.activity.MoreRecommendActivity"
+            android:label="更多"
             />
+
 
         <!-- umeng -->
 
@@ -114,6 +117,7 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:screenOrientation="portrait" />
+
         <!--umeng push -->
         <!-- 监听通知点击或者忽略处理的广播 -->
         <receiver

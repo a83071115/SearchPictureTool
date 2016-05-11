@@ -29,7 +29,7 @@ public class APP extends Application{
         Beam.init(this);
         Beam.setActivityLifeCycleDelegateProvider(ActivityDelegate::new);
         Fresco.initialize(this);
-       // mRefWatcher = LeakCanary.install(this);
+        mRefWatcher = LeakCanary.install(this);
       /*  RequestManager.getInstance().init(this);
         RequestManager.getInstance().setDebugMode(true, "heheda");*/
         Bmob.initialize(this,"633edd745d4d8630d88c73a16440cb9a");

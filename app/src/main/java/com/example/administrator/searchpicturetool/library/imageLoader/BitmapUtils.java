@@ -1,4 +1,4 @@
-package com.example.administrator.searchpicturetool.imageLoader;
+package com.example.administrator.searchpicturetool.library.imageLoader;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

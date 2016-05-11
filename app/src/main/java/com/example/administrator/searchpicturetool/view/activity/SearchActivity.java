@@ -10,11 +10,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.example.administrator.searchpicturetool.R;
-import com.example.administrator.searchpicturetool.imageLoader.EasyImageLoader;
+import com.example.administrator.searchpicturetool.library.imageLoader.EasyImageLoader;
 import com.example.administrator.searchpicturetool.presenter.activitPresenter.SearchActivityPresenter;
 import com.example.administrator.searchpicturetool.view.fragment.SearchFragment;
 import com.jude.beam.bijection.RequiresPresenter;

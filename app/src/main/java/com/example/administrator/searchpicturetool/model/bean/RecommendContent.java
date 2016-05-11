@@ -3,6 +3,7 @@ package com.example.administrator.searchpicturetool.model.bean;
 /**
  * Created by wenhuaijun on 2016/2/7 0007.
  */
+@Deprecated
 public class RecommendContent extends RecommendTip{
     private String imgUrl1;
     private String imgUrl2;

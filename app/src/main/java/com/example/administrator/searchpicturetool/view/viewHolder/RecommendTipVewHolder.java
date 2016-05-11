@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.administrator.searchpicturetool.R;
+import com.example.administrator.searchpicturetool.model.bean.NewRecommendContent;
 import com.example.administrator.searchpicturetool.model.bean.RecommendTip;
 import com.example.administrator.searchpicturetool.view.activity.SearchActivity;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
@@ -15,10 +16,10 @@ import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 /**
  * Created by wenhuaijun on 2016/2/6 0006.
  */
-public class RecommendTipVewHolder extends BaseViewHolder<RecommendTip> implements View.OnClickListener {
+public class RecommendTipVewHolder extends BaseViewHolder<NewRecommendContent> implements View.OnClickListener {
     private TextView tip;
     private Button btn;
-    RecommendTip data;
+    NewRecommendContent data;
     public RecommendTipVewHolder(ViewGroup parent) {
         super(parent, R.layout.itemview_recommend_tip);
         tip =(TextView)itemView.findViewById(R.id.recommend_tip);
@@ -26,7 +27,7 @@ public class RecommendTipVewHolder extends BaseViewHolder<RecommendTip> implemen
     }
 
     @Override
-    public void setData(RecommendTip data) {
+    public void setData(NewRecommendContent data) {
         super.setData(data);
         this.data=data;
         tip.setText(data.getTip());

@@ -1,37 +1,28 @@
 package com.example.administrator.searchpicturetool.view.activity;
 
 import android.os.Bundle;
-import android.view.ViewGroup;
+import android.support.v4.app.FragmentManager;
 
 import com.example.administrator.searchpicturetool.R;
-import com.jude.beam.expansion.list.BeamListActivity;
-import com.jude.beam.expansion.list.ListConfig;
-import com.jude.easyrecyclerview.adapter.BaseViewHolder;
+import com.example.administrator.searchpicturetool.presenter.activitPresenter.MoreAcitivityPresenter;
+import com.example.administrator.searchpicturetool.view.fragment.MoreFragment;
+import com.jude.beam.bijection.RequiresPresenter;
+import com.jude.beam.expansion.BeamBaseActivity;
+
+import butterknife.ButterKnife;
 
 /**
  * Created by Administrator on 2016/5/10 0010.
  */
-public class MoreRecommendActivity extends BeamListActivity{
+@RequiresPresenter(MoreAcitivityPresenter.class)
+public class MoreRecommendActivity extends BeamBaseActivity<MoreAcitivityPresenter>{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setContentView(R.layout.activity_more);
+        ButterKnife.bind(this);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().add(R.id.container,new MoreFragment());
     }
 
-    @Override
-    protected BaseViewHolder getViewHolder(ViewGroup parent, int viewType) {
-        return null;
-    }
-    @Override
-    protected ListConfig getConfig() {
-        return super.getConfig()
-                .setRefreshAble(true)
-                .setNoMoreAble(true)
-                .setLoadmoreAble(true)
-                .setErrorAble(true)
-                .setContainerErrorAble(true)
-                .setContainerErrorRes(R.layout.view_net_error)
-                .setContainerProgressRes(R.layout.page_progress)
-                .setLoadMoreRes(R.layout.page_loadmore);
-    }
 }

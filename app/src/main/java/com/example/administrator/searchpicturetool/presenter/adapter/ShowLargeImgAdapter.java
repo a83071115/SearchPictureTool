@@ -1,21 +1,16 @@
 package com.example.administrator.searchpicturetool.presenter.adapter;
 
 import android.app.Activity;
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.administrator.searchpicturetool.R;
-import com.example.administrator.searchpicturetool.imageLoader.EasyImageLoader;
+import com.example.administrator.searchpicturetool.library.imageLoader.EasyImageLoader;
 import com.example.administrator.searchpicturetool.model.bean.NetImage;
 import com.example.administrator.searchpicturetool.widght.PinchImageView;
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.jude.utils.JUtils;
-import com.pnikosis.materialishprogress.ProgressWheel;
 
 import java.util.ArrayList;
 

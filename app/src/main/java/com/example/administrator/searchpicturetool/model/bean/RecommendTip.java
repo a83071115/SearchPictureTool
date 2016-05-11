@@ -5,6 +5,7 @@ import cn.bmob.v3.BmobObject;
 /**
  * Created by wenhuaijun on 2016/2/7 0007.
  */
+@Deprecated
 public class RecommendTip extends BmobObject{
     private double type;
     private String tip;

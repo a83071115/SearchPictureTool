@@ -8,20 +8,34 @@ import com.example.administrator.searchpicturetool.config.MySql;
 import com.example.administrator.searchpicturetool.model.bean.DownloadImg;
 import com.example.administrator.searchpicturetool.model.bean.NetImage;
 import com.example.administrator.searchpicturetool.model.bean.NetImageImpl;
+import com.example.administrator.searchpicturetool.model.bean.NewRecommendContent;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by wenhuaijun on 2016/1/31 0031.
  */
 public class DBManager {
+
+    private  static DBManager instance;
     private DBHelper helper;
     private SQLiteDatabase db;
-    public DBManager(Context context){
+    private DBManager(Context context){
         helper = new DBHelper(context);
         db = helper.getWritableDatabase();
     }
+    //单例模式
+    public static synchronized  DBManager getInstance(Context context){
+        if(instance!=null){
+            return instance;
+        }else{
+            instance = new DBManager(context);
+            return instance;
+        }
+    }
+
 
     /**
      * 添加已下载图片信息到数据库
@@ -81,6 +95,30 @@ public class DBManager {
         return imgs;
 
     }
+    //从数据库中获取所有推荐列表
+    public List<NewRecommendContent> getRecomendContentfromSql(){
+        List<NewRecommendContent> lists = new ArrayList<>();
+        Cursor cursor = db.rawQuery("select * from "+MySql.RecommendTable+"",null);
+        if (cursor!=null&&cursor.moveToFirst()){
+            do{
+                NewRecommendContent img = new NewRecommendContent();
+                img.setType(cursor.getFloat(cursor.getColumnIndex("type")));
+                img.setTip(cursor.getString(cursor.getColumnIndex("tip")));
+                img.setImageUrl(cursor.getString(cursor.getColumnIndex("imageUrl")));
+                img.setTitle(cursor.getString(cursor.getColumnIndex("title")));
+                img.setContent(cursor.getString(cursor.getColumnIndex("content")));
+                if(cursor.getInt(cursor.getColumnIndex("justType"))==1){
+                    img.setJustType(true);
+                }else{
+                    img.setJustType(false);
+                }
+               // img.setJustType(cursor.is(cursor.getColumnIndex("justType")));
+                lists.add(img);
+            }while(cursor.moveToNext());
+        }
+        cursor.close();
+        return lists;
+    }
 
 
 
@@ -95,6 +133,31 @@ public class DBManager {
         db.setTransactionSuccessful();
         db.endTransaction();
     }
+    //添加一个推荐列表到数据库
+    private void addRecommendContent(NewRecommendContent content){
+      //  db.beginTransaction();
+        db.execSQL("insert into " + MySql.RecommendTable + " values(?,?,?,?,?,?)",
+                new Object[]{content.getType(), content.getTip(),content.getImageUrl(), content.getTitle(), content.getContent(), content.isJustType()});
+      //  db.setTransactionSuccessful();
+      //  db.endTransaction();
+    }
+    //删除推荐列表库里面所有的数据
+    public void deleteAllRecommendContents(){
+        db.beginTransaction();
+        db.execSQL("delete from " + MySql.RecommendTable + "");
+        db.setTransactionSuccessful();
+        db.endTransaction();
+    }
+    //批量添加一系列的推荐到数据库
+    public void addAllRecomendContents(List<NewRecommendContent> lists){
+        db.beginTransaction();
+        for(NewRecommendContent content:lists){
+            addRecommendContent(content);
+        }
+        db.setTransactionSuccessful();
+        db.endTransaction();
+    }
+
     /**
      * 将已删除的收藏图片信息从数据库里删除
      */

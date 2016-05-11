@@ -17,12 +17,15 @@ public class DBHelper extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        JUtils.Log("table onCreate");
         db.execSQL(MySql.creatDownloadTable);
         db.execSQL(MySql.createCollectTable);
+
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         JUtils.Log("onUpgrade");
+        db.execSQL(MySql.createRecommendTable);
     }
 }

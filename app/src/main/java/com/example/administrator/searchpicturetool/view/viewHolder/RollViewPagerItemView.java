@@ -62,11 +62,10 @@ public class RollViewPagerItemView implements RecyclerArrayAdapter.ItemView{
 
         rollPagerView.setAdapter(adapter);
       //  rollPagerView.getViewPager().setOnClickListener(this);
+        setData();
         return view;
     }
-
-    @Override
-    public void onBindView(View headerView) {
+    public void setData(){
         //加载缓存数据
         getBannerFromCache();
         BannerModel.getBanners(context, new Subscriber<List<Banner>>() {
@@ -90,9 +89,13 @@ public class RollViewPagerItemView implements RecyclerArrayAdapter.ItemView{
                 //rollPagerView.setHintView(new BannerTextHintView(context, banners));
 
 
-    }
+            }
 
-});
+        });
+    }
+    @Override
+    public void onBindView(View headerView) {
+
     }
     public void getBannerFromCache(){
         banners =(ArrayList<Banner>)folder.readObjectFromFile("banner");

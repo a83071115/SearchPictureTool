@@ -1,4 +1,4 @@
-package com.example.administrator.searchpicturetool.imageLoader;
+package com.example.administrator.searchpicturetool.library.imageLoader;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;

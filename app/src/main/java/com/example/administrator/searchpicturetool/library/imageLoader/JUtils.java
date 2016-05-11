@@ -1,4 +1,4 @@
-package com.example.administrator.searchpicturetool.imageLoader;
+package com.example.administrator.searchpicturetool.library.imageLoader;
 
 /**
  * Created by Administrator on 2016/4/26 0026.

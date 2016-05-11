@@ -1,4 +1,4 @@
-package com.example.administrator.searchpicturetool.imageLoader;
+package com.example.administrator.searchpicturetool.library.imageLoader;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

@@ -9,6 +9,7 @@ import com.example.administrator.searchpicturetool.model.bean.DownloadImg;
 import com.example.administrator.searchpicturetool.model.bean.NetImage;
 import com.example.administrator.searchpicturetool.model.bean.NetImageImpl;
 import com.example.administrator.searchpicturetool.model.bean.NewRecommendContent;
+import com.jude.utils.JUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -95,8 +96,59 @@ public class DBManager {
         return imgs;
 
     }
+    //从数据库随机抽取需要展示的推荐列表
+    public List<NewRecommendContent> getRandomRecomendFromDB(){
+        List<NewRecommendContent> lists = new ArrayList<>();
+        //获取tip
+        Cursor cursor = db.rawQuery("select * from "+MySql.RecommendTable+" where justType =1",null);
+        int tipNums =cursor.getCount();
+        if (cursor!=null&&cursor.moveToFirst()){
+            do{
+                NewRecommendContent img = new NewRecommendContent();
+                img.setType(cursor.getFloat(cursor.getColumnIndex("type")));
+                img.setTip(cursor.getString(cursor.getColumnIndex("tip")));
+                img.setImageUrl(cursor.getString(cursor.getColumnIndex("imageUrl")));
+                img.setTitle(cursor.getString(cursor.getColumnIndex("title")));
+                img.setContent(cursor.getString(cursor.getColumnIndex("content")));
+                if(cursor.getInt(cursor.getColumnIndex("justType"))==1){
+                    img.setJustType(true);
+                }else{
+                    img.setJustType(false);
+                }
+
+                lists.add(img);
+            }while(cursor.moveToNext());
+        }
+        cursor.close();
+        if(tipNums!=0){
+            for(int i=0; i<tipNums;i++){
+                Cursor contentCursor = db.rawQuery("select * from "+MySql.RecommendTable+" where justType = 0 and tip =? ORDER BY RANDOM() limit 2",new String[]{lists.get(i).getTip()});
+                if (contentCursor!=null&&contentCursor.moveToFirst()){
+                    do{
+                        NewRecommendContent img = new NewRecommendContent();
+                        img.setType(contentCursor.getFloat(contentCursor.getColumnIndex("type")));
+                        img.setTip(contentCursor.getString(contentCursor.getColumnIndex("tip")));
+                        img.setImageUrl(contentCursor.getString(contentCursor.getColumnIndex("imageUrl")));
+                        img.setTitle(contentCursor.getString(contentCursor.getColumnIndex("title")));
+                        img.setContent(contentCursor.getString(contentCursor.getColumnIndex("content")));
+                        if(contentCursor.getInt(contentCursor.getColumnIndex("justType"))==1){
+                            img.setJustType(true);
+                        }else{
+                            img.setJustType(false);
+                        }
+                        lists.add(img);
+                    }while(contentCursor.moveToNext());
+                }
+            }
+
+        }
+       /* for(NewRecommendContent recommendContent :lists){
+            JUtils.Log(recommendContent.toString());
+        }*/
+        return lists;
+    }
     //从数据库中获取所有推荐列表
-    public List<NewRecommendContent> getRecomendContentfromSql(){
+    public List<NewRecommendContent> getRecomendContentfromDB(){
         List<NewRecommendContent> lists = new ArrayList<>();
         Cursor cursor = db.rawQuery("select * from "+MySql.RecommendTable+"",null);
         if (cursor!=null&&cursor.moveToFirst()){
@@ -112,7 +164,6 @@ public class DBManager {
                 }else{
                     img.setJustType(false);
                 }
-               // img.setJustType(cursor.is(cursor.getColumnIndex("justType")));
                 lists.add(img);
             }while(cursor.moveToNext());
         }

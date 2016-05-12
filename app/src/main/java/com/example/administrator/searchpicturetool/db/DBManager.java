@@ -122,7 +122,12 @@ public class DBManager {
         cursor.close();
         if(tipNums!=0){
             for(int i=0; i<tipNums;i++){
-                Cursor contentCursor = db.rawQuery("select * from "+MySql.RecommendTable+" where justType = 0 and tip =? ORDER BY RANDOM() limit 2",new String[]{lists.get(i).getTip()});
+                Cursor contentCursor;
+                if(lists.get(i).getTip().equals("热门搜索")){
+                   contentCursor = db.rawQuery("select * from "+MySql.RecommendTable+" where justType = 0 and tip =? ORDER BY RANDOM() limit 2",new String[]{lists.get(i).getTip()});
+                }else{
+                 contentCursor = db.rawQuery("select * from "+MySql.RecommendTable+" where justType = 0 and tip =? ORDER BY RANDOM() limit 4",new String[]{lists.get(i).getTip()});
+                }
                 if (contentCursor!=null&&contentCursor.moveToFirst()){
                     do{
                         NewRecommendContent img = new NewRecommendContent();

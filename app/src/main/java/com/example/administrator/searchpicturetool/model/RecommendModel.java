@@ -7,6 +7,7 @@ import com.example.administrator.searchpicturetool.model.bean.NewRecommendConten
 import com.example.administrator.searchpicturetool.model.bean.RecommendContent;
 import com.example.administrator.searchpicturetool.model.bean.RecommendTip;
 import com.example.administrator.searchpicturetool.util.RecommendComparator;
+import com.jude.utils.JUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,19 +32,26 @@ public class RecommendModel {
                 BmobQuery<NewRecommendContent> queryContent = new BmobQuery<>();
                 queryContent.findObjects(context, new FindListener<NewRecommendContent>() {
                     @Override
-                    public void onSuccess(List<NewRecommendContent> list) {
-                        subscriber.onNext(list);
+                    public void onSuccess(List<NewRecommendContent> newRecommendContents) {
+                        DBManager.getInstance(context).deleteAllRecommendContents();
+                        DBManager.getInstance(context).addAllRecomendContents(newRecommendContents);
+                        newRecommendContents =DBManager.getInstance(context).getRandomRecomendFromDB();
+                        Collections.sort(newRecommendContents, new RecommendComparator());
+                        JUtils.Log("call--onNext");
+                        subscriber.onNext(newRecommendContents);
                         subscriber.onCompleted();
+                        JUtils.Log("call--onSuccess");
                     }
 
                     @Override
                     public void onError(int i, String s) {
                         subscriber.onError(new Throwable(i + " " + s));
+                        JUtils.Log("call--onError");
                     }
                 });
             }
         }).doOnNext(newRecommendContents -> {
-            Collections.sort(newRecommendContents, new RecommendComparator());
+            JUtils.Log("doOnNext");
             DBManager.getInstance(context).deleteAllRecommendContents();
             DBManager.getInstance(context).addAllRecomendContents(newRecommendContents);
         });

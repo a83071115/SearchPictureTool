@@ -1,5 +1,7 @@
 package com.example.administrator.searchpicturetool.model.bean;
 
+import com.google.gson.Gson;
+
 import cn.bmob.v3.BmobObject;
 
 /**
@@ -59,5 +61,10 @@ public class NewRecommendContent extends BmobObject{
 
     public void setJustType(boolean justType) {
         this.justType = justType;
+    }
+
+    @Override
+    public String toString() {
+        return new Gson().toJson(this);
     }
 }

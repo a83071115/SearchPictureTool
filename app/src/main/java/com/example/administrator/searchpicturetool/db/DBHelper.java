@@ -20,6 +20,7 @@ public class DBHelper extends SQLiteOpenHelper{
         JUtils.Log("table onCreate");
         db.execSQL(MySql.creatDownloadTable);
         db.execSQL(MySql.createCollectTable);
+        db.execSQL(MySql.createRecommendTable);
 
     }
 

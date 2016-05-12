@@ -8,7 +8,7 @@ public class MySql {
         public static final String DownloadTable="download";
         public static final String CollectTable="collect";
         public static final String RecommendTable="recommend";
-        public  static final int DATABASE_VERSION = 2;
+        public  static final int DATABASE_VERSION = 3;
         // 创建已下载图片表
     public static final String creatDownloadTable="create table if not exists "+ DownloadTable+
             "(id integer primary key autoincrement," +

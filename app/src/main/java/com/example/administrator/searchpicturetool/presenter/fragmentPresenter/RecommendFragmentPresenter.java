@@ -9,12 +9,14 @@ import com.example.administrator.searchpicturetool.db.DBManager;
 import com.example.administrator.searchpicturetool.model.RecommendModel;
 import com.example.administrator.searchpicturetool.model.bean.NewRecommendContent;
 import com.example.administrator.searchpicturetool.presenter.adapter.RecommendAdapter;
+import com.example.administrator.searchpicturetool.util.RecommendComparator;
 import com.example.administrator.searchpicturetool.view.viewHolder.RollViewPagerItemView;
 import com.example.administrator.searchpicturetool.view.fragment.RecommendFragment;
 import com.jude.beam.expansion.BeamBasePresenter;
 import com.jude.utils.JFileManager;
 import com.jude.utils.JUtils;
 
+import java.util.Collections;
 import java.util.List;
 
 import rx.Subscriber;
@@ -27,7 +29,6 @@ public class RecommendFragmentPresenter extends BeamBasePresenter<RecommendFragm
     private boolean isInit =true;
     private GridLayoutManager girdLayoutManager;
     List<NewRecommendContent> newRecommendContents;
-    JFileManager.Folder folder;
 
 
 
@@ -35,12 +36,12 @@ public class RecommendFragmentPresenter extends BeamBasePresenter<RecommendFragm
     @Override
     protected void onCreate(RecommendFragment view, Bundle savedState) {
         super.onCreate(view, savedState);
-        folder = JFileManager.getInstance().getFolder(APP.Dir.Object);
         adapter = new RecommendAdapter(getView().getContext());
         girdLayoutManager =new GridLayoutManager(getView().getContext(),2);
         //打开首先从缓存获取数据显示
-        newRecommendContents = DBManager.getInstance(getView().getContext()).getRecomendContentfromSql();
+        newRecommendContents = DBManager.getInstance(getView().getContext()).getRecomendContentfromDB();
         if(newRecommendContents!=null&&newRecommendContents.size()!=0){
+          //  Collections.sort(newRecommendContents, new RecommendComparator());
             adapter.addAll(newRecommendContents);
             girdLayoutManager.setSpanSizeLookup(adapter.obtainTipSpanSizeLookUp());
         }
@@ -75,6 +76,7 @@ public class RecommendFragmentPresenter extends BeamBasePresenter<RecommendFragm
                     }
                     @Override
                     public void onError(Throwable e) {
+                        JUtils.Log("subscriber--onError");
                         JUtils.Toast("网络不给力");
                         if(getView().recyclerView!=null){
                             if(adapter.getCount()==0){
@@ -86,7 +88,7 @@ public class RecommendFragmentPresenter extends BeamBasePresenter<RecommendFragm
 
                     @Override
                     public void onNext(List<NewRecommendContent> objects) {
-                        folder.writeObjectToFile(objects,"recommend");
+                        JUtils.Log("subscriber--onNext");
                         adapter.clear();
                         adapter.addAll(objects);
                         girdLayoutManager.setSpanSizeLookup(adapter.obtainTipSpanSizeLookUp());

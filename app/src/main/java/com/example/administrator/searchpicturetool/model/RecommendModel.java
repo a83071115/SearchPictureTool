@@ -29,10 +29,12 @@ public class RecommendModel {
         return Observable.create(new Observable.OnSubscribe<List<NewRecommendContent>>() {
             @Override
             public void call(Subscriber<? super List<NewRecommendContent>> subscriber) {
+                JUtils.Log("-----call--");
                 BmobQuery<NewRecommendContent> queryContent = new BmobQuery<>();
                 queryContent.findObjects(context, new FindListener<NewRecommendContent>() {
                     @Override
                     public void onSuccess(List<NewRecommendContent> newRecommendContents) {
+                        JUtils.Log("-----call--onSuccess");
                         DBManager.getInstance(context).deleteAllRecommendContents();
                         DBManager.getInstance(context).addAllRecomendContents(newRecommendContents);
                         newRecommendContents =DBManager.getInstance(context).getRandomRecomendFromDB();
@@ -40,20 +42,25 @@ public class RecommendModel {
                         JUtils.Log("call--onNext");
                         subscriber.onNext(newRecommendContents);
                         subscriber.onCompleted();
-                        JUtils.Log("call--onSuccess");
+                        JUtils.Log("call--onSuccess---finish");
                     }
 
                     @Override
                     public void onError(int i, String s) {
                         subscriber.onError(new Throwable(i + " " + s));
+                        subscriber.onCompleted();
                         JUtils.Log("call--onError");
                     }
                 });
             }
-        }).doOnNext(newRecommendContents -> {
-            JUtils.Log("doOnNext");
-            DBManager.getInstance(context).deleteAllRecommendContents();
-            DBManager.getInstance(context).addAllRecomendContents(newRecommendContents);
+        }).doOnNext(new Action1<List<NewRecommendContent>>() {
+            @Override
+            public void call(List<NewRecommendContent> newRecommendContents) {
+                JUtils.Log("doOnNext");
+                DBManager.getInstance(context).deleteAllRecommendContents();
+                DBManager.getInstance(context).addAllRecomendContents(newRecommendContents);
+                JUtils.Log("doOnNext---finish");
+            }
         });
     }
     /*public static Observable<List<Object>> getRecommends2(final Context context){

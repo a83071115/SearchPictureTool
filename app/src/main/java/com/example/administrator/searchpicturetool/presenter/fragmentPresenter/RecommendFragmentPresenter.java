@@ -39,12 +39,15 @@ public class RecommendFragmentPresenter extends BeamBasePresenter<RecommendFragm
         adapter = new RecommendAdapter(getView().getContext());
         girdLayoutManager =new GridLayoutManager(getView().getContext(),2);
         //打开首先从缓存获取数据显示
+        getDataFromCache();
+       /*
         newRecommendContents = DBManager.getInstance(getView().getContext()).getRecomendContentfromDB();
         if(newRecommendContents!=null&&newRecommendContents.size()!=0){
           //  Collections.sort(newRecommendContents, new RecommendComparator());
             adapter.addAll(newRecommendContents);
             girdLayoutManager.setSpanSizeLookup(adapter.obtainTipSpanSizeLookUp());
         }
+        getView().recyclerView.getSwipeToRefresh().setRefreshing(true);*/
         onRefresh();
     }
     @Override
@@ -53,6 +56,8 @@ public class RecommendFragmentPresenter extends BeamBasePresenter<RecommendFragm
         if(isInit){
             adapter.addHeader(new RollViewPagerItemView(getView().recyclerView.getSwipeToRefresh()));
             isInit =false;
+
+
         }else{
             girdLayoutManager =new GridLayoutManager(getView().getContext(),2);
             girdLayoutManager.setSpanSizeLookup(adapter.obtainTipSpanSizeLookUp());
@@ -72,17 +77,20 @@ public class RecommendFragmentPresenter extends BeamBasePresenter<RecommendFragm
                 .subscribe(new Subscriber<List<NewRecommendContent>>() {
                     @Override
                     public void onCompleted() {
-
+                        if (getView().recyclerView != null) {
+                            getView().recyclerView.getSwipeToRefresh().setRefreshing(false);
+                        }
                     }
+
                     @Override
                     public void onError(Throwable e) {
                         JUtils.Log("subscriber--onError");
                         JUtils.Toast("网络不给力");
-                        if(getView().recyclerView!=null){
-                            if(adapter.getCount()==0){
+                        if (getView().recyclerView != null) {
+                            if (adapter.getCount() == 0) {
                                 getView().recyclerView.showError();
                             }
-                            getView().recyclerView.getSwipeToRefresh().setRefreshing(false);
+                            //   getView().recyclerView.getSwipeToRefresh().setRefreshing(false);
                         }
                     }
 
@@ -95,6 +103,15 @@ public class RecommendFragmentPresenter extends BeamBasePresenter<RecommendFragm
                     }
                 });
 
+    }
+    public void getDataFromCache(){
+        //打开首先从缓存获取数据显示
+        newRecommendContents = DBManager.getInstance(getView().getContext()).getRecomendContentfromDB();
+        if(newRecommendContents!=null&&newRecommendContents.size()!=0){
+            //  Collections.sort(newRecommendContents, new RecommendComparator());
+            adapter.addAll(newRecommendContents);
+            girdLayoutManager.setSpanSizeLookup(adapter.obtainTipSpanSizeLookUp());
+        }
     }
 
 }

@@ -25,6 +25,7 @@ public class RecommendFragment extends BeamFragment<RecommendFragmentPresenter>{
        View view = inflater.inflate(R.layout.fragment_main,container,false);
         recyclerView = (EasyRecyclerView)view.findViewById(R.id.easy_recyclerview);
         recyclerView.setErrorView(R.layout.view_net_error);
+        recyclerView.getSwipeToRefresh().setRefreshing(true);
         return view;
     }
 }

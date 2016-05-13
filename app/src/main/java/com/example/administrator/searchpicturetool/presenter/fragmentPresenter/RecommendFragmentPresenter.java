@@ -1,6 +1,7 @@
 package com.example.administrator.searchpicturetool.presenter.fragmentPresenter;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 
@@ -20,6 +21,7 @@ import java.util.Collections;
 import java.util.List;
 
 import rx.Subscriber;
+import rx.functions.Action1;
 
 /**
  * Created by wenhuaijun on 2016/2/5 0005.
@@ -28,7 +30,6 @@ public class RecommendFragmentPresenter extends BeamBasePresenter<RecommendFragm
     private RecommendAdapter adapter;
     private boolean isInit =true;
     private GridLayoutManager girdLayoutManager;
-    List<NewRecommendContent> newRecommendContents;
 
 
 
@@ -40,24 +41,15 @@ public class RecommendFragmentPresenter extends BeamBasePresenter<RecommendFragm
         girdLayoutManager =new GridLayoutManager(getView().getContext(),2);
         //打开首先从缓存获取数据显示
         getDataFromCache();
-       /*
-        newRecommendContents = DBManager.getInstance(getView().getContext()).getRecomendContentfromDB();
-        if(newRecommendContents!=null&&newRecommendContents.size()!=0){
-          //  Collections.sort(newRecommendContents, new RecommendComparator());
-            adapter.addAll(newRecommendContents);
-            girdLayoutManager.setSpanSizeLookup(adapter.obtainTipSpanSizeLookUp());
-        }
-        getView().recyclerView.getSwipeToRefresh().setRefreshing(true);*/
         onRefresh();
     }
     @Override
     protected void onCreateView(RecommendFragment view) {
+        getView().recyclerView.getSwipeToRefresh().setRefreshing(true);
         super.onCreateView(view);
         if(isInit){
             adapter.addHeader(new RollViewPagerItemView(getView().recyclerView.getSwipeToRefresh()));
             isInit =false;
-
-
         }else{
             girdLayoutManager =new GridLayoutManager(getView().getContext(),2);
             girdLayoutManager.setSpanSizeLookup(adapter.obtainTipSpanSizeLookUp());
@@ -72,46 +64,50 @@ public class RecommendFragmentPresenter extends BeamBasePresenter<RecommendFragm
 
     @Override
     public void onRefresh() {
-        //请求一次最新数据
-        RecommendModel.getRecommendsFromNet(APP.instance)
-                .subscribe(new Subscriber<List<NewRecommendContent>>() {
-                    @Override
-                    public void onCompleted() {
-                        if (getView().recyclerView != null) {
-                            getView().recyclerView.getSwipeToRefresh().setRefreshing(false);
-                        }
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        JUtils.Log("subscriber--onError");
-                        JUtils.Toast("网络不给力");
-                        if (getView().recyclerView != null) {
-                            if (adapter.getCount() == 0) {
-                                getView().recyclerView.showError();
+                //请求一次最新数据
+                RecommendModel.getRecommendsFromNet(APP.instance)
+                        .subscribe(new Subscriber<List<NewRecommendContent>>() {
+                            @Override
+                            public void onCompleted() {
                             }
-                            //   getView().recyclerView.getSwipeToRefresh().setRefreshing(false);
-                        }
-                    }
 
-                    @Override
-                    public void onNext(List<NewRecommendContent> objects) {
-                        JUtils.Log("subscriber--onNext");
-                        adapter.clear();
-                        adapter.addAll(objects);
-                        girdLayoutManager.setSpanSizeLookup(adapter.obtainTipSpanSizeLookUp());
-                    }
-                });
+                            @Override
+                            public void onError(Throwable e) {
+                                JUtils.Log("subscriber--onError");
+                                JUtils.Toast("网络不给力");
+                                if (getView().recyclerView != null) {
+                                    if (adapter.getCount() == 0) {
+                                        getView().recyclerView.showError();
+                                    }
+                                    getView().recyclerView.getSwipeToRefresh().setRefreshing(false);
+                                }
+                            }
+
+                            @Override
+                            public void onNext(List<NewRecommendContent> objects) {
+                                JUtils.Log("subscriber--onNext");
+                                adapter.clear();
+                                adapter.addAll(objects);
+                                girdLayoutManager.setSpanSizeLookup(adapter.obtainTipSpanSizeLookUp());
+                            }
+                        });
+
 
     }
     public void getDataFromCache(){
         //打开首先从缓存获取数据显示
-        newRecommendContents = DBManager.getInstance(getView().getContext()).getRecomendContentfromDB();
-        if(newRecommendContents!=null&&newRecommendContents.size()!=0){
-            //  Collections.sort(newRecommendContents, new RecommendComparator());
-            adapter.addAll(newRecommendContents);
-            girdLayoutManager.setSpanSizeLookup(adapter.obtainTipSpanSizeLookUp());
-        }
+        RecommendModel.getRecommendsFromDB(getView().getContext()).subscribe(new Action1<List<NewRecommendContent>>() {
+            @Override
+            public void call(List<NewRecommendContent> list) {
+                if(list!=null&&list.size()!=0){
+                    //  Collections.sort(newRecommendContents, new RecommendComparator());
+                    adapter.addAll(list);
+                    girdLayoutManager.setSpanSizeLookup(adapter.obtainTipSpanSizeLookUp());
+                }
+            }
+        });
+      //  newRecommendContents = DBManager.getInstance(getView().getContext()).getRecomendContentfromDB();
+
     }
 
 }

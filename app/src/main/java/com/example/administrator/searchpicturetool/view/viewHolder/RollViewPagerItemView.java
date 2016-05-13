@@ -71,6 +71,7 @@ public class RollViewPagerItemView implements RecyclerArrayAdapter.ItemView{
     public void setData(){
         //加载缓存数据
         getBannerFromCache();
+        //延迟加载，和缓存加载间隔一段时间，避免卡顿
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -101,7 +102,7 @@ public class RollViewPagerItemView implements RecyclerArrayAdapter.ItemView{
 
                 });
             }
-        },5000);
+        },4000);
 
     }
     @Override

@@ -41,12 +41,13 @@ public class RecommendFragmentPresenter extends BeamBasePresenter<RecommendFragm
         girdLayoutManager =new GridLayoutManager(getView().getContext(),2);
         //打开首先从缓存获取数据显示
         getDataFromCache();
+        //延迟加载，和缓存加载间隔一段时间，避免卡顿
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 onRefresh();
             }
-        },5000);
+        },4000);
 
     }
     @Override

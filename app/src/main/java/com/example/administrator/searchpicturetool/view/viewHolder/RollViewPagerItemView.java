@@ -102,7 +102,7 @@ public class RollViewPagerItemView implements RecyclerArrayAdapter.ItemView{
 
                 });
             }
-        },4000);
+        },2000);
 
     }
     @Override

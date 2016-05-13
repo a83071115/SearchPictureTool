@@ -47,7 +47,7 @@ public class RecommendFragmentPresenter extends BeamBasePresenter<RecommendFragm
             public void run() {
                 onRefresh();
             }
-        },4000);
+        },2000);
 
     }
     @Override

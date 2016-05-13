@@ -62,7 +62,8 @@
         <activity android:name=".view.activity.ShowDownloadImgActivity"/>
         <activity android:name=".view.activity.SettingActivity"
             android:label="设置"
-            /><activity android:name=".view.activity.MoreRecommendActivity"
+            />
+        <activity android:name=".view.activity.MoreRecommendActivity"
             android:label="更多"
             />
 

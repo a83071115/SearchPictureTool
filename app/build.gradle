@@ -115,9 +115,9 @@ dependencies {
     compile 'com.jude:rollviewpager:1.2.9'
     compile 'com.tbruyelle.rxpermissions:rxpermissions:0.7.0@aar'
     compile 'com.jakewharton:disklrucache:2.0.2'
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
+   /* debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
-    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
+    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'*/
     compile project(':library')
     compile project(':umengfamily')
     compile project(':umeng_sharelibrary')

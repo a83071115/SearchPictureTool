@@ -2,6 +2,7 @@ package com.example.administrator.searchpicturetool.view.fragment;
 
 import android.view.ViewGroup;
 import com.example.administrator.searchpicturetool.R;
+import com.example.administrator.searchpicturetool.config.Constant;
 import com.example.administrator.searchpicturetool.model.bean.NetImage;
 import com.example.administrator.searchpicturetool.presenter.fragmentPresenter.SerachFragmentListPresenter;
 import com.example.administrator.searchpicturetool.view.viewHolder.NetImageListViewHolder;
@@ -18,15 +19,7 @@ public class SearchFragment extends BeamListFragment<SerachFragmentListPresenter
 
     @Override
     protected ListConfig getConfig() {
-        return super.getConfig()
-                .setRefreshAble(false)
-                .setNoMoreAble(true)
-                .setLoadmoreAble(true)
-                .setErrorAble(true)
-                .setContainerErrorAble(true)
-                .setContainerErrorRes(R.layout.view_net_error2)
-                .setContainerProgressRes(R.layout.page_progress)
-                .setLoadMoreRes(R.layout.page_loadmore);
+        return Constant.getloadMoreConfig().setErrorRes(R.layout.view_net_error2);
     }
     @Override
     protected BaseViewHolder getViewHolder(ViewGroup parent, int viewType) {

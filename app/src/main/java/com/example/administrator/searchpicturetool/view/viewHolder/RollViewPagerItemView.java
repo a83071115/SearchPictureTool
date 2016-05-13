@@ -1,6 +1,7 @@
 package com.example.administrator.searchpicturetool.view.viewHolder;
 
 import android.content.Context;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -70,46 +71,64 @@ public class RollViewPagerItemView implements RecyclerArrayAdapter.ItemView{
     public void setData(){
         //加载缓存数据
         getBannerFromCache();
-        BannerModel.getBanners(context, new Subscriber<List<NewBanner>>() {
+        new Handler().postDelayed(new Runnable() {
             @Override
-            public void onCompleted() {
+            public void run() {
+                BannerModel.getBanners(context, new Subscriber<List<NewBanner>>() {
+                    @Override
+                    public void onCompleted() {
 
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(final List<NewBanner> banners) {
+                        folder.writeObjectToFile(banners, "banner");
+                        RollViewPagerItemView.this.banners = banners;
+                        adapter = new ImageLoopAdapter();
+                        adapter.setBanners(banners);
+                        rollPagerView.setHintView(new BannerTextHintView(context, banners));
+                        rollPagerView.setAdapter(adapter);
+                        adapter.notifyDataSetChanged();
+                        //rollPagerView.setHintView(new BannerTextHintView(context, banners));
+
+
+                    }
+
+                });
             }
+        },5000);
 
-            @Override
-            public void onError(Throwable e) {
-
-            }
-
-            @Override
-            public void onNext(final List<NewBanner> banners) {
-                folder.writeObjectToFile(banners, "banner");
-                RollViewPagerItemView.this.banners = banners;
-                adapter = new ImageLoopAdapter();
-                adapter.setBanners(banners);
-                rollPagerView.setHintView(new BannerTextHintView(context, banners));
-                rollPagerView.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
-                //rollPagerView.setHintView(new BannerTextHintView(context, banners));
-
-
-            }
-
-        });
     }
     @Override
     public void onBindView(View headerView) {
 
     }
     public void getBannerFromCache(){
-        banners =(ArrayList<NewBanner>)folder.readObjectFromFile("banner");
-        if(banners!=null&&banners.size()!=0){
-            adapter = new ImageLoopAdapter();
-            adapter.setBanners(banners);
-            rollPagerView.setHintView(new BannerTextHintView(context, banners));
-            rollPagerView.setAdapter(adapter);
-            adapter.notifyDataSetChanged();
-        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                banners =(ArrayList<NewBanner>)folder.readObjectFromFile("banner");
+                if(banners!=null&&banners.size()!=0){
+                    rollPagerView.post(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            adapter = new ImageLoopAdapter();
+                            adapter.setBanners(banners);
+                            rollPagerView.setHintView(new BannerTextHintView(context, banners));
+                            rollPagerView.setAdapter(adapter);
+                            adapter.notifyDataSetChanged();
+                        }
+                    });
+                }
+            }
+        }).start();
+
     }
 
 }

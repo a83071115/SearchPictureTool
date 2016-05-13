@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.example.administrator.searchpicturetool.R;
 import com.example.administrator.searchpicturetool.model.bean.NewRecommendContent;
 import com.example.administrator.searchpicturetool.model.bean.RecommendTip;
+import com.example.administrator.searchpicturetool.view.activity.MoreRecommendActivity;
 import com.example.administrator.searchpicturetool.view.activity.SearchActivity;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 
@@ -37,14 +38,16 @@ public class RecommendTipVewHolder extends BaseViewHolder<NewRecommendContent> i
 
     @Override
     public void onClick(View v) {
-        if(data.getTip().equals("热门搜索")){
+        /*if(data.getTip().equals("热门搜索")){
             return;
-        }
-        Bundle bundle = new Bundle();
-        bundle.putString("search",data.getTip());
+        }*/
+       /* Bundle bundle = new Bundle();
+        bundle.putString("search",data.getTip());*/
         Intent intent = new Intent();
-        intent.putExtra("search", bundle);
-        intent.setClass(getContext(), SearchActivity.class);
+        intent.putExtra("tip",data.getTip());
+        intent.putExtra("type",data.getType());
+     //   intent.putExtra("search", bundle);
+        intent.setClass(getContext(), MoreRecommendActivity.class);
         getContext().startActivity(intent);
     }
 }

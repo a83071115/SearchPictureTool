@@ -3,6 +3,7 @@ package com.example.administrator.searchpicturetool.view.fragment;
 import android.view.ViewGroup;
 
 import com.example.administrator.searchpicturetool.R;
+import com.example.administrator.searchpicturetool.config.Constant;
 import com.example.administrator.searchpicturetool.model.bean.NetImage;
 import com.example.administrator.searchpicturetool.presenter.fragmentPresenter.CollectListPresenter;
 import com.example.administrator.searchpicturetool.view.viewHolder.CollectImageListViewHolder;
@@ -19,16 +20,7 @@ import com.jude.utils.JUtils;
 public class CollectFragment extends BeamListFragment<CollectListPresenter,NetImage>{
     @Override
     protected ListConfig getConfig() {
-        return super.getConfig()
-                .setRefreshAble(true)
-                .setNoMoreAble(false)
-                .setLoadmoreAble(false)
-                .setErrorAble(true)
-                .setContainerProgressAble(false)
-                .setContainerErrorAble(true)
-                .setContainerErrorRes(R.layout.view_net_error)
-                .setContainerProgressRes(R.layout.page_progress)
-                .setLoadMoreRes(R.layout.page_loadmore);
+        return Constant.getUnloadMoreConfig();
     }
 
     @Override

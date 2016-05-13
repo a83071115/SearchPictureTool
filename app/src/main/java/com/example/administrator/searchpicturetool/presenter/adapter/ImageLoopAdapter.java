@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import com.example.administrator.searchpicturetool.R;
 import com.example.administrator.searchpicturetool.model.bean.Banner;
+import com.example.administrator.searchpicturetool.model.bean.NewBanner;
 import com.example.administrator.searchpicturetool.view.activity.SearchActivity;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.jude.rollviewpager.RollPagerView;
@@ -22,7 +23,7 @@ import java.util.List;
  * Created by wenhuaijun on 2016/2/6 0006.
  */
 public class ImageLoopAdapter extends DynamicPagerAdapter{
-    private List<Banner> banners;
+    private List<NewBanner> banners;
     public ImageLoopAdapter() {
 
     }
@@ -58,7 +59,7 @@ public class ImageLoopAdapter extends DynamicPagerAdapter{
 
     }
 
-    public void setBanners(List<Banner> banners) {
+    public void setBanners(List<NewBanner> banners) {
         this.banners = banners;
     }
 

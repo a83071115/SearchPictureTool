@@ -19,7 +19,7 @@ public class ActivityDelegate extends ActivityLifeCycleDelegate{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         PushAgent.getInstance(getActivity()).onAppStart();
-        APP.getInstance().mRefWatcher.watch(getActivity());
+      //  APP.getInstance().mRefWatcher.watch(getActivity());
     }
 
     @Override

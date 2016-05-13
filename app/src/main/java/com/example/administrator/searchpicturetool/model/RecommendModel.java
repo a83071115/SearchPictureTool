@@ -1,6 +1,8 @@
 package com.example.administrator.searchpicturetool.model;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 
 import com.example.administrator.searchpicturetool.db.DBManager;
 import com.example.administrator.searchpicturetool.model.bean.NewRecommendContent;
@@ -17,16 +19,60 @@ import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.listener.FindListener;
 import rx.Observable;
 import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by wenhuaijun on 2016/2/12 0012.
  * 目前给推荐列表提供测试数据
  */
 public class RecommendModel {
-
-    public static Observable<List<NewRecommendContent>> getRecommendsFromNet(final Context context){
+    public static Observable<List<NewRecommendContent>> getRecommendsFromDB(final Context context){
         return Observable.create(new Observable.OnSubscribe<List<NewRecommendContent>>() {
+            @Override
+            public void call(Subscriber<? super List<NewRecommendContent>> subscriber) {
+                JUtils.Log("call Thead: "+Thread.currentThread().toString());
+                subscriber.onNext(DBManager.getInstance(context).getRecomendContentfromDB()); ;
+            }
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
+    public static void getRecommendsFromNet(final Context context,Subscriber<List<NewRecommendContent>> subscriber){
+
+        BmobQuery<NewRecommendContent> queryContent = new BmobQuery<>();
+        queryContent.findObjects(context, new FindListener<NewRecommendContent>() {
+
+            @Override
+            public void onSuccess(final List<NewRecommendContent> newRecommendContents) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Handler handler = new Handler(Looper.getMainLooper());
+                        DBManager.getInstance(context).deleteAllRecommendContents();
+                        DBManager.getInstance(context).addAllRecomendContents(newRecommendContents);
+                        List<NewRecommendContent>  recommendContents =DBManager.getInstance(context).getRandomRecomendFromDB();
+                        Collections.sort(recommendContents, new RecommendComparator());
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                subscriber.onNext(recommendContents);
+                            }
+                        });
+                        DBManager.getInstance(context).deleteAllRecommendContents();
+                        DBManager.getInstance(context).addAllRecomendContents(recommendContents);
+                    }
+                }).start();
+
+
+            }
+
+            @Override
+            public void onError(int i, String s) {
+                subscriber.onError(new Throwable(i + " " + s));
+            }
+
+        });
+      /*  return Observable.create(new Observable.OnSubscribe<List<NewRecommendContent>>() {
             @Override
             public void call(Subscriber<? super List<NewRecommendContent>> subscriber) {
                 JUtils.Log("-----call--");
@@ -34,7 +80,6 @@ public class RecommendModel {
                 queryContent.findObjects(context, new FindListener<NewRecommendContent>() {
                     @Override
                     public void onSuccess(List<NewRecommendContent> newRecommendContents) {
-                        JUtils.Log("-----call--onSuccess");
                         DBManager.getInstance(context).deleteAllRecommendContents();
                         DBManager.getInstance(context).addAllRecomendContents(newRecommendContents);
                         newRecommendContents =DBManager.getInstance(context).getRandomRecomendFromDB();
@@ -61,7 +106,7 @@ public class RecommendModel {
                 DBManager.getInstance(context).addAllRecomendContents(newRecommendContents);
                 JUtils.Log("doOnNext---finish");
             }
-        });
+        });*/
     }
     /*public static Observable<List<Object>> getRecommends2(final Context context){
         return Observable.create(subscriber1 -> {

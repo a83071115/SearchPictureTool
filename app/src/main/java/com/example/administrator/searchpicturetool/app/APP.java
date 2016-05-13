@@ -6,8 +6,6 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.jude.beam.Beam;
 import com.jude.utils.JFileManager;
 import com.jude.utils.JUtils;
-import com.squareup.leakcanary.LeakCanary;
-import com.squareup.leakcanary.RefWatcher;
 
 import cn.bmob.v3.Bmob;
 
@@ -20,7 +18,7 @@ public class APP extends Application{
         return instance;
     }
 
-    public RefWatcher mRefWatcher;
+   // public RefWatcher mRefWatcher;
 
     @Override
     public void onCreate() {
@@ -29,7 +27,7 @@ public class APP extends Application{
         Beam.init(this);
         Beam.setActivityLifeCycleDelegateProvider(ActivityDelegate::new);
         Fresco.initialize(this);
-        mRefWatcher = LeakCanary.install(this);
+     //   mRefWatcher = LeakCanary.install(this);
       /*  RequestManager.getInstance().init(this);
         RequestManager.getInstance().setDebugMode(true, "heheda");*/
         Bmob.initialize(this,"633edd745d4d8630d88c73a16440cb9a");

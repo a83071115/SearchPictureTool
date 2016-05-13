@@ -2,6 +2,7 @@ package com.example.administrator.searchpicturetool.view.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -9,6 +10,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -16,6 +19,7 @@ import com.example.administrator.searchpicturetool.R;
 import com.example.administrator.searchpicturetool.library.imageLoader.EasyImageLoader;
 import com.example.administrator.searchpicturetool.presenter.activitPresenter.SearchActivityPresenter;
 import com.example.administrator.searchpicturetool.view.fragment.SearchFragment;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.jude.beam.bijection.RequiresPresenter;
 import com.jude.beam.expansion.BeamBaseActivity;
 import com.jude.utils.JUtils;
@@ -30,7 +34,7 @@ import butterknife.OnClick;
     @RequiresPresenter(SearchActivityPresenter.class)
 public class SearchActivity extends BeamBaseActivity<SearchActivityPresenter>{
     @BindView(R.id.bg_img)
-    ImageView imageView;
+    SimpleDraweeView imageView;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.collapsingToolbarLayout)
@@ -40,6 +44,7 @@ public class SearchActivity extends BeamBaseActivity<SearchActivityPresenter>{
     @BindView(R.id.appbar)
     AppBarLayout appBarLayout;
     FragmentManager manager;
+    MenuItem item;
     private SearchFragment searchFragment;
     private String imagUrl;
     @Override
@@ -51,14 +56,15 @@ public class SearchActivity extends BeamBaseActivity<SearchActivityPresenter>{
         collapsingToolbarLayout.setTitle(getIntent().getBundleExtra("search").getString("search"));
         imagUrl =getIntent().getBundleExtra("search").getString("imagUrl");
         if (TextUtils.isEmpty(imagUrl)){
-            imageView.setImageResource(getPresenter().getBgImg());
+            imageView.setBackgroundResource(getPresenter().getBgImg());
         }else{
-            EasyImageLoader.getInstance(this).getBitmap(imagUrl, new EasyImageLoader.BitmapCallback() {
+            imageView.setImageURI(Uri.parse(imagUrl));
+           /* EasyImageLoader.getInstance(this).getBitmap(imagUrl, new EasyImageLoader.BitmapCallback() {
                 @Override
                 public void onResponse(Bitmap bitmap) {
                     imageView.setImageBitmap(bitmap);
                 }
-            });
+            });*/
         }
 
         manager =getSupportFragmentManager();
@@ -68,6 +74,24 @@ public class SearchActivity extends BeamBaseActivity<SearchActivityPresenter>{
         initAppBarSetting();
 
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.searchactivity_menu, menu);
+        item = menu.findItem(R.id.action_search);
+        item.setVisible(false);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+       /* int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            return true;
+        }*/
+
+        return super.onOptionsItemSelected(item);
+    }
+
     public void initAppBarSetting(){
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
@@ -75,8 +99,12 @@ public class SearchActivity extends BeamBaseActivity<SearchActivityPresenter>{
                 JUtils.Log("i:"+i);
                 if (i == 0) {
                     fab.hide();
-                } else {
+                    if(item!=null){
+                        item.setVisible(false);
+                    }
+                } else if(i==-500) {
                     fab.show();
+                    item.setVisible(true);
                 }
             }
         });

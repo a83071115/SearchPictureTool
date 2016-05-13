@@ -15,7 +15,7 @@ public class NewRecommendContent extends BmobObject{
     private String content;
     private boolean justType;
 
-    public double getType() {
+    public float getType() {
         return type;
     }
 

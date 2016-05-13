@@ -3,10 +3,9 @@ package com.example.administrator.searchpicturetool.model.bean;
 import cn.bmob.v3.BmobObject;
 
 /**
- * Created by wenhuaijun on 2016/2/15 0015.
+ * Created by Administrator on 2016/5/13 0013.
  */
-@Deprecated
-public class Banner extends BmobObject{
+public class NewBanner extends BmobObject{
     private String introduce;
     private String searchTip;
     private String imageUrl;
@@ -33,5 +32,10 @@ public class Banner extends BmobObject{
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    @Override
+    public String toString() {
+        return searchTip;
     }
 }

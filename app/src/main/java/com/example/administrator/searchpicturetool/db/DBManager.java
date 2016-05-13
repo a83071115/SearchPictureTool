@@ -107,9 +107,9 @@ public class DBManager {
                 NewRecommendContent img = new NewRecommendContent();
                 img.setType(cursor.getFloat(cursor.getColumnIndex("type")));
                 img.setTip(cursor.getString(cursor.getColumnIndex("tip")));
-                img.setImageUrl(cursor.getString(cursor.getColumnIndex("imageUrl")));
-                img.setTitle(cursor.getString(cursor.getColumnIndex("title")));
-                img.setContent(cursor.getString(cursor.getColumnIndex("content")));
+               // img.setImageUrl(cursor.getString(cursor.getColumnIndex("imageUrl")));
+                //img.setTitle(cursor.getString(cursor.getColumnIndex("title")));
+                //img.setContent(cursor.getString(cursor.getColumnIndex("content")));
                 if(cursor.getInt(cursor.getColumnIndex("justType"))==1){
                     img.setJustType(true);
                 }else{

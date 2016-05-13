@@ -10,12 +10,14 @@ import com.example.administrator.searchpicturetool.R;
 import com.example.administrator.searchpicturetool.app.APP;
 import com.example.administrator.searchpicturetool.model.BannerModel;
 import com.example.administrator.searchpicturetool.model.bean.Banner;
+import com.example.administrator.searchpicturetool.model.bean.NewBanner;
 import com.example.administrator.searchpicturetool.presenter.adapter.ImageLoopAdapter;
 import com.example.administrator.searchpicturetool.widght.BannerTextHintView;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
 import com.jude.easyrecyclerview.swipe.SwipeRefreshLayout;
 import com.jude.rollviewpager.RollPagerView;
 import com.jude.utils.JFileManager;
+import com.jude.utils.JUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +32,7 @@ public class RollViewPagerItemView implements RecyclerArrayAdapter.ItemView{
     ImageLoopAdapter adapter;
     SwipeRefreshLayout swipeRefreshLayout;
     Context context;
-    List<Banner> banners;
+    List<NewBanner> banners;
     JFileManager.Folder folder;
     public RollViewPagerItemView(SwipeRefreshLayout swipeRefreshLayout) {
         this.swipeRefreshLayout =swipeRefreshLayout;
@@ -38,7 +40,7 @@ public class RollViewPagerItemView implements RecyclerArrayAdapter.ItemView{
 
     @Override
     public View onCreateView(ViewGroup parent) {
-        adapter = new ImageLoopAdapter();
+      //  adapter = new ImageLoopAdapter();
         context =parent.getContext();
         folder = JFileManager.getInstance().getFolder(APP.Dir.Object);
        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.include_viewpager,parent,false);
@@ -60,7 +62,7 @@ public class RollViewPagerItemView implements RecyclerArrayAdapter.ItemView{
             }
         });
 
-        rollPagerView.setAdapter(adapter);
+//        rollPagerView.setAdapter(adapter);
       //  rollPagerView.getViewPager().setOnClickListener(this);
         setData();
         return view;
@@ -68,7 +70,7 @@ public class RollViewPagerItemView implements RecyclerArrayAdapter.ItemView{
     public void setData(){
         //加载缓存数据
         getBannerFromCache();
-        BannerModel.getBanners(context, new Subscriber<List<Banner>>() {
+        BannerModel.getBanners(context, new Subscriber<List<NewBanner>>() {
             @Override
             public void onCompleted() {
 
@@ -80,11 +82,13 @@ public class RollViewPagerItemView implements RecyclerArrayAdapter.ItemView{
             }
 
             @Override
-            public void onNext(final List<Banner> banners) {
+            public void onNext(final List<NewBanner> banners) {
                 folder.writeObjectToFile(banners, "banner");
-                RollViewPagerItemView.this.banners =banners;
-                rollPagerView.setHintView(new BannerTextHintView(context, banners));
+                RollViewPagerItemView.this.banners = banners;
+                adapter = new ImageLoopAdapter();
                 adapter.setBanners(banners);
+                rollPagerView.setHintView(new BannerTextHintView(context, banners));
+                rollPagerView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
                 //rollPagerView.setHintView(new BannerTextHintView(context, banners));
 
@@ -98,10 +102,12 @@ public class RollViewPagerItemView implements RecyclerArrayAdapter.ItemView{
 
     }
     public void getBannerFromCache(){
-        banners =(ArrayList<Banner>)folder.readObjectFromFile("banner");
+        banners =(ArrayList<NewBanner>)folder.readObjectFromFile("banner");
         if(banners!=null&&banners.size()!=0){
+            adapter = new ImageLoopAdapter();
             adapter.setBanners(banners);
             rollPagerView.setHintView(new BannerTextHintView(context, banners));
+            rollPagerView.setAdapter(adapter);
             adapter.notifyDataSetChanged();
         }
     }

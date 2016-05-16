@@ -16,7 +16,7 @@ public class Utils {
                 .equals(android.os.Environment.MEDIA_MOUNTED); //判断sd卡是否存在
         if (sdCardExist)
         {
-            sdDir = Environment.getExternalStorageDirectory();//获取跟目录
+            sdDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);//获取图片目录
         }else {
             sdDir =  APP.getInstance().getFilesDir();
         }

@@ -142,7 +142,8 @@ public class ShowLargeImgActivityPresenter extends Presenter<ShowLargeImgActivit
         public void call(String path) {
             if(!path.equals(API.status.error)){
                 if(state==0) {
-                    JUtils.Toast("下载图片成功，已下载到SdCard的MyPictures目录里");
+                    JUtils.Log("path: "+path);
+                    JUtils.Toast("下载图片成功，已下载到目录为 "+path+"里");
                     //保存到数据库
                     SqlModel.addDownloadImg(getView(),netImages.get(currentPosition),path);
                 }

@@ -40,10 +40,12 @@ public class RecommendModel {
     public static void getRecommendsFromNet(final Context context,Subscriber<List<NewRecommendContent>> subscriber){
 
         BmobQuery<NewRecommendContent> queryContent = new BmobQuery<>();
+        queryContent.setLimit(100);
         queryContent.findObjects(context, new FindListener<NewRecommendContent>() {
 
             @Override
             public void onSuccess(final List<NewRecommendContent> newRecommendContents) {
+                JUtils.Log("newRecommendContents length: "+newRecommendContents.size());
                 new Thread(new Runnable() {
                     @Override
                     public void run() {

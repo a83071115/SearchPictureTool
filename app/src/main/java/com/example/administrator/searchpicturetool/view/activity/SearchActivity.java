@@ -8,15 +8,15 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.example.administrator.searchpicturetool.R;
-import com.example.administrator.searchpicturetool.library.imageLoader.EasyImageLoader;
 import com.example.administrator.searchpicturetool.presenter.activitPresenter.SearchActivityPresenter;
 import com.example.administrator.searchpicturetool.view.fragment.SearchFragment;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -33,6 +33,8 @@ import butterknife.OnClick;
  */
     @RequiresPresenter(SearchActivityPresenter.class)
 public class SearchActivity extends BeamBaseActivity<SearchActivityPresenter>{
+    @BindView(R.id.searchView)
+    SearchView searchView;
     @BindView(R.id.bg_img)
     SimpleDraweeView imageView;
     @BindView(R.id.toolbar)
@@ -48,33 +50,28 @@ public class SearchActivity extends BeamBaseActivity<SearchActivityPresenter>{
     private int maxScrollHeight =0;
     private SearchFragment searchFragment;
     private String imagUrl;
+    private String searchWord;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
          ButterKnife.bind(this);
         onSetToolbar(toolbar);
-        maxScrollHeight =-JUtils.dip2px(200);
-        JUtils.Log("dip2px: " + JUtils.dip2px(200));
-        collapsingToolbarLayout.setTitle(getIntent().getBundleExtra("search").getString("search"));
+        maxScrollHeight =JUtils.dip2px(200);
+        searchWord = getIntent().getBundleExtra("search").getString("search");
+        collapsingToolbarLayout.setTitle(searchWord);
         imagUrl =getIntent().getBundleExtra("search").getString("imagUrl");
         if (TextUtils.isEmpty(imagUrl)){
             imageView.setBackgroundResource(getPresenter().getBgImg());
         }else{
             imageView.setImageURI(Uri.parse(imagUrl));
-           /* EasyImageLoader.getInstance(this).getBitmap(imagUrl, new EasyImageLoader.BitmapCallback() {
-                @Override
-                public void onResponse(Bitmap bitmap) {
-                    imageView.setImageBitmap(bitmap);
-                }
-            });*/
         }
-
         manager =getSupportFragmentManager();
-       searchFragment = new SearchFragment();
+        searchFragment = new SearchFragment();
         searchFragment.setArguments(getIntent().getBundleExtra("search"));
         manager.beginTransaction().replace(R.id.search_container,searchFragment).commit();
         initAppBarSetting();
+        initSearchView();
 
     }
     @Override
@@ -91,27 +88,65 @@ public class SearchActivity extends BeamBaseActivity<SearchActivityPresenter>{
         if (id == R.id.action_settings) {
             return true;
         }*/
+        switch (item.getItemId()){
+            case R.id.action_search:
+                if(!searchView.isShown()){
+                    searchView.setVisibility(View.VISIBLE);
+                    searchView.onActionViewExpanded();
+                    searchView.requestFocus();
+                    searchView.setQuery(searchWord, false);
+                }else{
 
-        return super.onOptionsItemSelected(item);
+                    if(searchView.getQuery().toString().equals("")){
+                        searchView.setVisibility(View.GONE);
+                        searchView.onActionViewCollapsed();
+                       // collapsingToolbarLayout.requestFocus();
+                    }else{
+                        searchView.setQuery(searchView.getQuery(), true);
+                    }
+                }
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     public void initAppBarSetting(){
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
-                JUtils.Log("i:" + i);
-                if (i == 0) {
+                if (i >= (-maxScrollHeight+200)&&fab.isShown()) {
                     fab.hide();
                     if (item != null) {
                         item.setVisible(false);
                     }
-                } else if (i == maxScrollHeight) {
+                } else if (i <= (-maxScrollHeight+200)&&!fab.isShown()) {
                     fab.show();
                     item.setVisible(true);
                 }
             }
         });
     }
+    private void initSearchView() {
+        searchView.setOnQueryTextListener(new android.support.v7.widget.SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                searchView.onActionViewCollapsed();
+                searchWord = query;
+                searchPicture(searchWord);
+                searchView.setVisibility(View.GONE);
+                collapsingToolbarLayout.setTitle(searchWord);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+    }
+
     @OnClick(R.id.search_fab)
     public void clickFab(View view){
         getPresenter().gotoUp(0);
@@ -126,8 +161,32 @@ public class SearchActivity extends BeamBaseActivity<SearchActivityPresenter>{
 
         }
     }
+    private void searchPicture(String query){
+        searchFragment = new SearchFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("search",query);
+        searchFragment.setArguments(bundle);
+        manager.beginTransaction().replace(R.id.search_container,searchFragment).commit();
+    }
 
     public SearchFragment getSearchFragment() {
         return searchFragment;
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        switch (keyCode){
+            case KeyEvent.KEYCODE_BACK:
+                if(searchView.isShown()){
+                    searchView.setVisibility(View.GONE);
+                    searchView.onActionViewCollapsed();
+                    return true;
+                }else{
+                    return super.onKeyDown(keyCode, event);
+                }
+            default:
+                return super.onKeyDown(keyCode, event);
+        }
+
     }
 }

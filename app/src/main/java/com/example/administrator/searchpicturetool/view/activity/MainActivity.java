@@ -105,9 +105,9 @@ public class MainActivity extends BeamBaseActivity<MainActivityPresenter> implem
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
                 MainActivity.this.getPresenter().stopRefresh(i);
-                if(i!=0){
+                if(i==0&&fab.isShown()){
                     fab.hide();
-                }else{
+                }else if(i!=0&&!fab.isShown()){
                     fab.show();
                 }
             }

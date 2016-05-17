@@ -57,30 +57,6 @@ public class SerachFragmentListPresenter extends BeamListFragmentPresenter<Searc
                 })
                 .unsafeSubscribe(getRefreshSubscriber());
     }
-       /* GetImagelistModel.getImageList(tab, 0).subscribe(new Observer<NetImage[]>() {
-            @Override
-            public void onCompleted() {
-                JUtils.Log("onCompleted");
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                JUtils.Log("onError");
-                if (getAdapter().getCount() == 0) {
-                    getRefreshSubscriber().onError(e);
-                }
-            }
-
-            @Override
-            public void onNext(NetImage[] imgs) {
-                netImages.clear();
-                netImages.addAll(Arrays.asList(imgs));
-                getRefreshSubscriber().onNext(netImages);
-                page+=imgs.length;
-                getAdapter().setOnItemClickListener(SerachFragmentListPresenter.this);
-            }
-        });
-    }*/
 
     @Override
     public void onLoadMore() {
@@ -94,23 +70,6 @@ public class SerachFragmentListPresenter extends BeamListFragmentPresenter<Searc
                     }
                 })
                 .unsafeSubscribe(getMoreSubscriber());
-      /*  GetImagelistModel.getImageList(tab,page).subscribe(new Subscriber<NetImage[]>() {
-            @Override
-            public void onCompleted() {
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                getMoreSubscriber().onError(e);
-            }
-
-            @Override
-            public void onNext(NetImage[] imgs) {
-                netImages.addAll(Arrays.asList(imgs));
-                getMoreSubscriber().onNext(Arrays.asList(imgs));
-                page+=imgs.length;
-            }
-        });*/
     }
 
     @Override

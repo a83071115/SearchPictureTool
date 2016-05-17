@@ -45,6 +45,7 @@ public class SearchActivity extends BeamBaseActivity<SearchActivityPresenter>{
     AppBarLayout appBarLayout;
     FragmentManager manager;
     MenuItem item;
+    private int maxScrollHeight =0;
     private SearchFragment searchFragment;
     private String imagUrl;
     @Override
@@ -53,6 +54,8 @@ public class SearchActivity extends BeamBaseActivity<SearchActivityPresenter>{
         setContentView(R.layout.activity_search);
          ButterKnife.bind(this);
         onSetToolbar(toolbar);
+        maxScrollHeight =-JUtils.dip2px(200);
+        JUtils.Log("dip2px: " + JUtils.dip2px(200));
         collapsingToolbarLayout.setTitle(getIntent().getBundleExtra("search").getString("search"));
         imagUrl =getIntent().getBundleExtra("search").getString("imagUrl");
         if (TextUtils.isEmpty(imagUrl)){
@@ -96,13 +99,13 @@ public class SearchActivity extends BeamBaseActivity<SearchActivityPresenter>{
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
-                JUtils.Log("i:"+i);
+                JUtils.Log("i:" + i);
                 if (i == 0) {
                     fab.hide();
-                    if(item!=null){
+                    if (item != null) {
                         item.setVisible(false);
                     }
-                } else if(i==-500) {
+                } else if (i == maxScrollHeight) {
                     fab.show();
                     item.setVisible(true);
                 }

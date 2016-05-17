@@ -1,13 +1,20 @@
 package com.example.administrator.searchpicturetool.presenter.activitPresenter;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 
 import com.example.administrator.searchpicturetool.app.APP;
 import com.example.administrator.searchpicturetool.config.API;
+import com.example.administrator.searchpicturetool.library.imageLoader.EasyImageLoader;
 import com.example.administrator.searchpicturetool.model.SaveBitmapModel;
 import com.example.administrator.searchpicturetool.model.SqlModel;
 import com.example.administrator.searchpicturetool.model.WrapperModel;
@@ -115,11 +122,23 @@ public class ShowLargeImgActivityPresenter extends Presenter<ShowLargeImgActivit
     }
 
     public void downloadBitmap( final Context context, String url){
-        SaveBitmapModel.getFrescoDownloadBitmap(context, url).subscribe(new BaseBitmapDataSubscriber() {
-            @Override
-            protected void onNewResultImpl(final Bitmap bitmap) {
+        EasyImageLoader.getInstance(context).getBitmap(url, bitmap -> {
+            if (bitmap!=null){
                 if(state==0||state==1){
-                    SaveBitmapModel.getSaveBitmapObservable(bitmap).subscribe(saveSubscriber);
+                    //判断是否是Android 6.0以上，需动态获取权限
+                    if(Build.VERSION.SDK_INT >=23){
+                        //查看是否获取了写权限
+                        int hasWritePermission = ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                        if(hasWritePermission != PackageManager.PERMISSION_GRANTED){
+                            //未获取到权限，申请权限
+                            ActivityCompat.requestPermissions(getView(),new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},200);
+                        }else{
+                            //已获取到权限
+                            SaveBitmapModel.getSaveBitmapObservable(bitmap).subscribe(saveSubscriber);
+                        }
+                    }else{
+                        SaveBitmapModel.getSaveBitmapObservable(bitmap).subscribe(saveSubscriber);
+                    }
                 }else if (state==3){
                     //设置桌面壁纸
                     WrapperModel.getSetWallWrapperObservable(bitmap, context).subscribe(callbackSubscriber);
@@ -128,22 +147,31 @@ public class ShowLargeImgActivityPresenter extends Presenter<ShowLargeImgActivit
                     //设置锁屏壁纸
                     WrapperModel.getSetLockWrapperObservable(bitmap,context).subscribe(callbackSubscriber);
                 }
+            }else{
+                JUtils.Toast("下载图片失败");
+            }
+        });
+       /* SaveBitmapModel.getFrescoDownloadBitmap(context, url).subscribe(new BaseBitmapDataSubscriber() {
+            @Override
+            protected void onNewResultImpl(final Bitmap bitmap) {
+
             }
             @Override
             protected void onFailureImpl(DataSource<CloseableReference<CloseableImage>> dataSource) {
                 JUtils.Toast("操作失败！");
             }
-        }, CallerThreadExecutor.getInstance());
+        }, CallerThreadExecutor.getInstance());*/
 
     }
     //保存图片后的观察者
     Action1<String> saveSubscriber = new Action1<String>() {
         @Override
         public void call(String path) {
-            if(!path.equals(API.status.error)){
+
+            if(!path.equals(API.status.error+"")){
                 if(state==0) {
                     JUtils.Log("path: "+path);
-                    JUtils.Toast("下载图片成功，已下载到目录为 "+path+"里");
+                    JUtils.ToastLong("图片已下载到文件为 "+path+"上");
                     //保存到数据库
                     SqlModel.addDownloadImg(getView(),netImages.get(currentPosition),path);
                 }
@@ -152,7 +180,7 @@ public class ShowLargeImgActivityPresenter extends Presenter<ShowLargeImgActivit
                     Utils.startShareImg(path,getView());
                 }
             }else{
-                JUtils.Toast("未知错误");
+                JUtils.Toast("未获取到读写sd卡权限！无法保存图片");
             }
         }
     };

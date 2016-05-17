@@ -58,7 +58,7 @@ public class SaveBitmapModel {
                          File file = new File(API.imgPath);
                          if (!file.exists()) {
                              JUtils.Log("!file.exists()");
-                             file.mkdir();
+                             file.mkdirs();
                          }
                          file = new File(API.imgPath + name);
                          try {

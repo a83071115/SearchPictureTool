@@ -1,5 +1,6 @@
 package com.example.administrator.searchpicturetool.view.activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
@@ -190,5 +191,24 @@ public class ShowLargeImgActivity extends BeamBaseActivity<ShowLargeImgActivityP
     @Override
     public void onClick(View v) {
         this.finish();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+
+        switch (requestCode){
+            case 200:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // Permission Granted
+                    getPresenter().savePicture();
+                } else {
+                    // Permission Denied
+                    JUtils.Toast("未获取到读写sd卡权限，无法保存图片");
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+                break;
+        }
     }
 }

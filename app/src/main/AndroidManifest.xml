@@ -13,7 +13,7 @@
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.GET_TASKS" />
+    <!--<uses-permission android:name="android.permission.GET_TASKS" />-->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
@@ -72,7 +72,9 @@
 
         <!--response-->
         <activity
-            android:name="com.umeng.fb.ConversationActivity"/>
+            android:name="com.umeng.fb.ConversationActivity"
+            android:label="意见反馈"
+            />
         <!--response-->
         <service
             android:name="com.umeng.update.net.DownloadingService"

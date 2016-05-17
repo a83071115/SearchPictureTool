@@ -49,7 +49,7 @@ public class EasyImageLoader {
 
     public void bindBitmap(final String uri,final ImageView imageView,final int reqWidth,final int reqHeight){
         //设置加载loadding图片
-        imageView.setImageResource(R.drawable.ic_loading);
+        imageView.setImageResource(R.drawable.ic_loading2);
         //防止加载图片的时候数据错乱
        // imageView.setTag(TAG_KEY_URI, uri);
         imageView.setTag(uri);

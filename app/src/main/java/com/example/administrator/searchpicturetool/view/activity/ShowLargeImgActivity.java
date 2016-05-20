@@ -58,7 +58,7 @@ public class ShowLargeImgActivity extends BeamBaseActivity<ShowLargeImgActivityP
         onSetToolbar(toolbar);
         hasCollected = getIntent().getBooleanExtra("hasCollected", false);
         if(hasCollected){
-            star.setImageResource(R.drawable.ic_large_delete);
+            star.setImageResource(R.drawable.ic_large_delete_selector);
         }
         fragmentManager = getSupportFragmentManager();
         viewPager.setOnClickListener(this);

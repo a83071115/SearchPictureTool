@@ -2,6 +2,7 @@ package com.example.administrator.searchpicturetool.presenter.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.v4.view.PagerAdapter;
@@ -60,19 +61,8 @@ public class ShowDownloadLargeImgAdapter extends PagerAdapter implements View.On
          View view = inflater.inflate(R.layout.item_large_img, null);
         pinchImageView = (PinchImageView) view.findViewById(R.id.photoView);
         pinchImageView.setOnClickListener(this);
-        mLayoutParams = pinchImageView.getLayoutParams();
-        if(downloadImgs.get(position).getHeight()<=downloadImgs.get(position).getWidth()*2){
-            float mHeight = ((float) (downloadImgs.get(position).getHeight()) / ((float) (downloadImgs.get(position).getWidth()))) * screenWidth;
-            mLayoutParams.width = screenWidth;
-            mLayoutParams.height = (int)mHeight;
-        }else{
-            float mWidth =((float) (downloadImgs.get(position).getWidth()) / ((float) (downloadImgs.get(position).getHeight()))) * screenHeight;
-            mLayoutParams.height = screenHeight;
-            mLayoutParams.width = (int)mWidth;
-        }
-        pinchImageView.setLayoutParams(mLayoutParams);
-        pinchImageView.setImageURI(Uri.fromFile(new File(downloadImgs.get(position).getName())));
-     //   simpleDraweeView.setImageBitmap(BitmapFactory.decodeFile(downloadImgs.get(position).getName()));
+        //加载图片
+        pinchImageView.setImageBitmap(BitmapFactory.decodeFile(downloadImgs.get(position).getName()));
         container.addView(view);
         return  view;
     }

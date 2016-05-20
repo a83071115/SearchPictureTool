@@ -27,12 +27,13 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by wenhuaijun on 2015/11/13 0013.
  */
 @RequiresPresenter(ShowDownlargeImgPresenter.class)
-public class ShowDownloadImgActivity extends BeamBaseActivity<ShowDownlargeImgPresenter> implements OnMenuItemClickListener {
+public class ShowDownloadImgActivity extends BeamBaseActivity<ShowDownlargeImgPresenter> implements View.OnClickListener{
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.large_page)
@@ -45,43 +46,36 @@ public class ShowDownloadImgActivity extends BeamBaseActivity<ShowDownlargeImgPr
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_show_large_img);
+        setContentView(R.layout.activity_download_large_img);
         ButterKnife.bind(this);
-        toolbar.setTitle("");
+        //toolbar.setTitle("");
         fragmentManager = getSupportFragmentManager();
-        initMenuFragment();
+      //  initMenuFragment();
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.show_menu, menu);
+        inflater.inflate(R.menu.large_img_menu, menu);
         return true;
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.context_menu:
-                if (fragmentManager.findFragmentByTag(ContextMenuDialogFragment.TAG) == null) {
+            case R.id.action_cut:
+                JUtils.Toast("该功能在下一个版本中开发，敬请期待");
+              /*  if (fragmentManager.findFragmentByTag(ContextMenuDialogFragment.TAG) == null) {
                     mMenuDialogFragment.show(fragmentManager, ContextMenuDialogFragment.TAG);
-                }
-                break;
+                }*/
+                return true;
+            case R.id.action_wrapper:
+                getPresenter().setWallWrapper();
+
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onBackPressed() {
-        if (mMenuDialogFragment != null && mMenuDialogFragment.isAdded()) {
-            mMenuDialogFragment.dismiss();
-        } else {
-        //    setResult(200,new Intent().putExtra("position",getPresenter().getPosition()));
-            super.onBackPressed();
-
-        }
-    }
-
-
-    private void initMenuFragment() {
+   /* private void initMenuFragment() {
         MenuParams menuParams = new MenuParams();
         menuParams.setActionBarSize((int) getResources().getDimension(R.dimen.tool_bar_height));
         menuParams.setMenuObjects(getMenuObjects());
@@ -147,6 +141,26 @@ public class ShowDownloadImgActivity extends BeamBaseActivity<ShowDownlargeImgPr
                 getPresenter().deletePicture();
                 break;
         }
+    }*/
+   @Override
+   public void onClick(View v) {
+       this.finish();
+   }
+    @OnClick(R.id.large_share)
+    public void share(){
+        JUtils.Toast("正在分享...");
+        getPresenter().sharePicture();
+    }
+    @OnClick(R.id.large_delete)
+    public void download(){
+
+        JUtils.Toast("已删除");
+        getPresenter().deletePicture();
+    }
+    @OnClick(R.id.large_wrapper)
+      public void setingWraper(){
+        JUtils.Toast("设置桌面壁纸...");
+        getPresenter().setWallWrapper();
     }
     public PinchImageViewPager getViewPager() {
         return viewPager;

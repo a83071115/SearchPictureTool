@@ -54,12 +54,16 @@
              >
         </activity>
         <activity android:name=".view.activity.SearchActivity"/>
-        <activity android:name=".view.activity.ShowLargeImgActivity"/>
+        <activity android:name=".view.activity.ShowLargeImgActivity"
+            android:label=" "
+            />
         <activity
             android:name=".view.activity.UserActivity"
             android:label="我的图片"
             />
-        <activity android:name=".view.activity.ShowDownloadImgActivity"/>
+        <activity android:name=".view.activity.ShowDownloadImgActivity"
+            android:label=" "
+            />
         <activity android:name=".view.activity.SettingActivity"
             android:label="设置"
             />

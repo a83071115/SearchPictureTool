@@ -71,20 +71,13 @@ public class ShowLargeImgActivityPresenter extends Presenter<ShowLargeImgActivit
     }
     public void collectPicture(){
         SqlModel.addCollectImg(getView(),netImages.get(currentPosition));
-        JUtils.Toast("已收藏");
-        /*JFileManager.Folder folder = JFileManager.getInstance().getFolder(APP.Dir.Object);
-        ArrayList<NetImage> mNetImages =(ArrayList<NetImage>)folder.readObjectFromFile("netImages");
-        if (mNetImages==null){
-            mNetImages = new ArrayList<NetImage>();
-        }
-        mNetImages.add(netImages.get(currentPosition));
-        folder.writeObjectToFile(mNetImages, "netImages");*/
 
     }
     public void requestCollectPicture(){
         SqlModel.deleteCollectImgByUrl(getView(),netImages.get(currentPosition).getLargeImg());
         getView().setResult(100);
         getView().finish();
+
     }
 
     public void sharePicture(){
@@ -125,7 +118,7 @@ public class ShowLargeImgActivityPresenter extends Presenter<ShowLargeImgActivit
         EasyImageLoader.getInstance(context).getBitmap(url, bitmap -> {
             if (bitmap!=null){
                 if(state==0||state==1){
-                    //判断是否是Android 6.0以上，需动态获取权限
+                    /*//判断是否是Android 6.0以上，需动态获取权限
                     if(Build.VERSION.SDK_INT >=23){
                         //查看是否获取了写权限
                         int hasWritePermission = ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE);
@@ -136,9 +129,9 @@ public class ShowLargeImgActivityPresenter extends Presenter<ShowLargeImgActivit
                             //已获取到权限
                             SaveBitmapModel.getSaveBitmapObservable(bitmap).subscribe(saveSubscriber);
                         }
-                    }else{
+                    }else{*/
                         SaveBitmapModel.getSaveBitmapObservable(bitmap).subscribe(saveSubscriber);
-                    }
+                    //}
                 }else if (state==3){
                     //设置桌面壁纸
                     WrapperModel.getSetWallWrapperObservable(bitmap, context).subscribe(callbackSubscriber);
@@ -171,7 +164,7 @@ public class ShowLargeImgActivityPresenter extends Presenter<ShowLargeImgActivit
             if(!path.equals(API.status.error+"")){
                 if(state==0) {
                     JUtils.Log("path: "+path);
-                    JUtils.ToastLong("图片已下载到文件为 "+path+"上");
+                    JUtils.ToastLong("图片已保存至："+path);
                     //保存到数据库
                     SqlModel.addDownloadImg(getView(),netImages.get(currentPosition),path);
                 }

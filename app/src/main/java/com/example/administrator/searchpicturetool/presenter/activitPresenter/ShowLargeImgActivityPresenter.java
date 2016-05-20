@@ -67,10 +67,10 @@ public class ShowLargeImgActivityPresenter extends Presenter<ShowLargeImgActivit
     }
     public void savePicture(){
         state=0;
-        downloadBitmap(getView(), netImages.get(currentPosition).getLargeImg());
+        downloadBitmap(getView(), netImages.get(currentPosition).getLargeImg(),netImages.get(currentPosition).getThumbImg());
     }
     public void collectPicture(){
-        SqlModel.addCollectImg(getView(),netImages.get(currentPosition));
+        SqlModel.addCollectImg(getView(), netImages.get(currentPosition));
 
     }
     public void requestCollectPicture(){
@@ -113,8 +113,7 @@ public class ShowLargeImgActivityPresenter extends Presenter<ShowLargeImgActivit
     public int getPosition(){
         return currentPosition;
     }
-
-    public void downloadBitmap( final Context context, String url){
+    public void downloadBitmap(final Context context,String url,String smallUrl){
         EasyImageLoader.getInstance(context).getBitmap(url, bitmap -> {
             if (bitmap!=null){
                 if(state==0||state==1){
@@ -130,8 +129,28 @@ public class ShowLargeImgActivityPresenter extends Presenter<ShowLargeImgActivit
                             SaveBitmapModel.getSaveBitmapObservable(bitmap).subscribe(saveSubscriber);
                         }
                     }else{*/
-                        SaveBitmapModel.getSaveBitmapObservable(bitmap).subscribe(saveSubscriber);
+                    SaveBitmapModel.getSaveBitmapObservable(bitmap).subscribe(saveSubscriber);
                     //}
+                }else if (state==3){
+                    //设置桌面壁纸
+                    WrapperModel.getSetWallWrapperObservable(bitmap, context).subscribe(callbackSubscriber);
+
+                }else if(state==4){
+                    //设置锁屏壁纸
+                    WrapperModel.getSetLockWrapperObservable(bitmap,context).subscribe(callbackSubscriber);
+                }
+            }else{
+                JUtils.Log("高清图下载失败，转去下载缩略图");
+                downloadBitmap(context,smallUrl);
+            }
+        });
+    }
+    public void downloadBitmap( final Context context, String url){
+        EasyImageLoader.getInstance(context).getBitmap(url, bitmap -> {
+            if (bitmap!=null){
+                if(state==0||state==1){
+
+                        SaveBitmapModel.getSaveBitmapObservable(bitmap).subscribe(saveSubscriber);
                 }else if (state==3){
                     //设置桌面壁纸
                     WrapperModel.getSetWallWrapperObservable(bitmap, context).subscribe(callbackSubscriber);
@@ -144,16 +163,6 @@ public class ShowLargeImgActivityPresenter extends Presenter<ShowLargeImgActivit
                 JUtils.Toast("下载图片失败");
             }
         });
-       /* SaveBitmapModel.getFrescoDownloadBitmap(context, url).subscribe(new BaseBitmapDataSubscriber() {
-            @Override
-            protected void onNewResultImpl(final Bitmap bitmap) {
-
-            }
-            @Override
-            protected void onFailureImpl(DataSource<CloseableReference<CloseableImage>> dataSource) {
-                JUtils.Toast("操作失败！");
-            }
-        }, CallerThreadExecutor.getInstance());*/
 
     }
     //保存图片后的观察者

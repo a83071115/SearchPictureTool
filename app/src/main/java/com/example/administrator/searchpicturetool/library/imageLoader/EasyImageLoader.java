@@ -44,10 +44,16 @@ public class EasyImageLoader {
     }
 
     public void bindBitmap(final String url, final ImageView imageView){
-        bindBitmap(url, imageView, 0, 0);
+        bindBitmap(url, imageView, 0, 0,null);
+    }
+    public void bindBitmap(final String url, final ImageView imageView,BindBitmapErrorCallBack errorCallBack){
+        bindBitmap(url, imageView, 0, 0,errorCallBack);
+    }
+    public void bindBitmap(final String url, final ImageView imageView,final int reqWidth,final int reqHeight){
+        bindBitmap(url, imageView, reqWidth, reqWidth,null);
     }
 
-    public void bindBitmap(final String uri,final ImageView imageView,final int reqWidth,final int reqHeight){
+    public void bindBitmap(final String uri,final ImageView imageView,final int reqWidth,final int reqHeight,BindBitmapErrorCallBack errorCallback){
         //设置加载loadding图片
         imageView.setImageResource(R.drawable.ic_loading2);
         //防止加载图片的时候数据错乱
@@ -59,7 +65,7 @@ public class EasyImageLoader {
             imageView.setImageBitmap(bitmap);
             return;
         }
-        LoadBitmapTask loadBitmapTask =new LoadBitmapTask(mContext,mMainHandler,imageView,uri,reqWidth,reqHeight);
+        LoadBitmapTask loadBitmapTask =new LoadBitmapTask(mContext,mMainHandler,imageView,uri,reqWidth,reqHeight,errorCallback);
        //使用线程池去执行Runnable对象
         THREAD_POOL_EXECUTOR.execute(loadBitmapTask);
 
@@ -111,5 +117,8 @@ public class EasyImageLoader {
     }
     public interface BitmapCallback{
        public void onResponse(Bitmap bitmap);
+    }
+    public interface BindBitmapErrorCallBack{
+        public void onError(ImageView imageView);
     }
 }

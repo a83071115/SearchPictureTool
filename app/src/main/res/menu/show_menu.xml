@@ -4,7 +4,6 @@
     <item
         android:id="@+id/context_menu"
         android:title="更多"
-        android:icon="@drawable/ic_style"
         android:orderInCategory="100"
         app:showAsAction="always" />
 </menu>

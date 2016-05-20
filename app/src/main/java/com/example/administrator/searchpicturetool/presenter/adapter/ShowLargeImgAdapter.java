@@ -1,10 +1,13 @@
 package com.example.administrator.searchpicturetool.presenter.adapter;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.support.v4.view.PagerAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.example.administrator.searchpicturetool.R;
 import com.example.administrator.searchpicturetool.library.imageLoader.EasyImageLoader;
@@ -83,7 +86,13 @@ public  class ShowLargeImgAdapter extends PagerAdapter implements View.OnClickLi
         }*/
            // pinchImageView.setImageURI(Uri.parse(netImages.get(position).getLargeImg()));
             //加载图片
-            EasyImageLoader.getInstance(context).bindBitmap(netImages.get(position).getLargeImg(),pinchImageView);
+            EasyImageLoader.getInstance(context).bindBitmap(netImages.get(position).getLargeImg(), pinchImageView, new EasyImageLoader.BindBitmapErrorCallBack() {
+                @Override
+                public void onError(ImageView imgView) {
+                    JUtils.Log("bindBitmap onError");
+                    EasyImageLoader.getInstance(context).bindBitmap(netImages.get(position).getThumbImg(), imgView);
+                }
+            });
             container.addView(view);
             return view;
     }

@@ -11,11 +11,13 @@ public class TaskResult {
         public ImageView imageView;
         public  String uri;
         public Bitmap bitmap;
+        public EasyImageLoader.BindBitmapErrorCallBack errorCallBack;
 
-        public TaskResult(ImageView imageView, String uri ,Bitmap bitmap){
+        public TaskResult(ImageView imageView, String uri ,Bitmap bitmap,EasyImageLoader.BindBitmapErrorCallBack errorCallBack){
             this.imageView =imageView;
             this.uri = uri;
             this.bitmap =bitmap;
+            this.errorCallBack =errorCallBack;
 
         }
 }

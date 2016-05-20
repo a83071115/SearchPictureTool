@@ -28,7 +28,12 @@ public class TaskHandler extends Handler{
             if(result.bitmap!=null){
                 imageView.setImageBitmap(result.bitmap);
             }else {
-                imageView.setImageResource(R.drawable.ic_error);
+                EasyImageLoader.BindBitmapErrorCallBack errorCallBack =result.errorCallBack;
+                if(errorCallBack!=null){
+                    errorCallBack.onError(imageView);
+                }else{
+                    imageView.setImageResource(R.drawable.ic_error);
+                }
             }
 
         }else{

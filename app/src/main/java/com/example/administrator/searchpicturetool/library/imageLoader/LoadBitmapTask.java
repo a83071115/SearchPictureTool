@@ -24,14 +24,16 @@ public class LoadBitmapTask implements Runnable{
     private Handler mMainHandler;
     private ImageView imageView;
     private EasyImageLoader.BitmapCallback callback;
+    EasyImageLoader.BindBitmapErrorCallBack errorCallBack;
 
     //用于Handler处理的构造函数
-    public LoadBitmapTask(Context context,Handler handler,ImageView imageview,String uri,int reqWidth,int reqHeight) {
+    public LoadBitmapTask(Context context,Handler handler,ImageView imageview,String uri,int reqWidth,int reqHeight,EasyImageLoader.BindBitmapErrorCallBack errorCallBack) {
         this.mMainHandler =handler;
         this.uri=uri;
         this.reqHeight =reqHeight;
         this.reqWidth =reqWidth;
         this.imageView =imageview;
+        this.errorCallBack =errorCallBack;
         mContext =context.getApplicationContext();
     }
     //用于回调bitmap的重载构造函数
@@ -48,8 +50,9 @@ public class LoadBitmapTask implements Runnable{
         //从本地或者网络获取bitmap
         final Bitmap bitmap =loadBitmap(uri, reqWidth, reqHeight);
         if(mMainHandler!=null){
-            TaskResult loaderResult = new TaskResult(imageView,uri,bitmap);
+            TaskResult loaderResult = new TaskResult(imageView,uri,bitmap,errorCallBack);
             mMainHandler.obtainMessage(MESSAGE_POST_RESULT,loaderResult).sendToTarget();
+            return;
         }
         if(callback !=null){
             Handler handler = new Handler(Looper.getMainLooper());
@@ -59,7 +62,7 @@ public class LoadBitmapTask implements Runnable{
                     callback.onResponse(bitmap);
                 }
             });
-
+            return ;
         }
 
     }

@@ -13,8 +13,8 @@ android {
         applicationId "com.example.administrator.searchpicturetool"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 5
-        versionName "2.1"
+        versionCode 6
+        versionName "3.0"
         manifestPlaceholders = [
                 UMENG_APPKEY    : props['UMENG_APPKEY'],
                 UMENG_MESSAGE_SECRET : props['UMENG_MESSAGE_SECRET'],

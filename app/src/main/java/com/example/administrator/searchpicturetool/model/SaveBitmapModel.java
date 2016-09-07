@@ -1,6 +1,7 @@
 package com.example.administrator.searchpicturetool.model;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 
@@ -28,22 +29,7 @@ import rx.schedulers.Schedulers;
  * Created by wenhuaijun on 2016/1/22 0022.
  */
 public class SaveBitmapModel {
-    /*public static void downloadBitmap( Context context, String url) {
-        getFrescoDownloadBitmap(context,url).subscribe(new BaseBitmapDataSubscriber() {
-            @Override
-            protected void onNewResultImpl(Bitmap bitmap) {
-                getSaveBitmapObservable(bitmap);
-            }
-
-
-            @Override
-            protected void onFailureImpl(DataSource<CloseableReference<CloseableImage>> dataSource) {
-                JUtils.Toast("下载图片失败");
-            }
-        }, CallerThreadExecutor.getInstance());
-    }*/
-
-    public  static Observable<String> getSaveBitmapObservable(final Bitmap bitmap) {
+    public  static Observable<String> getSaveBitmapObservable(final Bitmap bitmap,Context context) {
         Observable<Bitmap> observable =Observable.create(new Observable.OnSubscribe<Bitmap>() {
             @Override
             public void call(Subscriber<? super Bitmap> subscriber) {
@@ -68,6 +54,9 @@ public class SaveBitmapModel {
                                  bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
                                  fileOutputStream.flush();
                                  fileOutputStream.close();
+                                 //发送广播，让相册更新图片
+                                 context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,Uri.parse("file://"+file.getPath())));
+
                              }
                          } catch (IOException e) {
                              e.printStackTrace();

@@ -104,7 +104,7 @@ public class JoyImageViewHolder extends BaseViewHolder<ImageJoy> implements View
         SaveBitmapModel.getFrescoDownloadBitmap(context, url).subscribe(new BaseBitmapDataSubscriber() {
             @Override
             protected void onNewResultImpl(final Bitmap bitmap) {
-                    SaveBitmapModel.getSaveBitmapObservable(bitmap).subscribe(saveSubscriber);
+                    SaveBitmapModel.getSaveBitmapObservable(bitmap,context).subscribe(saveSubscriber);
             }
             @Override
             protected void onFailureImpl(DataSource<CloseableReference<CloseableImage>> dataSource) {

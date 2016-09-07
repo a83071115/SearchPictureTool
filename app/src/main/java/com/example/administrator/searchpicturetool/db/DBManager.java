@@ -1,8 +1,10 @@
 package com.example.administrator.searchpicturetool.db;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 
 import com.example.administrator.searchpicturetool.config.MySql;
 import com.example.administrator.searchpicturetool.model.bean.DownloadImg;
@@ -62,10 +64,12 @@ public class DBManager {
     /**
      * 批量删除已选中下载的图片
      */
-    public void deleteDownloadPictures(ArrayList<DownloadImg> imgs){
+    public void deleteDownloadPictures(ArrayList<DownloadImg> imgs,Context context){
         db.beginTransaction();
         for(DownloadImg img :imgs){
             new File(img.getName()).delete();
+            //发送广播，让相册更新图片
+            context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + img.getName())));
             db.execSQL("delete from "+MySql.DownloadTable+" where fileName =?",new Object[]{img.getName()});
         }
 

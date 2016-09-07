@@ -5,7 +5,7 @@
     android:background="@android:color/background_dark"
     android:fitsSystemWindows="true"
     app:status_color="@android:color/background_dark"
-
+    app:padding_navigation="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <android.support.v7.widget.Toolbar

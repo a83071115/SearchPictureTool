@@ -81,11 +81,12 @@ public class ShowDownlargeImgPresenter extends Presenter<ShowDownloadImgActivity
     public void deletePicture(){
         final File file = new File(downloadImgs.get(currentPosition).getName());
         if(file.exists()){
-
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     file.delete();
+                    //发送广播，让相册更新图片
+                    getView().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + file.getPath())));
                 }
             }).start();
         }

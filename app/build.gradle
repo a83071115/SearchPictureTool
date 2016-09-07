@@ -13,8 +13,8 @@ android {
         applicationId "com.example.administrator.searchpicturetool"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 6
-        versionName "3.0"
+        versionCode 7
+        versionName "3.1"
         manifestPlaceholders = [
                 UMENG_APPKEY    : props['UMENG_APPKEY'],
                 UMENG_MESSAGE_SECRET : props['UMENG_MESSAGE_SECRET'],
@@ -28,6 +28,7 @@ android {
         share{}
         origin{}
         qq{}
+        build{}
     }
     //应用到每一个flavor
     productFlavors.all { flavor ->

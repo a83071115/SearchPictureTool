@@ -129,7 +129,7 @@ public class ShowLargeImgActivityPresenter extends Presenter<ShowLargeImgActivit
                             SaveBitmapModel.getSaveBitmapObservable(bitmap).subscribe(saveSubscriber);
                         }
                     }else{*/
-                    SaveBitmapModel.getSaveBitmapObservable(bitmap).subscribe(saveSubscriber);
+                    SaveBitmapModel.getSaveBitmapObservable(bitmap,getView()).subscribe(saveSubscriber);
                     //}
                 }else if (state==3){
                     //设置桌面壁纸
@@ -150,7 +150,7 @@ public class ShowLargeImgActivityPresenter extends Presenter<ShowLargeImgActivit
             if (bitmap!=null){
                 if(state==0||state==1){
 
-                        SaveBitmapModel.getSaveBitmapObservable(bitmap).subscribe(saveSubscriber);
+                        SaveBitmapModel.getSaveBitmapObservable(bitmap,getView()).subscribe(saveSubscriber);
                 }else if (state==3){
                     //设置桌面壁纸
                     WrapperModel.getSetWallWrapperObservable(bitmap, context).subscribe(callbackSubscriber);

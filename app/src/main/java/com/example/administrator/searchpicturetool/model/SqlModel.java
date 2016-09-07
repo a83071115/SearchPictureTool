@@ -36,7 +36,7 @@ public class SqlModel {
                     @Override
                     public String call(String s) {
                       //  DBManager manager = new DBManager(context);
-                        DBManager.getInstance(context).deleteDownloadPictures(imgs);
+                        DBManager.getInstance(context).deleteDownloadPictures(imgs,context);
                         return API.status.success+"";
                     }
                 }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());

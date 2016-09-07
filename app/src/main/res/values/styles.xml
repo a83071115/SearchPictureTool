@@ -31,4 +31,18 @@
         <item name="android:background">@drawable/ic_launch</item>
     </style>
 
+    <style name="LineStyle_Shadow_Border_Up">
+        <item name="android:background">#eaebef</item>
+        <item name="android:clickable">true</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1px</item>
+    </style>
+
+    <style name="LineStyle_Shadow_Border_Down">
+        <item name="android:background">@drawable/line_shadow</item>
+        <item name="android:clickable">true</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">6px</item>
+    </style>
+
 </resources>

@@ -60,7 +60,9 @@ public class ShowLargeImgActivityPresenter extends Presenter<ShowLargeImgActivit
         netImages =(ArrayList<NetImage>)view.getIntent().getSerializableExtra("netImages");
         currentPosition =view.getIntent().getIntExtra("position", 0);
         adapter  = new ShowLargeImgAdapter(netImages,getView());
+
         getView().getViewPager().setAdapter(adapter);
+        adapter.setPinchImageViewPager(getView().getViewPager());
         getView().getViewPager().setCurrentItem(currentPosition);
         getView().getViewPager().setOnPageChangeListener(this);
         getView().getPg_tv().setText((currentPosition + 1) + "/" + netImages.size());

@@ -13,6 +13,7 @@
     <color name="bantouming">#e0000000</color>
     <color name="touming">#00000000</color>
     <color name="gray_light">#f3f3f3</color>
+    <color name="page_background">#eeeeee</color>
     <color name="gray">#dedede</color>
     <color name="gray_deep">#9E9E9E</color>
     <color name="window_background">#FFF5F5F5</color>

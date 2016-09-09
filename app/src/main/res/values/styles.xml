@@ -5,9 +5,10 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="android:colorBackground">@color/orange</item>
         <item name="colorAccent">@color/colorAccent</item>
         <!--android底色-->
-        <item name="android:windowBackground">@color/gray_light</item>
+       <!-- <item name="android:windowBackground">@color/gray_light</item>-->
     </style>
     <style name="AppTheme.NoActionBar" parent="AppTheme">
         <item name="windowActionBar">false</item>

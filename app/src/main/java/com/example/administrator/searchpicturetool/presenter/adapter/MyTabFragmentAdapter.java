@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.example.administrator.searchpicturetool.R;
+import com.example.administrator.searchpicturetool.view.fragment.JoyImgFragment;
 import com.example.administrator.searchpicturetool.view.fragment.RecommendFragment;
 import com.example.administrator.searchpicturetool.view.fragment.NetImgFragment;
 
@@ -31,10 +32,10 @@ public class MyTabFragmentAdapter extends FragmentPagerAdapter {
             case 0:
                 fragment = new RecommendFragment();
                 break;
-            /*case 1:
+            case 1:
                 fragment = new JoyImgFragment();
 
-                break;*/
+                break;
             default:
                 fragment = new NetImgFragment();
                 Bundle bundle = new Bundle();

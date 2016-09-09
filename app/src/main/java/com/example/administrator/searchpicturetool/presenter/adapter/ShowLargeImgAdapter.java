@@ -1,7 +1,6 @@
 package com.example.administrator.searchpicturetool.presenter.adapter;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
 import android.support.v4.view.PagerAdapter;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +12,7 @@ import com.example.administrator.searchpicturetool.R;
 import com.example.administrator.searchpicturetool.library.imageLoader.EasyImageLoader;
 import com.example.administrator.searchpicturetool.model.bean.NetImage;
 import com.example.administrator.searchpicturetool.widght.PinchImageView;
+import com.example.administrator.searchpicturetool.widght.PinchImageViewPager;
 import com.jude.utils.JUtils;
 
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ import java.util.ArrayList;
 /**
  * Created by wenhuaijun on 2015/11/8 0008.
  */
-public  class ShowLargeImgAdapter extends PagerAdapter implements View.OnClickListener {
+public class ShowLargeImgAdapter extends PagerAdapter implements View.OnClickListener {
     private PinchImageView pinchImageView;
     private ArrayList<NetImage> netImages;
     private Activity context;
@@ -28,7 +28,9 @@ public  class ShowLargeImgAdapter extends PagerAdapter implements View.OnClickLi
     private int screenHeight;
     private int screenWidth;
     private View view;
+    private int currentPosition =-1;
     ViewGroup.LayoutParams mLayoutParams;
+    private PinchImageViewPager mPinchImageViewPager;
 
     public ShowLargeImgAdapter(ArrayList<NetImage> netImages, Activity context) {
         this.netImages = netImages;
@@ -52,7 +54,7 @@ public  class ShowLargeImgAdapter extends PagerAdapter implements View.OnClickLi
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
         //  super.destroyItem(container, position, object);
-        container.removeView((View)object);
+        container.removeView((View) object);
     }
 
     @Override
@@ -61,44 +63,51 @@ public  class ShowLargeImgAdapter extends PagerAdapter implements View.OnClickLi
 
         pinchImageView = (PinchImageView) view.findViewById(R.id.photoView);
         pinchImageView.setOnClickListener(this);
+        //加载低分辨率图片
+        EasyImageLoader.getInstance(context).bindBitmap(netImages.get(position).getThumbImg(), pinchImageView,100,100);
 
-     //   mLayoutParams = pinchImageView.getLayoutParams();
-        /*if (netImages.get(position).getWidth() != 0 && netImages.get(position).getHeight() != 0) {
-           *//* float mHeight = ((float) (netImages.get(position).getHeight()) / ((float) (netImages.get(position).getWidth()))) * screenWidth;
-                mLayoutParams.width = screenWidth;
-                mLayoutParams.height = (int) mHeight;*//*
-            if(netImages.get(position).getHeight()<=netImages.get(position).getWidth()*2){
-                float mHeight = ((float) (netImages.get(position).getHeight()) / ((float) (netImages.get(position).getWidth()))) * screenWidth;
-                mLayoutParams.width = screenWidth;
-                mLayoutParams.height = (int)mHeight;
-            }else{
-                float mWidth =((float) (netImages.get(position).getWidth()) / ((float) (netImages.get(position).getHeight()))) * screenHeight;
-                mLayoutParams.height = screenHeight;
-                mLayoutParams.width = (int)mWidth;
+        /*EasyImageLoader.getInstance(context).bindBitmap(netImages.get(position).getLargeImg(), pinchImageView, new EasyImageLoader.BindBitmapErrorCallBack() {
+            @Override
+            public void onError(ImageView imgView) {
+                JUtils.Log("bindBitmap onError");
+                EasyImageLoader.getInstance(context).bindBitmap(netImages.get(position).getThumbImg(), imgView);
             }
+        });*/
+        container.addView(view);
 
-                pinchImageView.setLayoutParams(mLayoutParams);
+        return view;
+    }
 
-        }else{
-            mLayoutParams.width = screenWidth;
-            mLayoutParams.height = screenHeight;
-            pinchImageView.setLayoutParams(mLayoutParams);
-        }*/
-           // pinchImageView.setImageURI(Uri.parse(netImages.get(position).getLargeImg()));
-            //加载图片
-            EasyImageLoader.getInstance(context).bindBitmap(netImages.get(position).getLargeImg(), pinchImageView, new EasyImageLoader.BindBitmapErrorCallBack() {
-                @Override
-                public void onError(ImageView imgView) {
-                    JUtils.Log("bindBitmap onError");
+    @Override
+    public void setPrimaryItem(ViewGroup container, int position, Object object) {
+        super.setPrimaryItem(container, position, object);
+        if(currentPosition!=position){
+            pinchImageView = (PinchImageView) (((View)object).findViewById(R.id.photoView));
+            if(!pinchImageView.getTag().equals(netImages.get(position).getLargeImg())){
+                EasyImageLoader.getInstance(context).bindBitmap(netImages.get(position).getLargeImg(), pinchImageView, imgView -> {
+                   JUtils.Toast("该图没有高清图...");
                     EasyImageLoader.getInstance(context).bindBitmap(netImages.get(position).getThumbImg(), imgView);
-                }
-            });
-            container.addView(view);
-            return view;
+                });
+            }
+            pinchImageView.setTag(netImages.get(position).getLargeImg());
+            if(getPinchImageViewPager()!=null&&pinchImageView!=null){
+                getPinchImageViewPager().setMainPinchImageView(pinchImageView);
+            }
+            currentPosition =position;
+        }
+
     }
 
     @Override
     public void onClick(View v) {
         context.finish();
+    }
+
+    public PinchImageViewPager getPinchImageViewPager() {
+        return mPinchImageViewPager;
+    }
+
+    public void setPinchImageViewPager(PinchImageViewPager mPinchImageViewPager) {
+        this.mPinchImageViewPager = mPinchImageViewPager;
     }
 }

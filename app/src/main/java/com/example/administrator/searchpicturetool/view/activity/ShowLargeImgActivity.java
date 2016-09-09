@@ -26,8 +26,8 @@ import butterknife.OnClick;
  */
 @RequiresPresenter(ShowLargeImgActivityPresenter.class)
 public class ShowLargeImgActivity extends BeamBaseActivity<ShowLargeImgActivityPresenter> implements View.OnClickListener {
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
+   /* @BindView(R.id.toolbar)
+    Toolbar toolbar;*/
     @BindView(R.id.large_page)
     TextView pg_tv;
     @BindView(R.id.large_viewPager)
@@ -43,7 +43,7 @@ public class ShowLargeImgActivity extends BeamBaseActivity<ShowLargeImgActivityP
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_large_img);
         ButterKnife.bind(this);
-        onSetToolbar(toolbar);
+        //onSetToolbar(toolbar);
         hasCollected = getIntent().getBooleanExtra("hasCollected", false);
         if(hasCollected){
             star.setImageResource(R.drawable.ic_large_delete_selector);

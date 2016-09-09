@@ -40,7 +40,7 @@ public class RecommendModel {
     public static void getRecommendsFromNet(final Context context,Subscriber<List<NewRecommendContent>> subscriber){
 
         BmobQuery<NewRecommendContent> queryContent = new BmobQuery<>();
-        queryContent.setLimit(100);
+        queryContent.setLimit(1000);
         queryContent.findObjects(context, new FindListener<NewRecommendContent>() {
 
             @Override

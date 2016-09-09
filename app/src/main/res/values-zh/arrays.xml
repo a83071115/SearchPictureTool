@@ -30,5 +30,8 @@
         <item>游戏壁纸</item>
         <item>体育壁纸</item>
     </string-array>
-
+    <string-array name="arrays_more">
+        <item>设为壁纸</item>
+        <item>剪辑图片</item>
+    </string-array>
 </resources>

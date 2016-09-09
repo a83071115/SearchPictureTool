@@ -27,6 +27,8 @@ public class SearchActivityPresenter extends Presenter<SearchActivity>{
     }
 
     public void gotoUp(int position){
-        getView().getSearchFragment().getListView().scrollToPosition(position);
+        if(getView().getSearchFragment().getListView().getRecyclerView()!=null){
+            getView().getSearchFragment().getListView().getRecyclerView().smoothScrollToPosition(position);
+        }
     }
 }

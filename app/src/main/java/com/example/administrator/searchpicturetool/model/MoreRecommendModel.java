@@ -21,6 +21,7 @@ public class MoreRecommendModel {
             public void call(Subscriber<? super List<NewRecommendContent>> subscriber) {
                 BmobQuery<NewRecommendContent> query = new BmobQuery<>();
                 query.order("-createdAt");
+                query.setLimit(1000);
                 query.addWhereEqualTo("tip",tip);
                 query.addWhereNotEqualTo("type", type);
                 query.findObjects(app, new FindListener<NewRecommendContent>() {

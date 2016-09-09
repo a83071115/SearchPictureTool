@@ -34,10 +34,12 @@ public class MainActivityPresenter extends Presenter<MainActivity>{
     public void goToUp(int position){
 
         if(adapter.getFragment(getView().getViewPager().getCurrentItem())!=null){
-            if(getView().getViewPager().getCurrentItem()==0){
-                ((RecommendFragment)adapter.getFragment(0)).recyclerView.scrollToPosition(position);
+            if(getView().getViewPager().getCurrentItem()==0&&((RecommendFragment)adapter.getFragment(0)).recyclerView.getRecyclerView()!=null){
+               // ((RecommendFragment)adapter.getFragment(0)).recyclerView.scrollToPosition(position);
+                ((RecommendFragment)adapter.getFragment(0)).recyclerView.getRecyclerView().smoothScrollToPosition(position);
             }else{
-                ((BeamListFragment)adapter.getFragment((getView().getViewPager().getCurrentItem()))).getListView().scrollToPosition(position);
+               // ((BeamListFragment)adapter.getFragment((getView().getViewPager().getCurrentItem()))).getListView().scrollToPosition(position);
+                ((BeamListFragment)adapter.getFragment((getView().getViewPager().getCurrentItem()))).getListView().getRecyclerView().smoothScrollToPosition(position);
             }
 
         }

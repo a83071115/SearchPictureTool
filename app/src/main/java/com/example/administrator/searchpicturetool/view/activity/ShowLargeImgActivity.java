@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.afollestad.materialdialogs.Theme;
 import com.example.administrator.searchpicturetool.R;
 import com.example.administrator.searchpicturetool.presenter.activitPresenter.ShowLargeImgActivityPresenter;
 import com.example.administrator.searchpicturetool.widght.PinchImageViewPager;
@@ -112,6 +114,26 @@ public class ShowLargeImgActivity extends BeamBaseActivity<ShowLargeImgActivityP
             JUtils.Toast("已收藏");
         }
 
+    }
+
+    @OnClick(R.id.large_more)
+    public void showMoreDialog(){
+        new MaterialDialog.Builder(this)
+                .theme(Theme.DARK)
+                .title("更多选项")
+                .items(R.array.arrays_more)
+                .itemsCallback((dialog, itemView, position, text) -> {
+                    switch (position){
+                        case 0:
+                            getPresenter().setWallWrapper();
+                            break;
+                        case 1:
+                            JUtils.Toast("该功能在下一个版本中开发，敬请期待");
+                            break;
+                        default:
+                            break;
+                    }
+                }).show();
     }
 
    /* @Override

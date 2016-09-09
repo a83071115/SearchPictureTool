@@ -13,8 +13,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ImageThreadPoolExecutor extends  ThreadPoolExecutor{
     private static ImageThreadPoolExecutor imageThreadPoolExecutor;
     private static final int CPU_COUNT = Runtime.getRuntime().availableProcessors();
-    private static final int CORE_POOL_SIZE = CPU_COUNT*4 +1;
-    private static final int MAXIMUM_POOL_SIZE = CPU_COUNT*5 +1;
+    private static final int CORE_POOL_SIZE = CPU_COUNT*2 +1;
+    private static final int MAXIMUM_POOL_SIZE = CPU_COUNT*3 +1;
     private static final long KEEP_ALIVE =10L;
     //用于给线程池创建线程的线程工厂类
     private static final ThreadFactory sThreadFactory = new ThreadFactory() {

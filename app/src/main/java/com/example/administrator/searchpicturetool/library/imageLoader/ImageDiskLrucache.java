@@ -8,6 +8,7 @@ import android.os.Environment;
 import android.os.StatFs;
 
 import com.jakewharton.disklrucache.DiskLruCache;
+import com.jude.utils.*;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -65,7 +66,17 @@ public class ImageDiskLrucache {
             FileInputStream fileInputStream =(FileInputStream)snapshot.getInputStream(DISK_CACHE_INDEX);
             if(reqWidth<=0||reqHeight<=0){
                 //不压缩图片
-                bitmap = BitmapFactory.decodeFileDescriptor(fileInputStream.getFD());
+                BitmapFactory.Options
+                        bfOptions=new BitmapFactory.Options();
+                bfOptions.inDither=false;
+                bfOptions.inPurgeable=true;
+                bfOptions.inTempStorage=new byte[12 *1024];
+                try{
+                    bitmap = BitmapFactory.decodeFileDescriptor(fileInputStream.getFD(),null,bfOptions);
+                }catch (OutOfMemoryError e){
+                    bitmap =null;
+                }
+
             }else{
                 //按需求分辨率压缩图片
                 bitmap =BitmapUtils.getSmallBitmap(fileInputStream.getFD(),reqWidth,reqHeight);

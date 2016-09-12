@@ -8,27 +8,7 @@
     app:padding_navigation="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:theme="@style/AppTheme.AppBarOverlay"
-        app:popupTheme="@style/AppTheme.PopupOverlay"
-        >
-
-    </android.support.v7.widget.Toolbar>
-    <TextView
-        android:id="@+id/large_page"
-        android:layout_width="wrap_content"
-        android:layout_height="?attr/actionBarSize"
-        android:gravity="center"
-        android:layout_centerHorizontal="true"
-        android:textColor="@android:color/white"
-        android:textSize="18sp"
-        />
-
     <RelativeLayout
-        android:layout_below="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
@@ -40,54 +20,59 @@
             android:layout_above="@+id/linearlayout_img"
             />
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/linearlayout_img"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_alignParentBottom="true"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="8dp"
+            android:layout_margin="16dp"
             >
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content">
-                <ImageView
-                    android:id="@+id/large_share"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_large_share_selector"
-                    android:layout_centerInParent="true"
-                    />
 
-            </RelativeLayout>
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content">
-                <ImageView
-                    android:id="@+id/large_wrapper"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/ic_large_wrapper_selector"
-                    />
+            <TextView
+                android:id="@+id/large_page"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3/48"
+                android:layout_centerVertical="true"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                />
+            <ImageView
+                android:id="@+id/large_more"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_large_more_selector"
+                android:layout_alignParentRight="true"
+                />
 
-            </RelativeLayout>
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content">
-                <ImageView
-                    android:id="@+id/large_delete"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/ic_large_delete_selector"
-                    />
-            </RelativeLayout>
-        </LinearLayout>
+            <ImageView
+                android:id="@+id/large_delete"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_large_delete_selector"
+                android:layout_toLeftOf="@+id/large_more"
+                android:layout_marginRight="24dp"
+                />
+
+            <ImageView
+                android:id="@+id/large_wrapper"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_toLeftOf="@+id/large_delete"
+                android:layout_marginRight="24dp"
+                android:src="@drawable/ic_large_wrapper_selector"
+                />
+            <ImageView
+                android:id="@+id/large_share"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_toLeftOf="@+id/large_wrapper"
+                android:layout_marginRight="24dp"
+                android:src="@drawable/ic_large_share_selector"
+                />
+
+        </RelativeLayout>
 
     </RelativeLayout>
 

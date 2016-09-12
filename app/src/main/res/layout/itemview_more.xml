@@ -1,52 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+
     >
     <android.support.v7.widget.CardView
         android:id="@+id/recommend_cardview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
-        android:foreground="?selectableItemBackground"
-        card_view:cardElevation="1dp"
         android:layout_margin="8dp"
-        card_view:cardCornerRadius="2dp">
+        android:foreground="?selectableItemBackground"
+        card_view:cardCornerRadius="2dp"
+        card_view:cardElevation="2dp">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="200dp"
             android:orientation="vertical">
 
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/recomend_img"
                 android:layout_width="match_parent"
-                android:layout_height="148dp"/>
+                android:layout_height="match_parent" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_alignParentBottom="true"
+                >
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:alpha="0.2"
+                    android:background="@color/black_gray"
+                    />
+                <TextView
+                    android:id="@+id/recommend_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:text="神奇宝贝"
+                    android:layout_marginLeft="8dp"
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
 
-            <TextView
-                android:id="@+id/recommend_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginTop="5dp"
-                android:textColor="@color/font_light"
-                android:gravity="center_vertical"
-                android:singleLine="true"
-                android:textSize="18sp"/>
+                <TextView
+                    android:id="@+id/recommend_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:singleLine="true"
+                    android:layout_marginLeft="8dp"
+                    android:textColor="@color/white_trans80"
+                    android:text="还好是你陪我度过童年"
+                    android:layout_below="@+id/recommend_title"
+                    android:textSize="14sp" />
+            </RelativeLayout>
 
-            <TextView
-                android:id="@+id/recommend_content"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:gravity="center_vertical"
-                android:singleLine="true"
-                android:textSize="14sp"/>
 
-        </LinearLayout>
+
+        </RelativeLayout>
 
     </android.support.v7.widget.CardView>
-</LinearLayout>
+</FrameLayout>
+

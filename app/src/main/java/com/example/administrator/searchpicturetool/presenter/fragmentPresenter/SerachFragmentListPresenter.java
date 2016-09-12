@@ -6,18 +6,15 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 
 import com.example.administrator.searchpicturetool.model.GetImagelistModel;
 import com.example.administrator.searchpicturetool.model.bean.NetImage;
-import com.example.administrator.searchpicturetool.presenter.activitPresenter.SearchActivityPresenter;
 import com.example.administrator.searchpicturetool.view.fragment.SearchFragment;
 import com.example.administrator.searchpicturetool.view.activity.ShowLargeImgActivity;
 import com.jude.beam.expansion.list.BeamListFragmentPresenter;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
-import com.jude.utils.JUtils;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import rx.Observer;
-import rx.Subscriber;
 import rx.functions.Action1;
 
 /**

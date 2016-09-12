@@ -3,15 +3,16 @@ package com.example.administrator.searchpicturetool.view.activity;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.afollestad.materialdialogs.Theme;
 import com.example.administrator.searchpicturetool.R;
-import com.example.administrator.searchpicturetool.presenter.activitPresenter.ShowDownlargeImgPresenter;
+import com.example.administrator.searchpicturetool.presenter.activityPresenter.ShowDownlargeImgPresenter;
 import com.example.administrator.searchpicturetool.widght.PinchImageViewPager;
 import com.jude.beam.bijection.RequiresPresenter;
 import com.jude.beam.expansion.BeamBaseActivity;
@@ -25,8 +26,8 @@ import butterknife.OnClick;
  */
 @RequiresPresenter(ShowDownlargeImgPresenter.class)
 public class ShowDownloadImgActivity extends BeamBaseActivity<ShowDownlargeImgPresenter> implements View.OnClickListener{
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
+    /*@BindView(R.id.toolbar)
+    Toolbar toolbar;*/
     @BindView(R.id.large_page)
     TextView pg_tv;
     @BindView(R.id.large_viewPager)
@@ -91,6 +92,26 @@ public class ShowDownloadImgActivity extends BeamBaseActivity<ShowDownlargeImgPr
     }
     public TextView getPg_tv(){
         return pg_tv;
+    }
+
+    @OnClick(R.id.large_more)
+    public void showMoreDialog(){
+        new MaterialDialog.Builder(this)
+                .theme(Theme.DARK)
+                .title("更多选项")
+                .items("剪辑图片")
+                .itemsCallback((dialog, itemView, position, text) -> {
+                    switch (position){
+                        case 0:
+                            JUtils.Toast("该功能在下一个版本中开发，敬请期待");
+                            break;
+                      /*  case 1:
+                            JUtils.Toast("该功能在下一个版本中开发，敬请期待");
+                            break;*/
+                        default:
+                            break;
+                    }
+                }).show();
     }
 
 }

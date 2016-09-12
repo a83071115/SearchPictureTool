@@ -3,11 +3,12 @@ package com.example.administrator.searchpicturetool.view.activity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.ViewGroup;
+
 import com.example.administrator.searchpicturetool.R;
 import com.example.administrator.searchpicturetool.config.Constant;
-import com.example.administrator.searchpicturetool.model.bean.NewRecommendContent;
-import com.example.administrator.searchpicturetool.presenter.activityPresenter.MoreAcitivityPresenter;
-import com.example.administrator.searchpicturetool.view.viewHolder.MoreViewHolder;
+import com.example.administrator.searchpicturetool.model.bean.NewBanner;
+import com.example.administrator.searchpicturetool.presenter.activityPresenter.BannerListActivityPresenter;
+import com.example.administrator.searchpicturetool.view.viewHolder.BannerListViewHolder;
 import com.jude.beam.bijection.RequiresPresenter;
 import com.jude.beam.expansion.list.BeamListActivity;
 import com.jude.beam.expansion.list.ListConfig;
@@ -17,10 +18,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by Administrator on 2016/5/10 0010.
+ * Created by WenHuaijun on 2016/9/12 0012.
  */
-@RequiresPresenter(MoreAcitivityPresenter.class)
-public class MoreRecommendActivity extends BeamListActivity<MoreAcitivityPresenter,NewRecommendContent>{
+@RequiresPresenter(BannerListActivityPresenter.class)
+public class BannerListActivity extends BeamListActivity<BannerListActivityPresenter,NewBanner> {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @Override
@@ -28,6 +29,7 @@ public class MoreRecommendActivity extends BeamListActivity<MoreAcitivityPresent
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
+      //  setTitle(getString(R.string.menu_recommend));
     }
 
     @Override
@@ -37,7 +39,7 @@ public class MoreRecommendActivity extends BeamListActivity<MoreAcitivityPresent
 
     @Override
     protected BaseViewHolder getViewHolder(ViewGroup parent, int viewType) {
-        return new MoreViewHolder(parent);
+        return new BannerListViewHolder(parent);
     }
     @Override
     protected ListConfig getConfig() {

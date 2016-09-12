@@ -1,6 +1,7 @@
 package com.example.administrator.searchpicturetool.view.activity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -17,7 +18,7 @@ import android.view.View;
 
 import com.example.administrator.searchpicturetool.R;
 import com.example.administrator.searchpicturetool.config.ShareConfig;
-import com.example.administrator.searchpicturetool.presenter.activitPresenter.MainActivityPresenter;
+import com.example.administrator.searchpicturetool.presenter.activityPresenter.MainActivityPresenter;
 import com.jude.beam.bijection.RequiresPresenter;
 import com.jude.beam.expansion.BeamBaseActivity;
 import com.jude.utils.JUtils;
@@ -162,9 +163,9 @@ public class MainActivity extends BeamBaseActivity<MainActivityPresenter> implem
         int id = item.getItemId();
 
         if (id == R.id.nav_main) {
-            /*if(getPresenter().item!=0){
-                getPresenter().replaceFragment(0);
-            }*/
+
+        } else if(id ==R.id.nav_banner){
+            startActivity(new Intent(this,BannerListActivity.class));
         } else if (id == R.id.nav_search) {
             searchView.showSearch();
         } else if (id == R.id.nav_user) {
@@ -173,7 +174,17 @@ public class MainActivity extends BeamBaseActivity<MainActivityPresenter> implem
             startActivity(new Intent(this, SettingActivity.class));
         } else if (id == R.id.nav_share) {
             openShare();
-        } else if (id == R.id.nav_send) {
+        } else if(id == R.id.nav_rate){
+            try{
+                Uri uri = Uri.parse("market://details?id="+getPackageName());
+                Intent intent = new Intent(Intent.ACTION_VIEW,uri);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }catch(Throwable e){
+
+            }
+
+        }else if (id == R.id.nav_send) {
             FeedbackAgent agent = new FeedbackAgent(this);
             agent.startFeedbackActivity();
         }

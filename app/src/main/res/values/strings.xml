@@ -1,6 +1,13 @@
 <resources>
     <string name="app_name">搜图神器</string>
-
+    <string name="menu_recommend">头条推荐</string>
+    <string name="menu_main">首页</string>
+    <string name="menu_search">搜索图片</string>
+    <string name="menu_user">我的图片</string>
+    <string name="menu_setting">设置</string>
+    <string name="menu_share">分享</string>
+    <string name="menu_suggestion">意见反馈</string>
+    <string name="menu_rate">给个好评</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 

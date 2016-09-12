@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import com.example.administrator.searchpicturetool.R;
 import com.example.administrator.searchpicturetool.model.CollectImgSelected;
 import com.example.administrator.searchpicturetool.model.bean.NetImage;
-import com.example.administrator.searchpicturetool.presenter.activitPresenter.UserActivityPresenter;
+import com.example.administrator.searchpicturetool.presenter.activityPresenter.UserActivityPresenter;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 import com.jude.utils.JUtils;

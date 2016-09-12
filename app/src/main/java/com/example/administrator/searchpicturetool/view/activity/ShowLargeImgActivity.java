@@ -2,7 +2,6 @@ package com.example.administrator.searchpicturetool.view.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -13,7 +12,7 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.Theme;
 import com.example.administrator.searchpicturetool.R;
-import com.example.administrator.searchpicturetool.presenter.activitPresenter.ShowLargeImgActivityPresenter;
+import com.example.administrator.searchpicturetool.presenter.activityPresenter.ShowLargeImgActivityPresenter;
 import com.example.administrator.searchpicturetool.widght.PinchImageViewPager;
 import com.jude.beam.bijection.RequiresPresenter;
 import com.jude.beam.expansion.BeamBaseActivity;
@@ -38,6 +37,7 @@ public class ShowLargeImgActivity extends BeamBaseActivity<ShowLargeImgActivityP
     ImageView star;
     FragmentManager fragmentManager;
     private boolean hasCollected =false;
+    private MaterialDialog mProgressDialog;
 
 
     @Override
@@ -125,6 +125,7 @@ public class ShowLargeImgActivity extends BeamBaseActivity<ShowLargeImgActivityP
                 .itemsCallback((dialog, itemView, position, text) -> {
                     switch (position){
                         case 0:
+                            getProgressDialog().show();
                             getPresenter().setWallWrapper();
                             break;
                         case 1:
@@ -134,6 +135,18 @@ public class ShowLargeImgActivity extends BeamBaseActivity<ShowLargeImgActivityP
                             break;
                     }
                 }).show();
+    }
+
+    public MaterialDialog getProgressDialog(){
+        if(mProgressDialog==null){
+            mProgressDialog = new MaterialDialog.Builder(this)
+                    .theme(Theme.DARK)
+                    .content("请稍等片刻...")
+                    .title("设置壁纸")
+                    .progress(true, 0)
+                    .build();
+        }
+        return mProgressDialog;
     }
 
    /* @Override

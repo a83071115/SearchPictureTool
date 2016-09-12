@@ -3,7 +3,7 @@ package com.example.administrator.searchpicturetool.view.activity;
 import android.os.Bundle;
 
 import com.example.administrator.searchpicturetool.R;
-import com.example.administrator.searchpicturetool.presenter.activitPresenter.SettingPresenter;
+import com.example.administrator.searchpicturetool.presenter.activityPresenter.SettingPresenter;
 import com.jude.beam.bijection.RequiresPresenter;
 import com.jude.beam.expansion.BeamBaseActivity;
 import com.jude.utils.JUtils;

@@ -1,7 +1,6 @@
 package com.example.administrator.searchpicturetool.view.activity;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -17,7 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.example.administrator.searchpicturetool.R;
-import com.example.administrator.searchpicturetool.presenter.activitPresenter.SearchActivityPresenter;
+import com.example.administrator.searchpicturetool.presenter.activityPresenter.SearchActivityPresenter;
 import com.example.administrator.searchpicturetool.view.fragment.SearchFragment;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.jude.beam.bijection.RequiresPresenter;

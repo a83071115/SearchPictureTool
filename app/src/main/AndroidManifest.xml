@@ -55,7 +55,9 @@
         </activity>
         <activity android:name=".view.activity.SearchActivity"/>
         <activity android:name=".view.activity.ShowLargeImgActivity"
-            android:label=" "
+            />
+        <activity android:name=".view.activity.BannerListActivity"
+            android:label="@string/menu_recommend"
             />
         <activity
             android:name=".view.activity.UserActivity"

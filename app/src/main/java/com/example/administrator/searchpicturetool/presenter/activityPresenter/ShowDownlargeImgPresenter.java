@@ -1,11 +1,10 @@
-package com.example.administrator.searchpicturetool.presenter.activitPresenter;
+package com.example.administrator.searchpicturetool.presenter.activityPresenter;
 
 import android.app.WallpaperManager;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.support.v4.view.ViewPager;
 
 import com.example.administrator.searchpicturetool.model.SqlModel;
 import com.example.administrator.searchpicturetool.model.bean.DownloadImg;
@@ -49,15 +48,27 @@ public class ShowDownlargeImgPresenter extends Presenter<ShowDownloadImgActivity
     }
     public void setWallWrapper(){
         WallpaperManager wallpaperManager = WallpaperManager.getInstance(getView());
-        try {
-            wallpaperManager.setBitmap(BitmapFactory.decodeFile((downloadImgs.get(currentPosition)).getName()));
-            JUtils.Toast("设置桌面壁纸成功");
-        } catch (IOException e) {
-            JUtils.Toast("设置桌面壁纸失败");
-            e.printStackTrace();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        wallpaperManager.setBitmap(BitmapFactory.decodeFile((downloadImgs.get(currentPosition)).getName()));
+                        getView().runOnUiThread(new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                JUtils.Toast("设置桌面壁纸成功");
+                            }
+                        }));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        JUtils.Toast("设置桌面壁纸失败");
+                    }
+                }
+            }).start();
+
+
         }
 
-    }
     public void setLockWrapper(){
         WallpaperManager mWallManager =WallpaperManager.getInstance(getView());
         Class class1 =mWallManager.getClass();

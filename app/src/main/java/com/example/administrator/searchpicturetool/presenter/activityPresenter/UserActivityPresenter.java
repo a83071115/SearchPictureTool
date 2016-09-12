@@ -1,4 +1,4 @@
-package com.example.administrator.searchpicturetool.presenter.activitPresenter;
+package com.example.administrator.searchpicturetool.presenter.activityPresenter;
 
 import com.example.administrator.searchpicturetool.config.API;
 import com.example.administrator.searchpicturetool.model.CollectImgSelected;

@@ -1,4 +1,4 @@
-package com.example.administrator.searchpicturetool.presenter.activitPresenter;
+package com.example.administrator.searchpicturetool.presenter.activityPresenter;
 
 import com.example.administrator.searchpicturetool.R;
 import com.example.administrator.searchpicturetool.view.activity.SearchActivity;

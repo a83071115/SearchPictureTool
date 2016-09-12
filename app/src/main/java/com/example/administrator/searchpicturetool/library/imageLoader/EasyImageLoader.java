@@ -39,7 +39,7 @@ public class EasyImageLoader {
         mContext =context.getApplicationContext();
         THREAD_POOL_EXECUTOR = ImageThreadPoolExecutor.getInstance();
         imageLrucache = new ImageLrucache();
-        imageDiskLrucache = new ImageDiskLrucache(context);
+        imageDiskLrucache = new ImageDiskLrucache(mContext);
         mMainHandler = new TaskHandler();
     }
 
@@ -104,14 +104,22 @@ public class EasyImageLoader {
     //返回内存缓存类
     public static ImageLrucache getImageLrucache(){
         if(imageLrucache==null){
-            imageLrucache = new ImageLrucache();
+            synchronized (EasyImageLoader.class){
+                if(imageLrucache==null){
+                    imageLrucache = new ImageLrucache();
+                }
+            }
         }
         return imageLrucache;
     }
     //返回本地缓存类
     public static ImageDiskLrucache getImageDiskLrucache(Context context){
         if(imageDiskLrucache==null){
-            imageDiskLrucache = new ImageDiskLrucache(context);
+            synchronized (EasyImageLoader.class) {
+                if(imageDiskLrucache==null) {
+                    imageDiskLrucache = new ImageDiskLrucache(context);
+                }
+            }
         }
         return imageDiskLrucache;
     }

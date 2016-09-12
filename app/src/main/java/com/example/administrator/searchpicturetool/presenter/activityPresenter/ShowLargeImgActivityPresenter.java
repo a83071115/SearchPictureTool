@@ -1,18 +1,7 @@
-package com.example.administrator.searchpicturetool.presenter.activitPresenter;
+package com.example.administrator.searchpicturetool.presenter.activityPresenter;
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.net.Uri;
-import android.os.Build;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
 
-import com.example.administrator.searchpicturetool.app.APP;
 import com.example.administrator.searchpicturetool.config.API;
 import com.example.administrator.searchpicturetool.library.imageLoader.EasyImageLoader;
 import com.example.administrator.searchpicturetool.model.SaveBitmapModel;
@@ -23,16 +12,9 @@ import com.example.administrator.searchpicturetool.util.Utils;
 import com.example.administrator.searchpicturetool.view.activity.ShowLargeImgActivity;
 import com.example.administrator.searchpicturetool.presenter.adapter.ShowLargeImgAdapter;
 import com.example.administrator.searchpicturetool.widght.PinchImageViewPager;
-import com.facebook.common.executors.CallerThreadExecutor;
-import com.facebook.common.references.CloseableReference;
-import com.facebook.datasource.DataSource;
-import com.facebook.imagepipeline.datasource.BaseBitmapDataSubscriber;
-import com.facebook.imagepipeline.image.CloseableImage;
 import com.jude.beam.bijection.Presenter;
-import com.jude.utils.JFileManager;
 import com.jude.utils.JUtils;
 
-import java.io.File;
 import java.util.ArrayList;
 
 import rx.functions.Action1;
@@ -163,6 +145,7 @@ public class ShowLargeImgActivityPresenter extends Presenter<ShowLargeImgActivit
                 }
             }else{
                 JUtils.Toast("下载图片失败");
+                getView().getProgressDialog().dismiss();
             }
         });
 
@@ -194,8 +177,10 @@ public class ShowLargeImgActivityPresenter extends Presenter<ShowLargeImgActivit
         public void call(Integer integer) {
             if(integer.intValue()== API.status.success){
                 JUtils.Toast("设置成功！");
+                getView().getProgressDialog().dismiss();
             }else{
                 JUtils.Toast("设置失败...");
+                getView().getProgressDialog().dismiss();
             }
         }
     };

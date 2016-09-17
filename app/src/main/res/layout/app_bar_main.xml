@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<com.example.administrator.searchpicturetool.widght.fitsystemwindowlayout.FitSystemWindowsRelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:context=".MainActivity"
+    app:status_color="@color/colorPrimaryDark"
     >
     <android.support.design.widget.CoordinatorLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     >
 
     <android.support.design.widget.AppBarLayout
@@ -51,10 +48,12 @@
         android:src="@drawable/ic_top" />
 
 </android.support.design.widget.CoordinatorLayout>
+
     <com.search.material.library.MaterialSearchView
         android:id="@+id/search_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         ></com.search.material.library.MaterialSearchView>
-</RelativeLayout>
+
+</com.example.administrator.searchpicturetool.widght.fitsystemwindowlayout.FitSystemWindowsRelativeLayout>
 

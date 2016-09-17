@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.SearchView;
@@ -14,6 +15,8 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 
 import com.example.administrator.searchpicturetool.R;
 import com.example.administrator.searchpicturetool.presenter.activityPresenter.SearchActivityPresenter;
@@ -30,12 +33,14 @@ import butterknife.OnClick;
 /**
  * Created by wenhuaijun on 2015/11/3 0003.
  */
-    @RequiresPresenter(SearchActivityPresenter.class)
-public class SearchActivity extends BeamBaseActivity<SearchActivityPresenter>{
+@RequiresPresenter(SearchActivityPresenter.class)
+public class SearchActivity extends BeamBaseActivity<SearchActivityPresenter> {
     @BindView(R.id.searchView)
     SearchView searchView;
     @BindView(R.id.bg_img)
     SimpleDraweeView imageView;
+    @BindView(R.id.id_search_coordinator_layout)
+    CoordinatorLayout mCoordinatorLayout;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.collapsingToolbarLayout)
@@ -46,33 +51,48 @@ public class SearchActivity extends BeamBaseActivity<SearchActivityPresenter>{
     AppBarLayout appBarLayout;
     FragmentManager manager;
     MenuItem item;
-    private int maxScrollHeight =0;
+    private int maxScrollHeight = 0;
     private SearchFragment searchFragment;
     private String imagUrl;
     private String searchWord;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
-         ButterKnife.bind(this);
+        ButterKnife.bind(this);
         onSetToolbar(toolbar);
-        maxScrollHeight =JUtils.dip2px(200);
+        maxScrollHeight = JUtils.dip2px(200);
         searchWord = getIntent().getBundleExtra("search").getString("search");
         collapsingToolbarLayout.setTitle(searchWord);
-        imagUrl =getIntent().getBundleExtra("search").getString("imagUrl");
-        if (TextUtils.isEmpty(imagUrl)){
+        marginTopStatusHeight();
+        imagUrl = getIntent().getBundleExtra("search").getString("imagUrl");
+        if (TextUtils.isEmpty(imagUrl)) {
             imageView.setBackgroundResource(getPresenter().getBgImg());
-        }else{
+        } else {
             imageView.setImageURI(Uri.parse(imagUrl));
         }
-        manager =getSupportFragmentManager();
+        manager = getSupportFragmentManager();
         searchFragment = new SearchFragment();
         searchFragment.setArguments(getIntent().getBundleExtra("search"));
-        manager.beginTransaction().replace(R.id.search_container,searchFragment).commit();
+        manager.beginTransaction().replace(R.id.search_container, searchFragment).commit();
         initAppBarSetting();
         initSearchView();
 
     }
+
+    /**
+     * fixed: fitsystemWindowLayout在CollapsingToolbarLayout上存在的marginbug
+     */
+    public void marginTopStatusHeight() {
+        FrameLayout.LayoutParams frameLayoutParams = (FrameLayout.LayoutParams)toolbar.getLayoutParams();
+        RelativeLayout.LayoutParams relativeLayoutParams = (RelativeLayout.LayoutParams)mCoordinatorLayout.getLayoutParams();
+        relativeLayoutParams.topMargin=-JUtils.getStatusBarHeight();
+        frameLayoutParams.topMargin=JUtils.getStatusBarHeight()*2;
+        mCoordinatorLayout.setLayoutParams(relativeLayoutParams);
+        toolbar.setLayoutParams(frameLayoutParams);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.searchactivity_menu, menu);
@@ -87,20 +107,20 @@ public class SearchActivity extends BeamBaseActivity<SearchActivityPresenter>{
         if (id == R.id.action_settings) {
             return true;
         }*/
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.action_search:
-                if(!searchView.isShown()){
+                if (!searchView.isShown()) {
                     searchView.setVisibility(View.VISIBLE);
                     searchView.onActionViewExpanded();
                     searchView.requestFocus();
                     searchView.setQuery(searchWord, false);
-                }else{
+                } else {
 
-                    if(searchView.getQuery().toString().equals("")){
+                    if (searchView.getQuery().toString().equals("")) {
                         searchView.setVisibility(View.GONE);
                         searchView.onActionViewCollapsed();
-                       // collapsingToolbarLayout.requestFocus();
-                    }else{
+                        // collapsingToolbarLayout.requestFocus();
+                    } else {
                         searchView.setQuery(searchView.getQuery(), true);
                     }
                 }
@@ -111,22 +131,24 @@ public class SearchActivity extends BeamBaseActivity<SearchActivityPresenter>{
         }
     }
 
-    public void initAppBarSetting(){
+    public void initAppBarSetting() {
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
-                if (i >= (-maxScrollHeight+200)&&fab.isShown()) {
+                //JUtils.Log(" onOffsetChanged  i = " + i);
+                if (i > (-maxScrollHeight/2) && fab.isShown()) {
                     fab.hide();
                     if (item != null) {
                         item.setVisible(false);
                     }
-                } else if (i <= (-maxScrollHeight+200)&&!fab.isShown()) {
+                } else if (i <= (-maxScrollHeight/2) && !fab.isShown()) {
                     fab.show();
                     item.setVisible(true);
                 }
             }
         });
     }
+
     private void initSearchView() {
         searchView.setOnQueryTextListener(new android.support.v7.widget.SearchView.OnQueryTextListener() {
             @Override
@@ -147,25 +169,27 @@ public class SearchActivity extends BeamBaseActivity<SearchActivityPresenter>{
     }
 
     @OnClick(R.id.search_fab)
-    public void clickFab(View view){
+    public void clickFab(View view) {
         getPresenter().gotoUp(0);
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==100){
-            if(data!=null){
-                getPresenter().gotoUp(data.getIntExtra("position",0));
+        if (requestCode == 100) {
+            if (data != null) {
+                getPresenter().gotoUp(data.getIntExtra("position", 0));
             }
 
         }
     }
-    private void searchPicture(String query){
+
+    private void searchPicture(String query) {
         searchFragment = new SearchFragment();
         Bundle bundle = new Bundle();
-        bundle.putString("search",query);
+        bundle.putString("search", query);
         searchFragment.setArguments(bundle);
-        manager.beginTransaction().replace(R.id.search_container,searchFragment).commit();
+        manager.beginTransaction().replace(R.id.search_container, searchFragment).commit();
     }
 
     public SearchFragment getSearchFragment() {
@@ -174,13 +198,13 @@ public class SearchActivity extends BeamBaseActivity<SearchActivityPresenter>{
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        switch (keyCode){
+        switch (keyCode) {
             case KeyEvent.KEYCODE_BACK:
-                if(searchView.isShown()){
+                if (searchView.isShown()) {
                     searchView.setVisibility(View.GONE);
                     searchView.onActionViewCollapsed();
                     return true;
-                }else{
+                } else {
                     return super.onKeyDown(keyCode, event);
                 }
             default:

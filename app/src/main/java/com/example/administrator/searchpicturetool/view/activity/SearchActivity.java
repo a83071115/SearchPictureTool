@@ -95,8 +95,13 @@ public class SearchActivity extends BeamBaseActivity<SearchActivityPresenter> {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.searchactivity_menu, menu);
+        getMenuInflater().inflate(R.menu.search_activity_menu, menu);
         item = menu.findItem(R.id.action_search);
+        if(TextUtils.isEmpty(imagUrl)){
+            menu.findItem(R.id.action_collect_header_img).setVisible(false);
+            menu.findItem(R.id.action_download_header_img).setVisible(false);
+            menu.findItem(R.id.action_collect_tip).setVisible(false);
+        }
         item.setVisible(false);
         return true;
     }
@@ -126,6 +131,16 @@ public class SearchActivity extends BeamBaseActivity<SearchActivityPresenter> {
                 }
 
                 return true;
+            case R.id.action_collect_header_img:
+                getPresenter().collectHeaderImg(imagUrl);
+                JUtils.Toast("收藏封面图片成功");
+                return true;
+            case R.id.action_download_header_img:
+                getPresenter().downloadHeaderImg(imagUrl);
+                return true;
+            case R.id.action_collect_tip:
+                getPresenter().collectSearchTip(searchWord);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -135,7 +150,6 @@ public class SearchActivity extends BeamBaseActivity<SearchActivityPresenter> {
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
-                //JUtils.Log(" onOffsetChanged  i = " + i);
                 if (i > (-maxScrollHeight/2) && fab.isShown()) {
                     fab.hide();
                     if (item != null) {
@@ -170,7 +184,7 @@ public class SearchActivity extends BeamBaseActivity<SearchActivityPresenter> {
 
     @OnClick(R.id.search_fab)
     public void clickFab(View view) {
-        getPresenter().gotoUp(0);
+        getPresenter().gotoUpWithAnim(0);
     }
 
     @Override
@@ -211,5 +225,8 @@ public class SearchActivity extends BeamBaseActivity<SearchActivityPresenter> {
                 return super.onKeyDown(keyCode, event);
         }
 
+    }
+    public void toastMessage(String text){
+        JUtils.Toast(text);
     }
 }

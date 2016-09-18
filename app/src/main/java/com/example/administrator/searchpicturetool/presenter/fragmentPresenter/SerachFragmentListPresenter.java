@@ -10,6 +10,7 @@ import com.example.administrator.searchpicturetool.view.fragment.SearchFragment;
 import com.example.administrator.searchpicturetool.view.activity.ShowLargeImgActivity;
 import com.jude.beam.expansion.list.BeamListFragmentPresenter;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
+import com.jude.utils.JUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -71,6 +72,7 @@ public class SerachFragmentListPresenter extends BeamListFragmentPresenter<Searc
 
     @Override
     public void onItemClick(int position) {
+        JUtils.Log("onItemClick--position: "+position);
         Intent intent = new Intent();
         intent.putExtra("position", position);
         intent.putExtra("netImages", netImages);

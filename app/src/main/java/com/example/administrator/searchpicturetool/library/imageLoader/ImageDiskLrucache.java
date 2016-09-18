@@ -9,6 +9,7 @@ import android.os.StatFs;
 
 import com.jakewharton.disklrucache.DiskLruCache;
 import com.jude.utils.*;
+import com.jude.utils.JUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -21,10 +22,10 @@ import java.io.OutputStream;
  */
 public class ImageDiskLrucache {
     public static final String TAG ="TAG";
+    private static final long DISK_CACHE_SIZE = 1024*1024*80;
+    private static final int DISK_CACHE_INDEX = 0;
     private DiskLruCache mDiskLruCache;
     private  boolean mIsDiskLruCacheCreated;
-    private static final long DISK_CACHE_SIZE = 1024*1024*50;
-    private static final int DISK_CACHE_INDEX = 0;
 
     public ImageDiskLrucache(Context mContext){
         File diskCacheDir = getDidkCacheDir(mContext, "bitmap");
@@ -73,13 +74,19 @@ public class ImageDiskLrucache {
                 bfOptions.inTempStorage=new byte[12 *1024];
                 try{
                     bitmap = BitmapFactory.decodeFileDescriptor(fileInputStream.getFD(),null,bfOptions);
-                }catch (OutOfMemoryError e){
+                }catch (Throwable e){
                     bitmap =null;
+                    JUtils.Log("ImageDiskLrucache->BitmapFactory.decodeFileDescriptor Exception!");
                 }
 
             }else{
                 //按需求分辨率压缩图片
+                try{
                 bitmap =BitmapUtils.getSmallBitmap(fileInputStream.getFD(),reqWidth,reqHeight);
+                }catch (Exception e){
+                    bitmap =null;
+                    JUtils.Log("ImageDiskLrucache->BitmapUtils.getSmallBitmap Exception!");
+                }
             }
         }
         return bitmap;

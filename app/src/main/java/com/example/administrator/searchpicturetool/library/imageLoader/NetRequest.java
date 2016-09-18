@@ -7,6 +7,7 @@ import android.os.Looper;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.jude.utils.*;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -206,15 +207,6 @@ public static void getRequest(final String httpUrl, final CallBack callBack){
         }
         return  postParams.toString();
     }
-    public interface CallBack{
-        public void onSuccess(String response);
-        public void onError(Exception exception, String errorInfo);
-    }
-    public interface BeanCallback<T>{
-        public void onSuccess(T response);
-        public void onError(Exception exception, String errorInfo);
-    }
-
 
     //通过url下载图片，未缩放图片宽高
     public static Bitmap downloadBitmapFromUrl(String  urlString){
@@ -231,7 +223,10 @@ public static void getRequest(final String httpUrl, final CallBack callBack){
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        }finally {
+        }catch (Throwable e){
+            bitmap =null;
+            com.jude.utils.JUtils.Log("ImageDiskLrucache->BitmapFactory.decodeStream Exception!");
+        } finally {
             try {
                 if(in!=null){
                     in.close();
@@ -245,6 +240,7 @@ public static void getRequest(final String httpUrl, final CallBack callBack){
         }
         return bitmap;
     }
+
     //通过url下载图片获取字节流写入输出流中
     public static boolean downloadUrlToStream(String imageUrl,OutputStream outputStream){
 
@@ -283,5 +279,15 @@ public static void getRequest(final String httpUrl, final CallBack callBack){
 
         }
         return false;
+    }
+
+
+    public interface CallBack{
+        public void onSuccess(String response);
+        public void onError(Exception exception, String errorInfo);
+    }
+    public interface BeanCallback<T>{
+        public void onSuccess(T response);
+        public void onError(Exception exception, String errorInfo);
     }
 }

@@ -100,7 +100,6 @@ public class ShowLargeImgActivity extends BeamBaseActivity<ShowLargeImgActivityP
     }
     @OnClick(R.id.large_download)
     public void download(){
-        JUtils.Log("download");
         JUtils.Toast("正在下载...");
         getPresenter().savePicture();
     }

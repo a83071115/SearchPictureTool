@@ -1,0 +1,26 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity">
+    <item
+        android:id="@+id/action_search"
+        android:icon="@drawable/ic_action_action_search"
+        android:orderInCategory="100"
+        android:title="search"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_collect_tip"
+        android:orderInCategory="100"
+        android:title="收藏搜索标签"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_collect_header_img"
+        android:orderInCategory="100"
+        android:title="收藏封面图片"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_download_header_img"
+        android:orderInCategory="100"
+        android:title="下载封面图片"
+        app:showAsAction="never" />
+</menu>

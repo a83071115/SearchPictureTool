@@ -2,6 +2,7 @@ package com.example.administrator.searchpicturetool.view.activity;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -85,12 +86,14 @@ public class SearchActivity extends BeamBaseActivity<SearchActivityPresenter> {
      * fixed: fitsystemWindowLayout在CollapsingToolbarLayout上存在的marginbug
      */
     public void marginTopStatusHeight() {
-        FrameLayout.LayoutParams frameLayoutParams = (FrameLayout.LayoutParams)toolbar.getLayoutParams();
-        RelativeLayout.LayoutParams relativeLayoutParams = (RelativeLayout.LayoutParams)mCoordinatorLayout.getLayoutParams();
-        relativeLayoutParams.topMargin=-JUtils.getStatusBarHeight();
-        frameLayoutParams.topMargin=JUtils.getStatusBarHeight()*2;
-        mCoordinatorLayout.setLayoutParams(relativeLayoutParams);
-        toolbar.setLayoutParams(frameLayoutParams);
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.KITKAT){
+            FrameLayout.LayoutParams frameLayoutParams = (FrameLayout.LayoutParams)toolbar.getLayoutParams();
+            RelativeLayout.LayoutParams relativeLayoutParams = (RelativeLayout.LayoutParams)mCoordinatorLayout.getLayoutParams();
+            relativeLayoutParams.topMargin=-JUtils.getStatusBarHeight();
+            frameLayoutParams.topMargin=JUtils.getStatusBarHeight()*2;
+            mCoordinatorLayout.setLayoutParams(relativeLayoutParams);
+            toolbar.setLayoutParams(frameLayoutParams);
+        }
     }
 
     @Override

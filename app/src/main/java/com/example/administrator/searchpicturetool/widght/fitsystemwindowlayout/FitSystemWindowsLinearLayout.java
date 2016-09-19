@@ -53,9 +53,9 @@ public class FitSystemWindowsLinearLayout extends LinearLayout{
         try {
             int colorAttr;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                colorAttr = android.R.attr.colorPrimary;
+                colorAttr = android.R.attr.colorPrimaryDark;
             } else {
-                colorAttr = getContext().getResources().getIdentifier("colorPrimary", "attr", getContext().getPackageName());
+                colorAttr = getContext().getResources().getIdentifier("colorPrimaryDark", "attr", getContext().getPackageName());
             }
             TypedValue outValue = new TypedValue();
             getContext().getTheme().resolveAttribute(colorAttr, outValue, true);

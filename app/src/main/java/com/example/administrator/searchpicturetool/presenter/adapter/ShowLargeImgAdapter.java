@@ -113,7 +113,7 @@ public class ShowLargeImgAdapter extends PagerAdapter implements View.OnClickLis
     @Override
     public void setPrimaryItem(ViewGroup container, int position, Object object) {
         super.setPrimaryItem(container, position, object);
-        if (currentPosition != position) {
+        if (currentPosition != position&&object!=null) {
             PinchImageView pinchImageView = (PinchImageView) (((View) object).findViewById(R.id.photoView));
             ProgressWheel progressWheel = (ProgressWheel) (((View) object).findViewById(R.id.progress_wheel));
             if (pinchImageView.getTag() == null || !pinchImageView.getTag().equals(netImages.get(position).getLargeImg())) {

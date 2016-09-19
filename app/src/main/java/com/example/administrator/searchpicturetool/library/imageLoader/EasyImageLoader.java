@@ -17,13 +17,22 @@ import java.util.concurrent.ThreadPoolExecutor;
  */
 public class EasyImageLoader {
     private static EasyImageLoader instance=null;
-    private Context mContext;
     private static ImageLrucache imageLrucache;
     private static ImageDiskLrucache imageDiskLrucache;
     //创建一个静态的线程池对象
     private static ThreadPoolExecutor THREAD_POOL_EXECUTOR = null;
     //创建一个更新ImageView的UI的Handler
     private static TaskHandler mMainHandler;
+    private Context mContext;
+    //私有的构造方法，防止在外部实例化该ImageLoader
+    private EasyImageLoader(Context context){
+        mContext =context.getApplicationContext();
+        THREAD_POOL_EXECUTOR = ImageThreadPoolExecutor.getInstance();
+        imageLrucache = new ImageLrucache();
+        imageDiskLrucache = new ImageDiskLrucache(mContext);
+        mMainHandler = new TaskHandler();
+    }
+
     public static EasyImageLoader getInstance(Context context){
         if(instance==null){
             synchronized (EasyImageLoader.class){
@@ -34,21 +43,39 @@ public class EasyImageLoader {
         }
         return instance;
     }
-    //私有的构造方法，防止在外部实例化该ImageLoader
-    private EasyImageLoader(Context context){
-        mContext =context.getApplicationContext();
-        THREAD_POOL_EXECUTOR = ImageThreadPoolExecutor.getInstance();
-        imageLrucache = new ImageLrucache();
-        imageDiskLrucache = new ImageDiskLrucache(mContext);
-        mMainHandler = new TaskHandler();
+
+    //返回内存缓存类
+    public static ImageLrucache getImageLrucache(){
+        if(imageLrucache==null){
+            synchronized (EasyImageLoader.class){
+                if(imageLrucache==null){
+                    imageLrucache = new ImageLrucache();
+                }
+            }
+        }
+        return imageLrucache;
+    }
+
+    //返回本地缓存类
+    public static ImageDiskLrucache getImageDiskLrucache(Context context){
+        if(imageDiskLrucache==null){
+            synchronized (EasyImageLoader.class) {
+                if(imageDiskLrucache==null) {
+                    imageDiskLrucache = new ImageDiskLrucache(context);
+                }
+            }
+        }
+        return imageDiskLrucache;
     }
 
     public void bindBitmap(final String url, final ImageView imageView){
         bindBitmap(url, imageView, 0, 0,null);
     }
+
     public void bindBitmap(final String url, final ImageView imageView,BindBitmapErrorCallBack errorCallBack){
         bindBitmap(url, imageView, 0, 0,errorCallBack);
     }
+
     public void bindBitmap(final String url, final ImageView imageView,final int reqWidth,final int reqHeight){
         bindBitmap(url, imageView, reqWidth, reqWidth,null);
     }
@@ -96,32 +123,14 @@ public class EasyImageLoader {
         THREAD_POOL_EXECUTOR.execute(loadBitmapTask);
 
     }
+
     public void getBitmap(final String url,BitmapCallback callback){
        getBitmap(url,callback,0,0);
 
     }
 
-    //返回内存缓存类
-    public static ImageLrucache getImageLrucache(){
-        if(imageLrucache==null){
-            synchronized (EasyImageLoader.class){
-                if(imageLrucache==null){
-                    imageLrucache = new ImageLrucache();
-                }
-            }
-        }
-        return imageLrucache;
-    }
-    //返回本地缓存类
-    public static ImageDiskLrucache getImageDiskLrucache(Context context){
-        if(imageDiskLrucache==null){
-            synchronized (EasyImageLoader.class) {
-                if(imageDiskLrucache==null) {
-                    imageDiskLrucache = new ImageDiskLrucache(context);
-                }
-            }
-        }
-        return imageDiskLrucache;
+    public void clearMemoryCache(){
+        getImageLrucache().evictAll();
     }
     public interface BitmapCallback{
        public void onResponse(Bitmap bitmap);

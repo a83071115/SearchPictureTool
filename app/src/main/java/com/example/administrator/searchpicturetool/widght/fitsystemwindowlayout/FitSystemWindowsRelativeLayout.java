@@ -20,10 +20,11 @@ import com.jude.fitsystemwindowlayout.Utils;
  * Created by zhuchenxi on 15/11/7.
  */
 public class FitSystemWindowsRelativeLayout extends RelativeLayout{
+    public static final int HORIZONTAL = 0;
+    public static final int VERTICAL = 1;
     private static int STATUSBAR_HEIGHT;
     private static int NAVIGATIONBAR_HEIGHT;
     private int mScreenOrientation = VERTICAL;
-
     private boolean isInputMethod = false;
     private int mInputMethodHeight = 0;
     private boolean mPaddingStatusBar;
@@ -32,8 +33,6 @@ public class FitSystemWindowsRelativeLayout extends RelativeLayout{
     private int mStatusBarHeight = 0;
     private int mNavigationBarHeight = 0;
     private Paint mStatusBarPaint;
-    public static final int HORIZONTAL = 0;
-    public static final int VERTICAL = 1;
 
     public FitSystemWindowsRelativeLayout(Context context) {
         super(context);
@@ -57,9 +56,9 @@ public class FitSystemWindowsRelativeLayout extends RelativeLayout{
         try {
             int colorAttr;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                colorAttr = android.R.attr.colorPrimary;
+                colorAttr = android.R.attr.colorPrimaryDark;
             } else {
-                colorAttr = getContext().getResources().getIdentifier("colorPrimary", "attr", getContext().getPackageName());
+                colorAttr = getContext().getResources().getIdentifier("colorPrimaryDark", "attr", getContext().getPackageName());
             }
             TypedValue outValue = new TypedValue();
             getContext().getTheme().resolveAttribute(colorAttr, outValue, true);
@@ -258,14 +257,6 @@ public class FitSystemWindowsRelativeLayout extends RelativeLayout{
             a.recycle();
         }
 
-        public boolean isForceLayout() {
-            return mForceLayout;
-        }
-
-        public void setForceLayout(boolean mForceLayout) {
-            this.mForceLayout = mForceLayout;
-        }
-
         public LayoutParams(int width, int height) {
             super(width, height);
         }
@@ -276,6 +267,14 @@ public class FitSystemWindowsRelativeLayout extends RelativeLayout{
 
         public LayoutParams(MarginLayoutParams source) {
             super(source);
+        }
+
+        public boolean isForceLayout() {
+            return mForceLayout;
+        }
+
+        public void setForceLayout(boolean mForceLayout) {
+            this.mForceLayout = mForceLayout;
         }
 
         public boolean isPaddingNavigation() {

@@ -56,19 +56,26 @@ public class RecommendFragmentPresenter extends BeamBasePresenter<RecommendFragm
         if(isInit){
             adapter.addHeader(new RollViewPagerItemView(getView().recyclerView.getSwipeToRefresh()));
             isInit =false;
-
-
+            getView().recyclerView.setAdapterWithProgress(adapter);
         }else{
             girdLayoutManager =new GridLayoutManager(getView().getContext(),2);
             girdLayoutManager.setSpanSizeLookup(adapter.obtainTipSpanSizeLookUp());
+            getView().recyclerView.setAdapterWithProgress(adapter);
+            if (adapter != null && adapter.getCount() == 0) {
+                if(JUtils.isNetWorkAvilable()){
+                    getView().recyclerView.showEmpty();
+                }else {
+                    getView().recyclerView.showError();
+                }
+            }
         }
         // getView().recyclerView.setLayoutManager(new LinearLayoutManager(getView().getContext()));
         //根据不同position设置item的宽度，tip宽度为铺满整个屏幕
         getView().recyclerView.setLayoutManager(girdLayoutManager);
-        getView().recyclerView.setAdapterWithProgress(adapter);
         getView().recyclerView.setRefreshListener(this);
-
-
+          /*  if (adapter != null && adapter.getCount() == 0 && !JUtils.isNetWorkAvilable()) {
+            getView().recyclerView.showError();
+        }*/
     }
 
     @Override

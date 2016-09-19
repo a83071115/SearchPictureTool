@@ -2,6 +2,7 @@ package com.example.administrator.searchpicturetool.presenter.activityPresenter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.text.TextUtils;
 
 import com.example.administrator.searchpicturetool.config.API;
 import com.example.administrator.searchpicturetool.library.imageLoader.EasyImageLoader;
@@ -9,6 +10,8 @@ import com.example.administrator.searchpicturetool.model.SaveBitmapModel;
 import com.example.administrator.searchpicturetool.model.SqlModel;
 import com.example.administrator.searchpicturetool.model.WrapperModel;
 import com.example.administrator.searchpicturetool.model.bean.NetImage;
+import com.example.administrator.searchpicturetool.presenter.fragmentPresenter.NetImgListPresenter;
+import com.example.administrator.searchpicturetool.presenter.fragmentPresenter.SerachFragmentListPresenter;
 import com.example.administrator.searchpicturetool.util.Utils;
 import com.example.administrator.searchpicturetool.view.activity.ShowLargeImgActivity;
 import com.example.administrator.searchpicturetool.presenter.adapter.ShowLargeImgAdapter;
@@ -29,6 +32,7 @@ import rx.functions.Action1;
  * Created by wenhuaijun on 2015/11/4 0004.
  */
 public class ShowLargeImgActivityPresenter extends Presenter<ShowLargeImgActivity> implements PinchImageViewPager.OnPageChangeListener {
+    public static ArrayList<NetImage> netImages;
     int currentPosition = 0;
     ShowLargeImgAdapter adapter;
     //设置事件发生后的消费该事件的观察者
@@ -45,7 +49,6 @@ public class ShowLargeImgActivityPresenter extends Presenter<ShowLargeImgActivit
         }
     };
     private NetImage netImage;
-    private ArrayList<NetImage> netImages;
     /**
      * -1 初始化
      * 0 下载图片
@@ -79,15 +82,22 @@ public class ShowLargeImgActivityPresenter extends Presenter<ShowLargeImgActivit
     @Override
     protected void onCreateView(ShowLargeImgActivity view) {
         super.onCreateView(view);
-        netImages = (ArrayList<NetImage>) view.getIntent().getSerializableExtra("netImages");
+        //netImages = (ArrayList<NetImage>) view.getIntent().getSerializableExtra("netImages");
         currentPosition = view.getIntent().getIntExtra("position", 0);
         adapter = new ShowLargeImgAdapter(netImages, getView());
-
         getView().getViewPager().setAdapter(adapter);
         adapter.setPinchImageViewPager(getView().getViewPager());
         getView().getViewPager().setCurrentItem(currentPosition);
         getView().getViewPager().setOnPageChangeListener(this);
         getView().getPg_tv().setText((currentPosition + 1) + "/" + netImages.size());
+    }
+
+    @Override
+    protected void onDestroyView() {
+        super.onDestroyView();
+        netImages.clear();
+        netImages =null;
+        EasyImageLoader.getInstance(getView()).clearMemoryCache();
     }
 
     public void savePicture() {

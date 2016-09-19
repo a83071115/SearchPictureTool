@@ -4,10 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 
+import com.example.administrator.searchpicturetool.R;
 import com.example.administrator.searchpicturetool.model.GetImagelistModel;
 import com.example.administrator.searchpicturetool.model.bean.NetImage;
+import com.example.administrator.searchpicturetool.presenter.activityPresenter.ShowLargeImgActivityPresenter;
 import com.example.administrator.searchpicturetool.view.fragment.SearchFragment;
 import com.example.administrator.searchpicturetool.view.activity.ShowLargeImgActivity;
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.imagepipeline.core.ImagePipeline;
 import com.jude.beam.expansion.list.BeamListFragmentPresenter;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
 import com.jude.utils.JUtils;
@@ -36,6 +40,7 @@ public class SerachFragmentListPresenter extends BeamListFragmentPresenter<Searc
         super.onCreateView(view);
         view.getListView().getRecyclerView().setHasFixedSize(false);
         view.getListView().setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        view.getListView().getErrorView().findViewById(R.id.view_net_btn).setOnClickListener(getView());
         tab =view.getArguments().getString("search");
         netImages = new ArrayList<NetImage>();
         onRefresh();
@@ -71,11 +76,20 @@ public class SerachFragmentListPresenter extends BeamListFragmentPresenter<Searc
     }
 
     @Override
+    protected void onDestroyView() {
+        super.onDestroyView();
+    }
+
+    @Override
     public void onItemClick(int position) {
-        JUtils.Log("onItemClick--position: "+position);
+        //清空fresco 内存缓存
+        ImagePipeline imagePipeline = Fresco.getImagePipeline();
+        imagePipeline.clearMemoryCaches();
         Intent intent = new Intent();
         intent.putExtra("position", position);
-        intent.putExtra("netImages", netImages);
+       // intent.putExtra("clickFrom","search");
+      //  intent.putExtra("netImages", netImages);
+        ShowLargeImgActivityPresenter.netImages = (ArrayList<NetImage>)netImages.clone();
         intent.setClass(getView().getContext(), ShowLargeImgActivity.class);
         getView().getActivity().startActivityForResult(intent,100);
     }

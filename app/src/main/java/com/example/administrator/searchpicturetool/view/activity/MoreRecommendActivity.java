@@ -1,7 +1,10 @@
 package com.example.administrator.searchpicturetool.view.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.AttributeSet;
+import android.view.View;
 import android.view.ViewGroup;
 import com.example.administrator.searchpicturetool.R;
 import com.example.administrator.searchpicturetool.config.Constant;
@@ -20,7 +23,7 @@ import butterknife.ButterKnife;
  * Created by Administrator on 2016/5/10 0010.
  */
 @RequiresPresenter(MoreAcitivityPresenter.class)
-public class MoreRecommendActivity extends BeamListActivity<MoreAcitivityPresenter,NewRecommendContent>{
+public class MoreRecommendActivity extends BeamListActivity<MoreAcitivityPresenter,NewRecommendContent> implements View.OnClickListener{
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @Override
@@ -47,5 +50,21 @@ public class MoreRecommendActivity extends BeamListActivity<MoreAcitivityPresent
     @Override
     public Toolbar getToolbar() {
         return toolbar;
+    }
+
+    public void showRefreshing(boolean shouldShow){
+        getListView().getSwipeToRefresh().post(() -> getListView().getSwipeToRefresh().setRefreshing(shouldShow));
+    }
+
+
+    @Override
+    public void onClick(View view) {
+        if(view.getId() ==R.id.view_net_btn){
+            showRefreshing(true);
+            getPresenter().onRefresh();
+        }else if(view.getId() ==R.id.view_empty_btn){
+            showRefreshing(true);
+            getPresenter().onRefresh();
+        }
     }
 }

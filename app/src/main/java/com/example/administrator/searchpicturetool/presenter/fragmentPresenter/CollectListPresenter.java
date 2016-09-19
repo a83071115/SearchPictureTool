@@ -3,10 +3,14 @@ package com.example.administrator.searchpicturetool.presenter.fragmentPresenter;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.widget.TextView;
 
+import com.example.administrator.searchpicturetool.R;
 import com.example.administrator.searchpicturetool.model.SqlModel;
 import com.example.administrator.searchpicturetool.model.bean.NetImage;
+import com.example.administrator.searchpicturetool.presenter.activityPresenter.ShowLargeImgActivityPresenter;
 import com.example.administrator.searchpicturetool.view.activity.ShowLargeImgActivity;
 import com.example.administrator.searchpicturetool.view.fragment.CollectFragment;
 import com.jude.beam.expansion.list.BeamListFragmentPresenter;
@@ -36,6 +40,8 @@ public class CollectListPresenter extends BeamListFragmentPresenter<CollectFragm
         super.onCreateView(view);
         view.getListView().getRecyclerView().setHasFixedSize(false);
         view.getListView().setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        ((TextView)view.getListView().getEmptyView().findViewById(R.id.view_empty_tv)).setText("收藏图片为空");
+        ((TextView)view.getListView().getEmptyView().findViewById(R.id.view_empty_tv)).setTextColor(ContextCompat.getColor(getView().getContext(),R.color.gray_deep));
     }
 
     @Override
@@ -56,8 +62,9 @@ public class CollectListPresenter extends BeamListFragmentPresenter<CollectFragm
     public void onItemClick(int position) {
         Intent intent = new Intent();
         intent.putExtra("position", position);
-        intent.putExtra("netImages", netImages);
+       // intent.putExtra("netImages", netImages);
         intent.putExtra("hasCollected",true);
+        ShowLargeImgActivityPresenter.netImages =(ArrayList<NetImage>)netImages.clone();
         intent.setClass(getView().getContext(), ShowLargeImgActivity.class);
         getView().startActivityForResult(intent,100);
     }

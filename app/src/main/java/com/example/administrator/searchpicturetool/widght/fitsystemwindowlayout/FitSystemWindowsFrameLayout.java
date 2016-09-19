@@ -25,9 +25,11 @@ import java.util.ArrayList;
  * Created by zhuchenxi on 15/11/7.
  */
 public class FitSystemWindowsFrameLayout extends FrameLayout{
+    public static final int HORIZONTAL = 0;
+    public static final int VERTICAL = 1;
     private static int STATUSBAR_HEIGHT;
     private static int NAVIGATIONBAR_HEIGHT;
-
+    private final ArrayList<View> mMatchParentChildren = new ArrayList<View>(1);
     private boolean mPaddingStatusBar;
     private boolean mPaddingNavigationBar;
     private int mStatusBarColor = 0;
@@ -36,9 +38,6 @@ public class FitSystemWindowsFrameLayout extends FrameLayout{
     private int mScreenOrientation = VERTICAL;
     private boolean isInputMethod = false;
     private int mInputMethodHeight = 0;
-    public static final int HORIZONTAL = 0;
-    public static final int VERTICAL = 1;
-
     private Paint mStatusBarPaint;
 
     public FitSystemWindowsFrameLayout(Context context) {
@@ -51,20 +50,20 @@ public class FitSystemWindowsFrameLayout extends FrameLayout{
         initAttrs(attrs);
         init();
     }
-
     public FitSystemWindowsFrameLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initAttrs(attrs);
         init();
     }
+
     protected void initAttrs(AttributeSet attrs) {
         TypedArray a = getContext().obtainStyledAttributes(attrs, com.jude.fitsystemwindowlayout.R.styleable.fit_system_windows);
         try {
             int colorAttr;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                colorAttr = android.R.attr.colorPrimary;
+                colorAttr = android.R.attr.colorPrimaryDark;
             } else {
-                colorAttr = getContext().getResources().getIdentifier("colorPrimary", "attr", getContext().getPackageName());
+                colorAttr = getContext().getResources().getIdentifier("colorPrimaryDark", "attr", getContext().getPackageName());
             }
             TypedValue outValue = new TypedValue();
             getContext().getTheme().resolveAttribute(colorAttr, outValue, true);
@@ -112,7 +111,6 @@ public class FitSystemWindowsFrameLayout extends FrameLayout{
         invalidate();
     }
 
-
     @Override
     protected boolean fitSystemWindows(Rect insets) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -156,7 +154,6 @@ public class FitSystemWindowsFrameLayout extends FrameLayout{
         }
     }
 
-    private final ArrayList<View> mMatchParentChildren = new ArrayList<View>(1);
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int count = getChildCount();

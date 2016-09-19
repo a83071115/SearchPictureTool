@@ -20,7 +20,7 @@ import com.jude.utils.JUtils;
 public class CollectFragment extends BeamListFragment<CollectListPresenter,NetImage>{
     @Override
     protected ListConfig getConfig() {
-        return Constant.getUnloadMoreConfig();
+        return Constant.getUnloadMoreConfig().setContainerEmptyRes(R.layout.view_empty_user);
     }
 
     @Override

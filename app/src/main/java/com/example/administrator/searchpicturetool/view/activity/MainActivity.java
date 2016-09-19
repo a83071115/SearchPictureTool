@@ -34,34 +34,30 @@ import butterknife.OnClick;
 
 @RequiresPresenter(MainActivityPresenter.class)
 public class MainActivity extends BeamBaseActivity<MainActivityPresenter> implements NavigationView.OnNavigationItemSelectedListener {
-        @BindView(R.id.toolbar)
-        Toolbar toolbar;
-        @BindView(R.id.search_view)
-        MaterialSearchView searchView;
-        @BindView(R.id.drawer_layout)
-        DrawerLayout drawer;
-        @BindView(R.id.nav_view)
-        NavigationView navigationView;
-        @BindView(R.id.tabLayout)
-        TabLayout tabLayout;
-        @BindView(R.id.viewPager)
-        ViewPager viewPager;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.search_view)
+    MaterialSearchView searchView;
+    @BindView(R.id.drawer_layout)
+    DrawerLayout drawer;
+    @BindView(R.id.nav_view)
+    NavigationView navigationView;
+    @BindView(R.id.tabLayout)
+    TabLayout tabLayout;
+    @BindView(R.id.viewPager)
+    ViewPager viewPager;
     @BindView(R.id.appBarLayout)
     AppBarLayout appBarLayout;
     @BindView(R.id.fab)
     FloatingActionButton fab;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-      /*  if(Build.VERSION.SDK_INT==19){
-            JUtils.Log("Build.VERSION.SDK_INT==19");
-            setContentView(R.layout.activity_main_v19);
-        }else{*/
-            setContentView(R.layout.activity_main);
-    //    }
+
+        setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-     //   showErrorView(false);
         setDrawerLayout();
         initSearchView();
         initAppBarSetting();
@@ -71,15 +67,17 @@ public class MainActivity extends BeamBaseActivity<MainActivityPresenter> implem
 
 
     }
-    public void initPush(){
+
+    public void initPush() {
         FeedbackAgent agent = new FeedbackAgent(this);
         agent.sync();
-        if(JUtils.getSharedPreference().getBoolean("shouldPush",true)){
+        if (JUtils.getSharedPreference().getBoolean("shouldPush", true)) {
             PushAgent mPushAgent = PushAgent.getInstance(this);
             mPushAgent.enable();
         }
     }
-    public void setDrawerLayout(){
+
+    public void setDrawerLayout() {
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
@@ -87,7 +85,8 @@ public class MainActivity extends BeamBaseActivity<MainActivityPresenter> implem
 
         navigationView.setNavigationItemSelectedListener(this);
     }
-    public void initSearchView(){
+
+    public void initSearchView() {
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -107,35 +106,39 @@ public class MainActivity extends BeamBaseActivity<MainActivityPresenter> implem
             }
         });
     }
-    public void initAppBarSetting(){
+
+    public void initAppBarSetting() {
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
                 MainActivity.this.getPresenter().stopRefresh(i);
-                if(i==0&&fab.isShown()){
+                if (i == 0 && fab.isShown()) {
                     fab.hide();
-                }else if(i!=0&&!fab.isShown()){
+                } else if (i != 0 && !fab.isShown()) {
                     fab.show();
                 }
             }
         });
     }
+
     @OnClick(R.id.fab)
-    public void clickFab(View view){
+    public void clickFab(View view) {
         getPresenter().goToUp(0);
     }
-    public void openShare(){
+
+    public void openShare() {
         ShareConfig config = new ShareConfig();
         config.init(this, this).openShare(this, false);
 
     }
+
     @Override
     public void onBackPressed() {
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        }else if (searchView.isSearchOpen()) {
+        } else if (searchView.isSearchOpen()) {
             searchView.closeSearch();
 
 
@@ -170,8 +173,8 @@ public class MainActivity extends BeamBaseActivity<MainActivityPresenter> implem
 
         if (id == R.id.nav_main) {
 
-        } else if(id ==R.id.nav_banner){
-            startActivity(new Intent(this,BannerListActivity.class));
+        } else if (id == R.id.nav_banner) {
+            startActivity(new Intent(this, BannerListActivity.class));
         } else if (id == R.id.nav_search) {
             searchView.showSearch();
         } else if (id == R.id.nav_user) {
@@ -180,17 +183,17 @@ public class MainActivity extends BeamBaseActivity<MainActivityPresenter> implem
             startActivity(new Intent(this, SettingActivity.class));
         } else if (id == R.id.nav_share) {
             openShare();
-        } else if(id == R.id.nav_rate){
-            try{
-                Uri uri = Uri.parse("market://details?id="+getPackageName());
-                Intent intent = new Intent(Intent.ACTION_VIEW,uri);
+        } else if (id == R.id.nav_rate) {
+            try {
+                Uri uri = Uri.parse("market://details?id=" + getPackageName());
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
-            }catch(Throwable e){
+            } catch (Throwable e) {
 
             }
 
-        }else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_send) {
             FeedbackAgent agent = new FeedbackAgent(this);
             agent.startFeedbackActivity();
         }
@@ -201,9 +204,9 @@ public class MainActivity extends BeamBaseActivity<MainActivityPresenter> implem
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==100){
-            if(data!=null){
-                getPresenter().goToUp(data.getIntExtra("position",0));
+        if (requestCode == 100) {
+            if (data != null) {
+                getPresenter().goToUp(data.getIntExtra("position", 0));
             }
 
         }

@@ -1,8 +1,11 @@
 package com.example.administrator.searchpicturetool.presenter.fragmentPresenter;
 
 import android.content.Intent;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.widget.TextView;
 
+import com.example.administrator.searchpicturetool.R;
 import com.example.administrator.searchpicturetool.model.DownloadImgModel;
 import com.example.administrator.searchpicturetool.model.SqlModel;
 import com.example.administrator.searchpicturetool.model.bean.DownloadImg;
@@ -29,6 +32,8 @@ public class DownloadListPresenter extends BeamListFragmentPresenter<DownloadFra
         super.onCreateView(view);
        // view.getListView().getRecyclerView().setHasFixedSize(false);
         view.getListView().setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        ((TextView)view.getListView().getEmptyView().findViewById(R.id.view_empty_tv)).setText("下载图片为空");
+        ((TextView)view.getListView().getEmptyView().findViewById(R.id.view_empty_tv)).setTextColor(ContextCompat.getColor(getView().getContext(),R.color.gray_deep));
         onRefresh();
     }
 

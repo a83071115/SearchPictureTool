@@ -7,38 +7,31 @@
     app:status_color="@color/colorPrimaryDark"
     >
     <android.support.design.widget.CoordinatorLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
         <android.support.design.widget.AppBarLayout
             android:id="@+id/appbar"
-            android:layout_height="wrap_content"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    app:popupTheme="@style/AppTheme.PopupOverlay"
                     app:layout_scrollFlags="scroll|enterAlways"
+                    app:popupTheme="@style/AppTheme.PopupOverlay"
                     >
                 </android.support.v7.widget.Toolbar>
         </android.support.design.widget.AppBarLayout>
         <com.jude.easyrecyclerview.EasyRecyclerView
             android:id="@+id/recycler"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         </com.jude.easyrecyclerview.EasyRecyclerView>
     </android.support.design.widget.CoordinatorLayout>
 </com.example.administrator.searchpicturetool.widght.fitsystemwindowlayout.FitSystemWindowsRelativeLayout>
 
 
-    <!--<com.jude.easyrecyclerview.EasyRecyclerView
-            android:id="@+id/recycler"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        </com.jude.easyrecyclerview.EasyRecyclerView>-->

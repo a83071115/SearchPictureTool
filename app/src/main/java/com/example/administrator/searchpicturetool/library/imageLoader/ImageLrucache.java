@@ -24,7 +24,6 @@ public class ImageLrucache extends LruCache<String,Bitmap>{
 
     //添加bitmap到内存缓存中
     public void addBitmapToMemoryCache(String key,Bitmap bitmap){
-
         if(getBitmapFromMemCache(key)==null){
             this.put(key, bitmap);
         }

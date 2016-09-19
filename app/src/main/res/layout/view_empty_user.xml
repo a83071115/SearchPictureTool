@@ -1,26 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/error_relative_layout"
+
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <ImageView
-        android:id="@+id/view_empty_img"
-        android:layout_width="168dp"
-        android:layout_height="168dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="64dp"
-        android:scaleType="centerInside"
-        android:src="@drawable/ic_empty_icon" />
-
-    <TextView
-        android:id="@+id/view_empty_tv"
+    <RelativeLayout
+        android:id="@+id/error_relative_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/view_empty_img"
-        android:layout_margin="4dp"
-        android:gravity="center"
-        android:text="数据居然为空∑(っ °Д °;)っ"
-        />
+        android:layout_height="match_parent">
 
-</RelativeLayout>
+        <ImageView
+            android:id="@+id/no_net_img"
+            android:layout_width="168dp"
+            android:layout_height="168dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="64dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_empty_icon" />
+
+        <TextView
+            android:id="@+id/view_empty_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/no_net_img"
+            android:layout_margin="4dp"
+            android:gravity="center"
+            android:text="数据居然为空∑(っ °Д °;)っ"
+            />
+    </RelativeLayout>
+</android.support.v4.widget.NestedScrollView>
+

@@ -11,6 +11,8 @@ public class DownloadImg implements Serializable{
     private String largUrl;
     private int height;
     private int width;
+    private boolean isSelected;
+    private boolean beginTransaction;
     public DownloadImg(){
 
     }
@@ -19,6 +21,22 @@ public class DownloadImg implements Serializable{
         this.largUrl = largUrl;
         this.height = height;
         this.width = width;
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
+
+    public boolean isBeginTransaction() {
+        return beginTransaction;
+    }
+
+    public void setBeginTransaction(boolean beginTransaction) {
+        this.beginTransaction = beginTransaction;
     }
 
     public String getName() {

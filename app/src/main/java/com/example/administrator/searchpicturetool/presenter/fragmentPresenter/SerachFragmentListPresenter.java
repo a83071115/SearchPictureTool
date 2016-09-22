@@ -7,6 +7,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import com.example.administrator.searchpicturetool.R;
 import com.example.administrator.searchpicturetool.model.GetImagelistModel;
 import com.example.administrator.searchpicturetool.model.bean.NetImage;
+import com.example.administrator.searchpicturetool.presenter.BaseListFragmentPresenter;
 import com.example.administrator.searchpicturetool.presenter.activityPresenter.ShowLargeImgActivityPresenter;
 import com.example.administrator.searchpicturetool.view.fragment.SearchFragment;
 import com.example.administrator.searchpicturetool.view.activity.ShowLargeImgActivity;
@@ -25,7 +26,7 @@ import rx.functions.Action1;
 /**
  * Created by wenhuaijun on 2015/11/3 0003.
  */
-public class SerachFragmentListPresenter extends BeamListFragmentPresenter<SearchFragment,NetImage> implements RecyclerArrayAdapter.OnItemClickListener{
+public class SerachFragmentListPresenter extends BaseListFragmentPresenter<SearchFragment,NetImage> implements RecyclerArrayAdapter.OnItemClickListener{
     private String tab;
     private ArrayList<NetImage> netImages;
 
@@ -40,7 +41,7 @@ public class SerachFragmentListPresenter extends BeamListFragmentPresenter<Searc
         super.onCreateView(view);
         view.getListView().getRecyclerView().setHasFixedSize(false);
         view.getListView().setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
-        view.getListView().getErrorView().findViewById(R.id.view_net_btn).setOnClickListener(getView());
+      //  view.getListView().getErrorView().findViewById(R.id.view_net_btn).setOnClickListener(getView());
         tab =view.getArguments().getString("search");
         netImages = new ArrayList<NetImage>();
         onRefresh();

@@ -1,6 +1,8 @@
 package com.example.administrator.searchpicturetool.presenter.fragmentPresenter;
 
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.widget.TextView;
@@ -26,32 +28,34 @@ import rx.functions.Action1;
  */
 
 public class DownloadListPresenter extends BeamListFragmentPresenter<DownloadFragment,DownloadImg> implements RecyclerArrayAdapter.OnItemClickListener{
-    List<DownloadImg> downloadImgs;
+    private List<DownloadImg> downloadImgs;
+    private boolean isSelection;
+
+    @Override
+    protected void onCreate(@NonNull DownloadFragment view, Bundle savedState) {
+        super.onCreate(view, savedState);
+        onRefresh();
+    }
+
     @Override
     protected void onCreateView(DownloadFragment view) {
         super.onCreateView(view);
        // view.getListView().getRecyclerView().setHasFixedSize(false);
         view.getListView().setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
-        ((TextView)view.getListView().getEmptyView().findViewById(R.id.view_empty_tv)).setText("下载图片为空");
-        ((TextView)view.getListView().getEmptyView().findViewById(R.id.view_empty_tv)).setTextColor(ContextCompat.getColor(getView().getContext(),R.color.gray_deep));
-        onRefresh();
     }
-
+    public void beginSelectiong(boolean begin){
+        if(isSelection==begin){
+            return;
+        }
+        isSelection =begin;
+        for(DownloadImg downloadImg:downloadImgs){
+            downloadImg.setBeginTransaction(begin);
+            getAdapter().notifyDataSetChanged();
+        }
+    }
     @Override
     public void onRefresh() {
         super.onRefresh();
-      // getImagesList();
-        /*DownloadImgModel.getImageListFromFile2().subscribe(new Action1<List<File>>() {
-            @Override
-            public void call(List<File> files) {
-                downloadImgs =files;
-                if(files.size()==0||files==null){
-                    getView().getListView().showEmpty();
-                }
-                getRefreshSubscriber().onNext(files);
-                getAdapter().setOnItemClickListener(DownloadListPresenter.this);
-            }
-        });*/
         SqlModel.getDownloadImgs(getView().getContext()).subscribe(new Action1<ArrayList<DownloadImg>>() {
             @Override
             public void call(ArrayList<DownloadImg> imgs) {
@@ -64,24 +68,6 @@ public class DownloadListPresenter extends BeamListFragmentPresenter<DownloadFra
             }
         });
     }
-  /*  public void getImagesList(){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                files =DownloadImgModel.getImageListFromFile();
-                getView().getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if(files.size()==0||files==null){
-                            getView().getListView().showEmpty();
-                        }
-                        getRefreshSubscriber().onNext(files);
-                        getAdapter().setOnItemClickListener(DownloadListPresenter.this);
-                    }
-                });
-            }
-        }).start();
-    }*/
 
     @Override
     public void onItemClick(int position) {
@@ -100,5 +86,13 @@ public class DownloadListPresenter extends BeamListFragmentPresenter<DownloadFra
         if(requestCode==100&&resultCode==100){
             onRefresh();
         }
+    }
+
+    public void setSelection(boolean selection) {
+        isSelection = selection;
+    }
+
+    public List<DownloadImg> getDownloadImgs() {
+        return downloadImgs;
     }
 }

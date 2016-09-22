@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 
 import com.example.administrator.searchpicturetool.config.MySql;
+import com.example.administrator.searchpicturetool.model.bean.CollectSearchTip;
 import com.example.administrator.searchpicturetool.model.bean.DownloadImg;
 import com.example.administrator.searchpicturetool.model.bean.NetImage;
 import com.example.administrator.searchpicturetool.model.bean.NetImageImpl;
@@ -64,13 +65,15 @@ public class DBManager {
     /**
      * 批量删除已选中下载的图片
      */
-    public void deleteDownloadPictures(ArrayList<DownloadImg> imgs,Context context){
+    public void deleteDownloadPictures(List<DownloadImg> imgs,Context context){
         db.beginTransaction();
         for(DownloadImg img :imgs){
-            new File(img.getName()).delete();
-            //发送广播，让相册更新图片
-            context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + img.getName())));
-            db.execSQL("delete from "+MySql.DownloadTable+" where fileName =?",new Object[]{img.getName()});
+            if(img.isSelected()){
+                new File(img.getName()).delete();
+                //发送广播，让相册更新图片
+                context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + img.getName())));
+                db.execSQL("delete from "+MySql.DownloadTable+" where fileName =?",new Object[]{img.getName()});
+            }
         }
 
         db.setTransactionSuccessful();
@@ -193,6 +196,14 @@ public class DBManager {
         db.setTransactionSuccessful();
         db.endTransaction();
     }
+
+    public void addSearchTip(String tip,String uriType,String uri){
+        db.beginTransaction();
+        db.execSQL("insert into "+MySql.TipTable+" values(null,?,?,?)",
+                new Object[]{tip,uriType,uri});
+        db.setTransactionSuccessful();
+        db.endTransaction();
+    }
     //添加一个推荐列表到数据库
     private void addRecommendContent(NewRecommendContent content){
       //  db.beginTransaction();
@@ -217,7 +228,22 @@ public class DBManager {
         db.setTransactionSuccessful();
         db.endTransaction();
     }
-
+    public void deleteSearchTip(int id){
+        db.beginTransaction();
+        db.execSQL("delete from "+MySql.TipTable+" where id = ?",new Object[]{id});
+        db.setTransactionSuccessful();
+        db.endTransaction();
+    }
+    public void deleteSearchTips(List<CollectSearchTip> collectSearchTips){
+        db.beginTransaction();
+        for(CollectSearchTip searchTip :collectSearchTips){
+            if(searchTip.isSelected()){
+                db.execSQL("delete from "+MySql.TipTable+" where id = ?",new Object[]{searchTip.getId()});
+            }
+        }
+        db.setTransactionSuccessful();
+        db.endTransaction();
+    }
     /**
      * 将已删除的收藏图片信息从数据库里删除
      */
@@ -234,7 +260,9 @@ public class DBManager {
     public void deleteCollectPictures(ArrayList<NetImage> imgs){
         db.beginTransaction();
         for(NetImage img :imgs){
-            db.execSQL("delete from "+MySql.CollectTable+" where largeImgUrl =?",new Object[]{img.getLargeImg()});
+            if(img.isSelected()){
+                db.execSQL("delete from "+MySql.CollectTable+" where largeImgUrl =?",new Object[]{img.getLargeImg()});
+            }
         }
 
         db.setTransactionSuccessful();
@@ -261,6 +289,29 @@ public class DBManager {
         }
         cursor.close();
         return imgs;
+
+    }
+
+    /**
+     * 查询所有收藏的搜索标签
+     * @return
+     */
+    public ArrayList<CollectSearchTip> queryHasCollectSearchTips(){
+        ArrayList<CollectSearchTip> searchTips = new ArrayList<CollectSearchTip>();
+        Cursor cursor = db.rawQuery("select * from "+MySql.TipTable+" order by id desc",null);
+
+        if (cursor!=null&&cursor.moveToFirst()){
+            do{
+                CollectSearchTip searchTip= new CollectSearchTip();
+                searchTip.setTip(cursor.getString(cursor.getColumnIndex("tip")));
+                searchTip.setUriType(cursor.getString(cursor.getColumnIndex("uriType")));
+                searchTip.setUri(cursor.getString(cursor.getColumnIndex("imageUri")));
+                searchTip.setId(cursor.getInt(cursor.getColumnIndex("id")));
+                searchTips.add(searchTip);
+            }while(cursor.moveToNext());
+        }
+        cursor.close();
+        return searchTips;
 
     }
 

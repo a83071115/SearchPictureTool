@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.example.administrator.searchpicturetool.R;
 import com.example.administrator.searchpicturetool.view.fragment.JoyImgFragment;
@@ -16,7 +17,7 @@ import java.util.HashMap;
 /**
  * Created by wenhuaijun on 2015/11/2 0002.
  */
-public class MyTabFragmentAdapter extends FragmentPagerAdapter {
+public class MyTabFragmentAdapter extends FragmentStatePagerAdapter {
     private HashMap<String,Fragment> fragments;
     private String[] tabs;
     public MyTabFragmentAdapter(Context context, FragmentManager fm) {

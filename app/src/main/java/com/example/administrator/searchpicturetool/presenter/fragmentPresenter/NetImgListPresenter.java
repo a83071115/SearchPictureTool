@@ -9,6 +9,7 @@ import android.view.View;
 import com.example.administrator.searchpicturetool.R;
 import com.example.administrator.searchpicturetool.model.GetImagelistModel;
 import com.example.administrator.searchpicturetool.model.bean.NetImage;
+import com.example.administrator.searchpicturetool.presenter.BaseListFragmentPresenter;
 import com.example.administrator.searchpicturetool.presenter.activityPresenter.ShowLargeImgActivityPresenter;
 import com.example.administrator.searchpicturetool.view.activity.ShowLargeImgActivity;
 import com.example.administrator.searchpicturetool.view.fragment.NetImgFragment;
@@ -28,7 +29,7 @@ import rx.functions.Action1;
  * Created by wenhuaijun on 2015/11/2 0002.
  */
 
-public class NetImgListPresenter extends BeamListFragmentPresenter<NetImgFragment, NetImage> implements RecyclerArrayAdapter.OnItemClickListener {
+public class NetImgListPresenter extends BaseListFragmentPresenter<NetImgFragment, NetImage> implements RecyclerArrayAdapter.OnItemClickListener {
     private String tab;
     private ArrayList<NetImage> netImages;
 
@@ -44,15 +45,6 @@ public class NetImgListPresenter extends BeamListFragmentPresenter<NetImgFragmen
     protected void onCreateView(NetImgFragment view) {
         super.onCreateView(view);
         view.getListView().setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
-        initStatusView(view);
-    }
-
-    public void initStatusView(NetImgFragment view) {
-        view.getListView().getErrorView().findViewById(R.id.view_net_btn).setOnClickListener(getView());
-        view.getListView().getEmptyView().findViewById(R.id.view_empty_btn).setOnClickListener(getView());
-        if (getAdapter() != null && getAdapter().getCount() == 0 && !JUtils.isNetWorkAvilable()) {
-            view.getListView().showError();
-        }
     }
 
     @Override

@@ -1,7 +1,10 @@
 package com.example.administrator.searchpicturetool.view.activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -107,10 +110,9 @@ public class ShowLargeImgActivity extends BeamBaseActivity<ShowLargeImgActivityP
     public void collect(){
         if(hasCollected){
             getPresenter().requestCollectPicture();
-            JUtils.Toast("已取消收藏");
+
         }else{
             getPresenter().collectPicture();
-            JUtils.Toast("已收藏");
         }
 
     }
@@ -124,28 +126,49 @@ public class ShowLargeImgActivity extends BeamBaseActivity<ShowLargeImgActivityP
                 .itemsCallback((dialog, itemView, position, text) -> {
                     switch (position){
                         case 0:
-                            getProgressDialog().show();
+                            showDialog("设置壁纸","请稍等片刻");
                             getPresenter().setWallWrapper();
                             break;
                         case 1:
                             JUtils.Toast("该功能在下一个版本中开发，敬请期待");
                             break;
+                        case 2:
+                            showDialog("举报该图片","请稍等片刻");
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    dismissDialog();
+                                    JUtils.Toast("已举报");
+                                }
+                            },2000);
                         default:
                             break;
                     }
                 }).show();
     }
 
-    public MaterialDialog getProgressDialog(){
-        if(mProgressDialog==null){
+    public MaterialDialog showDialog(String title, String content){
             mProgressDialog = new MaterialDialog.Builder(this)
                     .theme(Theme.DARK)
-                    .content("请稍等片刻...")
-                    .title("设置壁纸")
+                    .content(content)
+                    .title(title)
                     .progress(true, 0)
-                    .build();
-        }
+                    .show();
         return mProgressDialog;
+    }
+    public void dismissDialog(){
+        if(mProgressDialog!=null){
+            mProgressDialog.dismiss();
+        }
+    }
+
+    public void showSnackBar(View view,String message, String action, View.OnClickListener listener){
+        if (view==null){
+            view =pg_tv;
+        }
+        Snackbar.make(view, message, Snackbar.LENGTH_SHORT)
+                .setActionTextColor(ContextCompat.getColor(this,R.color.colorPrimaryDark))
+                .setAction(action,listener).show();
     }
 
    /* @Override

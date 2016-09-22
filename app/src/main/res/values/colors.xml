@@ -11,7 +11,8 @@
     <color name="black_deep">#34322F</color>
     <color name="orange">#fda76d</color>
     <color name="orange_deep">#ff9800</color>
-    <color name="bantouming">#e0000000</color>
+    <color name="black">#FF333232</color>
+    <color name="bantouming">#d2838181</color>
     <color name="touming">#00000000</color>
     <color name="gray_light">#f3f3f3</color>
     <color name="page_background">#eeeeee</color>

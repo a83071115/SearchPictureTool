@@ -1,4 +1,4 @@
-package com.example.administrator.searchpicturetool.model;
+package com.example.administrator.searchpicturetool.util;
 
 import com.example.administrator.searchpicturetool.model.bean.DownloadImg;
 import com.example.administrator.searchpicturetool.model.bean.NetImage;
@@ -26,5 +26,12 @@ public class CollectImgSelected {
     }
     public static int size() {
         return getSelectedImgs().size();
+    }
+    public static  void clear(){
+        if(selectedImgs!=null){
+            selectedImgs.clear();
+            selectedImgs =null;
+        }
+
     }
 }

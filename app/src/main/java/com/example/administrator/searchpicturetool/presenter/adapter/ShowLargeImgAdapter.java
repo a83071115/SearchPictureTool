@@ -80,7 +80,7 @@ public class ShowLargeImgAdapter extends PagerAdapter implements View.OnClickLis
                 getFrescoCacheBitmap(context, netImages.get(position).getThumbImg());
        if(dataSource!=null){
            //fresco含有缓存时直接现在缩略图
-           progressWheel.setVisibility(View.GONE);
+           progressWheel.setVisibility(View.VISIBLE);
            dataSource.subscribe(new BaseBitmapDataSubscriber() {
                        @Override
                        protected void onNewResultImpl(Bitmap bitmap) {

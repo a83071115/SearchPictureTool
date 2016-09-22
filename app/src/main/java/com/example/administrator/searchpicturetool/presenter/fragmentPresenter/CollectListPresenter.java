@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.example.administrator.searchpicturetool.R;
 import com.example.administrator.searchpicturetool.model.SqlModel;
 import com.example.administrator.searchpicturetool.model.bean.NetImage;
+import com.example.administrator.searchpicturetool.presenter.BaseListFragmentPresenter;
 import com.example.administrator.searchpicturetool.presenter.activityPresenter.ShowLargeImgActivityPresenter;
 import com.example.administrator.searchpicturetool.view.activity.ShowLargeImgActivity;
 import com.example.administrator.searchpicturetool.view.fragment.CollectFragment;
@@ -28,6 +29,8 @@ import rx.functions.Action1;
  */
 public class CollectListPresenter extends BeamListFragmentPresenter<CollectFragment,NetImage> implements RecyclerArrayAdapter.OnItemClickListener{
     private ArrayList<NetImage> netImages;
+    private boolean isSelection;
+
     @Override
     protected void onCreate(@NonNull CollectFragment view, Bundle savedState) {
         super.onCreate(view, savedState);
@@ -40,8 +43,6 @@ public class CollectListPresenter extends BeamListFragmentPresenter<CollectFragm
         super.onCreateView(view);
         view.getListView().getRecyclerView().setHasFixedSize(false);
         view.getListView().setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
-        ((TextView)view.getListView().getEmptyView().findViewById(R.id.view_empty_tv)).setText("收藏图片为空");
-        ((TextView)view.getListView().getEmptyView().findViewById(R.id.view_empty_tv)).setTextColor(ContextCompat.getColor(getView().getContext(),R.color.gray_deep));
     }
 
     @Override
@@ -55,6 +56,17 @@ public class CollectListPresenter extends BeamListFragmentPresenter<CollectFragm
                     }
                 })
                 .unsafeSubscribe(getRefreshSubscriber());
+    }
+
+    public void beginSelectiong(boolean begin){
+        if(isSelection==begin){
+            return;
+        }
+        isSelection =begin;
+        for(NetImage netImge: netImages){
+            netImge.setBeginTransaction(begin);
+        }
+        getAdapter().notifyDataSetChanged();
     }
 
 
@@ -75,5 +87,13 @@ public class CollectListPresenter extends BeamListFragmentPresenter<CollectFragm
         if(requestCode==100&&resultCode==100){
             onRefresh();
         }
+    }
+
+    public ArrayList<NetImage> getNetImages() {
+        return netImages;
+    }
+
+    public void setSelection(boolean selection) {
+        isSelection = selection;
     }
 }

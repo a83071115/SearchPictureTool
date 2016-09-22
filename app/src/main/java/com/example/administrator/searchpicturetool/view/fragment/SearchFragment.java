@@ -9,6 +9,7 @@ import com.example.administrator.searchpicturetool.R;
 import com.example.administrator.searchpicturetool.config.Constant;
 import com.example.administrator.searchpicturetool.model.bean.NetImage;
 import com.example.administrator.searchpicturetool.presenter.fragmentPresenter.SerachFragmentListPresenter;
+import com.example.administrator.searchpicturetool.view.BaseListFragment;
 import com.example.administrator.searchpicturetool.view.viewHolder.NetImageListViewHolder;
 import com.jude.beam.bijection.RequiresPresenter;
 import com.jude.beam.expansion.list.BeamListFragment;
@@ -19,7 +20,7 @@ import com.jude.easyrecyclerview.adapter.BaseViewHolder;
  * Created by wenhuaijun on 2015/11/3 0003.
  */
 @RequiresPresenter(SerachFragmentListPresenter.class)
-public class SearchFragment extends BeamListFragment<SerachFragmentListPresenter,NetImage> implements View.OnClickListener {
+public class SearchFragment extends BaseListFragment<SerachFragmentListPresenter,NetImage> implements View.OnClickListener {
 
 
     @Nullable
@@ -36,22 +37,9 @@ public class SearchFragment extends BeamListFragment<SerachFragmentListPresenter
     protected BaseViewHolder getViewHolder(ViewGroup parent, int viewType) {
         return new NetImageListViewHolder(parent);
     }
-
-    public void showRefreshing(boolean shouldShow){
-        getListView().getSwipeToRefresh().post(new Runnable() {
-            @Override
-            public void run() {
-                getListView().getSwipeToRefresh().setRefreshing(shouldShow);
-            }
-        });
-    }
-
-
     @Override
     public void onClick(View view) {
-        if(view.getId() ==R.id.view_net_btn){
-            showRefreshing(true);
-            getPresenter().onRefresh();
-        }
+        super.onClick(view);
+
     }
 }

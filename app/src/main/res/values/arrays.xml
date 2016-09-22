@@ -3,17 +3,16 @@
     <string-array name="tab">
         <item>热门推荐</item>
         <item>每日一笑</item>
+        <item>动漫</item>
+        <item>唯美</item>
         <item>手机壁纸</item>
         <item>风景</item>
-        <item>唯美</item>
         <item>美女</item>
         <item>帅哥</item>
-        <item>宠物</item>
+        <item>萌宠</item>
         <item>旅游胜地</item>
-        <item>动漫</item>
         <item>电影壁纸</item>
         <item>游戏壁纸</item>
-        <item>体育壁纸</item>
     </string-array>
 
 
@@ -21,21 +20,34 @@
         <item>热门推荐</item>
         <item>每日一笑</item>
         <item>手机壁纸</item>
-        <item>风景</item>
+        <item>动漫</item>
         <item>唯美</item>
+        <item>风景</item>
         <item>美女</item>
         <item>帅哥</item>
-        <item>宠物</item>
+        <item>萌宠</item>
         <item>旅游胜地</item>
-        <item>动漫</item>
         <item>电影壁纸</item>
         <item>游戏壁纸</item>
-        <item>体育壁纸</item>
     </string-array>
 
     <string-array name="arrays_more">
         <item>设为壁纸</item>
         <item>剪辑图片</item>
+        <item>举报不良图片</item>
     </string-array>
+
+    <!--<string-array name="arrays_bg_img">
+        <item>R.drawable.bg_1</item><item>R.drawable.bg_2</item>
+        <item>R.drawable.bg_3</item><item>R.drawable.bg_4</item>
+        <item>R.drawable.bg_5</item><item>R.drawable.bg_6</item>
+        <item>R.drawable.bg_8</item><item>R.drawable.bg_9</item>
+        <item>R.drawable.bg_10</item><item>R.drawable.bg_11</item>
+        <item>R.drawable.bg_12</item><item>R.drawable.bg_13</item>
+        <item>R.drawable.bg_14</item><item>R.drawable.bg_15</item>
+        <item>R.drawable.bg_16</item><item>R.drawable.bg_17</item>
+        <item>R.drawable.bg_18</item><item>R.drawable.bg_19</item>
+        <item>R.drawable.bg_20</item><item>R.drawable.bg_7</item>
+    </string-array>-->
 
 </resources>

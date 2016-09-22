@@ -71,14 +71,12 @@ public class BitmapUtils {
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds =true;
         BitmapFactory.decodeFileDescriptor(fileDescriptor, null, options);
-        // Calculate inSampleSize
         options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
         options.inJustDecodeBounds = false;
         //不需要缩放
         if(options.inSampleSize<=1){
             return BitmapFactory.decodeFileDescriptor(fileDescriptor);
         }
-        //inSampleSize！=1进行缩放
         return BitmapFactory.decodeFileDescriptor(fileDescriptor, null, options);
     }
 

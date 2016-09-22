@@ -6,9 +6,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.administrator.searchpicturetool.R;
-import com.example.administrator.searchpicturetool.model.CollectImgSelected;
+import com.example.administrator.searchpicturetool.util.CollectImgSelected;
 import com.example.administrator.searchpicturetool.model.bean.NetImage;
-import com.example.administrator.searchpicturetool.presenter.activityPresenter.UserActivityPresenter;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 import com.jude.utils.JUtils;
@@ -20,13 +19,12 @@ public class CollectImageListViewHolder extends BaseViewHolder<NetImage> {
     SimpleDraweeView image;
     View view_bg;
     ImageView img_selected;
-    boolean isSelected =false;
     float width;
     float height;
     float sccrenWidth;
     ViewGroup.LayoutParams layoutParams;
     public CollectImageListViewHolder(ViewGroup parent) {
-        super(parent, R.layout.item_netimage);
+        super(parent, R.layout.item_view_user_collect_img);
         image =(SimpleDraweeView)itemView.findViewById(R.id.net_img);
         view_bg =itemView.findViewById(R.id.bg_layout);
         img_selected =(ImageView)itemView.findViewById(R.id.img_selected);
@@ -42,22 +40,25 @@ public class CollectImageListViewHolder extends BaseViewHolder<NetImage> {
         layoutParams.height= (int)((height/width)*sccrenWidth);
         image.setLayoutParams(layoutParams);
         image.setImageURI(Uri.parse(data.getThumbImg()));
-        if(UserActivityPresenter.isTransactioning){
+
+        if(data.isBeginTransaction()){
             view_bg.setLayoutParams(layoutParams);
             view_bg.setVisibility(View.VISIBLE);
             img_selected.setVisibility(View.VISIBLE);
-            img_selected.setImageResource(R.drawable.ic_not_selected);
+            if(data.isSelected()){
+                img_selected.setImageResource(R.drawable.ic_selected);
+            }else {
+                img_selected.setImageResource(R.drawable.ic_not_selected);
+            }
             img_selected.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(!isSelected){
+                    if(!data.isSelected()){
                         img_selected.setImageResource(R.drawable.ic_selected);
-                        CollectImgSelected.add(data);
-                        isSelected=true;
+                        data.setSelected(true);
                     }else{
                         img_selected.setImageResource(R.drawable.ic_not_selected);
-                        CollectImgSelected.remove(data);
-                        isSelected=false;
+                        data.setSelected(true);
                     }
 
                 }

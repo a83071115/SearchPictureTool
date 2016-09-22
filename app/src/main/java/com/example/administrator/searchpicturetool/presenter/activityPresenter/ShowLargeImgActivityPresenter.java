@@ -1,8 +1,11 @@
 package com.example.administrator.searchpicturetool.presenter.activityPresenter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.text.TextUtils;
+import android.content.Intent;
+import android.view.KeyCharacterMap;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.ViewConfiguration;
 
 import com.example.administrator.searchpicturetool.config.API;
 import com.example.administrator.searchpicturetool.library.imageLoader.EasyImageLoader;
@@ -10,17 +13,11 @@ import com.example.administrator.searchpicturetool.model.SaveBitmapModel;
 import com.example.administrator.searchpicturetool.model.SqlModel;
 import com.example.administrator.searchpicturetool.model.WrapperModel;
 import com.example.administrator.searchpicturetool.model.bean.NetImage;
-import com.example.administrator.searchpicturetool.presenter.fragmentPresenter.NetImgListPresenter;
-import com.example.administrator.searchpicturetool.presenter.fragmentPresenter.SerachFragmentListPresenter;
 import com.example.administrator.searchpicturetool.util.Utils;
 import com.example.administrator.searchpicturetool.view.activity.ShowLargeImgActivity;
 import com.example.administrator.searchpicturetool.presenter.adapter.ShowLargeImgAdapter;
+import com.example.administrator.searchpicturetool.view.activity.UserActivity;
 import com.example.administrator.searchpicturetool.widght.PinchImageViewPager;
-import com.facebook.common.executors.CallerThreadExecutor;
-import com.facebook.common.references.CloseableReference;
-import com.facebook.datasource.DataSource;
-import com.facebook.imagepipeline.datasource.BaseBitmapDataSubscriber;
-import com.facebook.imagepipeline.image.CloseableImage;
 import com.jude.beam.bijection.Presenter;
 import com.jude.utils.JUtils;
 
@@ -41,10 +38,10 @@ public class ShowLargeImgActivityPresenter extends Presenter<ShowLargeImgActivit
         public void call(Integer integer) {
             if (integer.intValue() == API.status.success) {
                 JUtils.Toast("设置成功！");
-                getView().getProgressDialog().dismiss();
+                getView().dismissDialog();
             } else {
                 JUtils.Toast("设置失败...");
-                getView().getProgressDialog().dismiss();
+                getView().dismissDialog();
             }
         }
     };
@@ -64,8 +61,8 @@ public class ShowLargeImgActivityPresenter extends Presenter<ShowLargeImgActivit
 
             if (!path.equals(API.status.error + "")) {
                 if (state == 0) {
-                    JUtils.Log("path: " + path);
-                    JUtils.ToastLong("图片已保存至：" + path);
+                 //   JUtils.ToastLong("图片已保存至：" + path);
+                    showSnackBar("图片已保存至：" + path,"download");
                     //保存到数据库
                     SqlModel.addDownloadImg(getView(), netImages.get(currentPosition), path);
                 }
@@ -78,6 +75,21 @@ public class ShowLargeImgActivityPresenter extends Presenter<ShowLargeImgActivit
             }
         }
     };
+
+    public static boolean checkDeviceHasNavigationBar(Context activity) {
+
+        //通过判断设备是否有返回键、菜单键(不是虚拟键,是手机屏幕外的按键)来确定是否有navigation bar
+        boolean hasMenuKey = ViewConfiguration.get(activity)
+                .hasPermanentMenuKey();
+        boolean hasBackKey = KeyCharacterMap
+                .deviceHasKey(KeyEvent.KEYCODE_BACK);
+
+        if (!hasMenuKey && !hasBackKey) {
+            // 做任何你需要做的,这个设备有一个导航栏
+            return true;
+        }
+        return false;
+    }
 
     @Override
     protected void onCreateView(ShowLargeImgActivity view) {
@@ -107,6 +119,7 @@ public class ShowLargeImgActivityPresenter extends Presenter<ShowLargeImgActivit
 
     public void collectPicture() {
         SqlModel.addCollectImg(getView(), netImages.get(currentPosition));
+        showSnackBar("已收藏","collect");
 
     }
 
@@ -114,6 +127,7 @@ public class ShowLargeImgActivityPresenter extends Presenter<ShowLargeImgActivit
         SqlModel.deleteCollectImgByUrl(getView(), netImages.get(currentPosition).getLargeImg());
         getView().setResult(100);
         getView().finish();
+        JUtils.Toast("已取消收藏");
 
     }
 
@@ -180,11 +194,29 @@ public class ShowLargeImgActivityPresenter extends Presenter<ShowLargeImgActivit
                 }
             } else {
                 JUtils.Toast("下载图片失败");
-                getView().getProgressDialog().dismiss();
+                getView().dismissDialog();
             }
         });
 
     }
+
+    public void showSnackBar(String s,String action){
+        if(!checkDeviceHasNavigationBar(getView())){
+            getView().showSnackBar(null, s, "查看", new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent();
+                    intent.setAction(action);
+                    intent.setClass(getView(),UserActivity.class);
+                    getView().startActivity(intent);
+                }
+            });
+        }else {
+            JUtils.Toast(s);
+        }
+
+    }
+
   /*  private void startShareImg(String path){
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.setType("image*//*");

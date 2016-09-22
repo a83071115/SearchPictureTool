@@ -6,6 +6,7 @@ import com.example.administrator.searchpicturetool.R;
 import com.example.administrator.searchpicturetool.config.Constant;
 import com.example.administrator.searchpicturetool.model.bean.NetImage;
 import com.example.administrator.searchpicturetool.presenter.fragmentPresenter.CollectListPresenter;
+import com.example.administrator.searchpicturetool.view.BaseListFragment;
 import com.example.administrator.searchpicturetool.view.viewHolder.CollectImageListViewHolder;
 import com.jude.beam.bijection.RequiresPresenter;
 import com.jude.beam.expansion.list.BeamListFragment;
@@ -17,16 +18,15 @@ import com.jude.utils.JUtils;
  * Created by wenhuaijun on 2015/11/12 0012.
  */
 @RequiresPresenter(CollectListPresenter.class)
-public class CollectFragment extends BeamListFragment<CollectListPresenter,NetImage>{
+public class CollectFragment extends BeamListFragment<CollectListPresenter,NetImage> {
     @Override
     protected ListConfig getConfig() {
-        return Constant.getUnloadMoreConfig().setContainerEmptyRes(R.layout.view_empty_user);
+        return Constant.getBaseConfig().setContainerEmptyRes(R.layout.view_empty_user);
     }
 
     @Override
     public void showError(Throwable e) {
         super.showError(e);
-        JUtils.Log(e.getLocalizedMessage());
     }
 
     @Override

@@ -10,6 +10,7 @@ import com.example.administrator.searchpicturetool.R;
 import com.example.administrator.searchpicturetool.config.Constant;
 import com.example.administrator.searchpicturetool.model.bean.NewRecommendContent;
 import com.example.administrator.searchpicturetool.presenter.activityPresenter.MoreAcitivityPresenter;
+import com.example.administrator.searchpicturetool.view.BaseListActivity;
 import com.example.administrator.searchpicturetool.view.viewHolder.MoreViewHolder;
 import com.jude.beam.bijection.RequiresPresenter;
 import com.jude.beam.expansion.list.BeamListActivity;
@@ -23,7 +24,7 @@ import butterknife.ButterKnife;
  * Created by Administrator on 2016/5/10 0010.
  */
 @RequiresPresenter(MoreAcitivityPresenter.class)
-public class MoreRecommendActivity extends BeamListActivity<MoreAcitivityPresenter,NewRecommendContent> implements View.OnClickListener{
+public class MoreRecommendActivity extends BaseListActivity<MoreAcitivityPresenter,NewRecommendContent> implements View.OnClickListener{
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @Override
@@ -44,7 +45,7 @@ public class MoreRecommendActivity extends BeamListActivity<MoreAcitivityPresent
     }
     @Override
     protected ListConfig getConfig() {
-        return Constant.getUnloadMoreConfig();
+        return Constant.getBaseConfig();
     }
 
     @Override
@@ -52,19 +53,11 @@ public class MoreRecommendActivity extends BeamListActivity<MoreAcitivityPresent
         return toolbar;
     }
 
-    public void showRefreshing(boolean shouldShow){
-        getListView().getSwipeToRefresh().post(() -> getListView().getSwipeToRefresh().setRefreshing(shouldShow));
-    }
+
 
 
     @Override
     public void onClick(View view) {
-        if(view.getId() ==R.id.view_net_btn){
-            showRefreshing(true);
-            getPresenter().onRefresh();
-        }else if(view.getId() ==R.id.view_empty_btn){
-            showRefreshing(true);
-            getPresenter().onRefresh();
-        }
+        super.onClick(view);
     }
 }

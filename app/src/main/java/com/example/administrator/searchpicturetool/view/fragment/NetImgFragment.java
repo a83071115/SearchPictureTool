@@ -10,22 +10,23 @@ import com.example.administrator.searchpicturetool.R;
 import com.example.administrator.searchpicturetool.config.Constant;
 import com.example.administrator.searchpicturetool.model.bean.NetImage;
 import com.example.administrator.searchpicturetool.presenter.fragmentPresenter.NetImgListPresenter;
+import com.example.administrator.searchpicturetool.view.BaseListFragment;
 import com.example.administrator.searchpicturetool.view.viewHolder.NetImageListViewHolder;
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.imagepipeline.core.ImagePipeline;
 import com.jude.beam.bijection.RequiresPresenter;
 import com.jude.beam.expansion.list.BeamListFragment;
 import com.jude.beam.expansion.list.ListConfig;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 
 @RequiresPresenter(NetImgListPresenter.class)
-public class NetImgFragment extends BeamListFragment<NetImgListPresenter, NetImage> implements View.OnClickListener {
+public class NetImgFragment extends BaseListFragment<NetImgListPresenter, NetImage> implements View.OnClickListener {
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return super.onCreateView(inflater, container, savedInstanceState);
     }
-
-
     @Override
     protected ListConfig getConfig() {
         return Constant.getLoadMoreConfig();
@@ -37,19 +38,14 @@ public class NetImgFragment extends BeamListFragment<NetImgListPresenter, NetIma
         return new NetImageListViewHolder(parent);
     }
 
-    public void showRefreshing(boolean shouldShow) {
-        getListView().getSwipeToRefresh().post(() -> getListView().getSwipeToRefresh().setRefreshing(shouldShow));
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
     }
-
 
     @Override
     public void onClick(View view) {
-        if (view.getId() == R.id.view_net_btn) {
-            showRefreshing(true);
-            getPresenter().onRefresh();
-        } else if (view.getId() == R.id.view_empty_btn) {
-            showRefreshing(true);
-            getPresenter().onRefresh();
-        }
+        super.onClick(view);
+
     }
 }

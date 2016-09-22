@@ -1,13 +1,17 @@
 package com.example.administrator.searchpicturetool.presenter.activityPresenter;
 
 import com.example.administrator.searchpicturetool.config.API;
-import com.example.administrator.searchpicturetool.model.CollectImgSelected;
-import com.example.administrator.searchpicturetool.model.DownloadImgSelected;
 import com.example.administrator.searchpicturetool.model.SqlModel;
+import com.example.administrator.searchpicturetool.model.bean.CollectSearchTip;
+import com.example.administrator.searchpicturetool.model.bean.DownloadImg;
+import com.example.administrator.searchpicturetool.model.bean.NetImage;
 import com.example.administrator.searchpicturetool.presenter.adapter.UserPagerAdapter;
 import com.example.administrator.searchpicturetool.view.activity.UserActivity;
 import com.jude.beam.bijection.Presenter;
-import com.jude.utils.JUtils;
+
+
+import java.util.ArrayList;
+import java.util.List;
 
 import rx.functions.Action1;
 
@@ -16,18 +20,8 @@ import rx.functions.Action1;
  */
 public class UserActivityPresenter extends Presenter<UserActivity> {
     public UserPagerAdapter userPagerAdapter;
-    public static boolean isTransactioning =false;
-    /**
-     * 0:批量删除图片
-     * 1：批量设置每日替换壁纸
-     * 2：批量分享下载图片
-     */
-    public int transaction=-1;
-    /**
-     * 0: downloadPage
-     * 1:collectPage
-     */
-    public int page=0;
+    public boolean isTransactioning;
+    public int page = 0;
 
     @Override
     protected void onCreateView(UserActivity view) {
@@ -35,88 +29,127 @@ public class UserActivityPresenter extends Presenter<UserActivity> {
         userPagerAdapter = new UserPagerAdapter(getView().getSupportFragmentManager());
         getView().getViewPager().setAdapter(userPagerAdapter);
         getView().getTabLayout().setupWithViewPager(getView().getViewPager());
+        if (getView().getIntent().getAction() != null) {
+            if (getView().getIntent().getAction().equals("download")) {
+                getView().getViewPager().setCurrentItem(0);
+            } else if (getView().getIntent().getAction().equals("collect")) {
+                getView().getViewPager().setCurrentItem(1);
+            } else if (getView().getIntent().getAction().equals("tip")) {
+                getView().getViewPager().setCurrentItem(2);
+            }
+
+        }
     }
 
     @Override
     protected void onDestroyView() {
         super.onDestroyView();
-        isTransactioning =false;
-        DownloadImgSelected.getSelectedImgs().clear();
-        CollectImgSelected.getSelectedImgs().clear();
     }
-    public void beginSelectImgs(){
-        isTransactioning =true;
-        if(page==0)  userPagerAdapter.getDownloadFragment().getListView().getAdapter().notifyDataSetChanged();
-        if(page==1) userPagerAdapter.getCollectFragment().getListView().getAdapter().notifyDataSetChanged();
-       // userPagerAdapter.getDownloadFragment().getListView().getSwipeToRefresh().setEnabled(false);
 
-    }
-    public void beginTransaction(){
-        switch (transaction){
-            case 0:
-                //批量删除图片
-                isTransactioning =false;
-                if(DownloadImgSelected.size()!=0) deleteDownloadImgs();
-                if(CollectImgSelected.size()!=0)  deleteCollectImgs();
-                break;
-            case 1:
-                //设置每日壁纸
-                transactionEnd();
-                break;
-            case 2:
-                //批量分享下载图片
-                transactionEnd();
-                break;
-            default:
-                transactionEnd();
-                break;
+    public void beginSelectImgs(boolean begin) {
+        isTransactioning = begin;
+        if (begin) {
+            if (page == 0){
+                userPagerAdapter.getDownloadFragment().getPresenter().beginSelectiong(begin);
+                userPagerAdapter.getCollectFragment().getPresenter().beginSelectiong(!begin);
+                if(userPagerAdapter.getCollectTipFragment()!=null){
+                    userPagerAdapter.getCollectTipFragment().getPresenter().beginSelectiong(!begin);
+                }
+            }
+
+            if (page == 1){
+                userPagerAdapter.getDownloadFragment().getPresenter().beginSelectiong(!begin);
+                userPagerAdapter.getCollectFragment().getPresenter().beginSelectiong(begin);
+                if(userPagerAdapter.getCollectTipFragment()!=null){
+                    userPagerAdapter.getCollectTipFragment().getPresenter().beginSelectiong(!begin);
+                }
+            }
+
+            if (page == 2) {
+                userPagerAdapter.getDownloadFragment().getPresenter().beginSelectiong(!begin);
+                userPagerAdapter.getCollectFragment().getPresenter().beginSelectiong(!begin);
+                if(userPagerAdapter.getCollectTipFragment()!=null){
+                    userPagerAdapter.getCollectTipFragment().getPresenter().beginSelectiong(begin);
+                }
+            }
+        } else {
+            userPagerAdapter.getDownloadFragment().getPresenter().beginSelectiong(begin);
+            userPagerAdapter.getCollectFragment().getPresenter().beginSelectiong(begin);
+            if(userPagerAdapter.getCollectTipFragment()!=null){
+                userPagerAdapter.getCollectTipFragment().getPresenter().beginSelectiong(begin);
+            }
         }
 
+
     }
-    public void deleteDownloadImgs(){
-        SqlModel.deleteDownloadImgs(getView(), DownloadImgSelected.getSelectedImgs()).subscribe(new Action1<String>() {
+
+    public void doDelete() {
+        if (page == 0) deleteDownloadImgs();
+        if (page == 1) deleteCollectImgs();
+        if (page == 2) deleteSearchTips();
+    }
+
+    public void deleteDownloadImgs() {
+        userPagerAdapter.getDownloadFragment().getPresenter().setSelection(false);
+        List<DownloadImg> downloadImgList = userPagerAdapter.getDownloadFragment().getPresenter().getDownloadImgs();
+        if (downloadImgList == null || downloadImgList.size() == 0) {
+            return;
+        }
+        SqlModel.deleteDownloadImgs(getView(), userPagerAdapter.getDownloadFragment().getPresenter().getDownloadImgs()).subscribe(new Action1<String>() {
             @Override
             public void call(String s) {
                 if (s.equals(API.status.success + "")) {
-                    DownloadImgSelected.getSelectedImgs().clear();
                     userPagerAdapter.getDownloadFragment().getPresenter().onRefresh();
                 }
             }
         });
     }
-    public void deleteCollectImgs(){
-        SqlModel.deleteCollectImgs(getView(), CollectImgSelected.getSelectedImgs()).subscribe(new Action1<String>() {
+
+    public void deleteCollectImgs() {
+        userPagerAdapter.getCollectFragment().getPresenter().setSelection(false);
+        ArrayList<NetImage> netImages = userPagerAdapter.getCollectFragment().getPresenter().getNetImages();
+        if (netImages == null || netImages.size() == 0) {
+            return;
+        }
+        SqlModel.deleteCollectImgs(getView(), userPagerAdapter.getCollectFragment().getPresenter().getNetImages()).subscribe(new Action1<String>() {
             @Override
             public void call(String s) {
                 if (s.equals(API.status.success + "")) {
-                    CollectImgSelected.getSelectedImgs().clear();
                     userPagerAdapter.getCollectFragment().getPresenter().onRefresh();
 
                 }
             }
         });
     }
-    public void transactionEnd(){
-        if(transaction==1){
-            JUtils.Toast("每日壁纸正在赶工中...");
+
+    public void deleteSearchTips() {
+        userPagerAdapter.getCollectTipFragment().getPresenter().setSelection(false);
+        ArrayList<CollectSearchTip> collectSearchTips = userPagerAdapter.getCollectTipFragment().getPresenter().getCollectSearchTips();
+        if (collectSearchTips == null || collectSearchTips.size() == 0) {
+            return;
         }
-        if(transaction==2){
-            JUtils.Toast("批量分享正在赶工中...");
-        }
-        isTransactioning=false;
-        DownloadImgSelected.getSelectedImgs().clear();
-        CollectImgSelected.getSelectedImgs().clear();
-        userPagerAdapter.getDownloadFragment().getPresenter().onRefresh();
-        userPagerAdapter.getCollectFragment().getPresenter().onRefresh();
+        SqlModel.deleteSeachTips(getView(), collectSearchTips)
+                .subscribe(new Action1<String>() {
+                    @Override
+                    public void call(String s) {
+                        userPagerAdapter.getCollectTipFragment().getPresenter().onRefresh();
+                    }
+                });
     }
-    public void stopRefresh(int i){
-        switch (getView().getViewPager().getCurrentItem()){
+
+    public void transactionEnd() {
+        isTransactioning = false;
+        beginSelectImgs(false);
+    }
+
+    public void stopRefresh(int i) {
+        switch (getView().getViewPager().getCurrentItem()) {
             case 0:
-                userPagerAdapter.getDownloadFragment().getListView().getSwipeToRefresh().setEnabled(i==0);
-            break;
+                userPagerAdapter.getDownloadFragment().getListView().getSwipeToRefresh().setEnabled(i == 0);
+                break;
             case 1:
-                userPagerAdapter.getCollectFragment().getListView().getSwipeToRefresh().setEnabled(i==0);
-            break;
+                userPagerAdapter.getCollectFragment().getListView().getSwipeToRefresh().setEnabled(i == 0);
+                break;
         }
     }
 }

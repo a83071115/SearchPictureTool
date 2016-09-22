@@ -2,7 +2,9 @@ package com.example.administrator.searchpicturetool.app;
 
 import android.app.Application;
 
+import com.example.administrator.searchpicturetool.config.FrescoConfig;
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.imagepipeline.core.ImagePipelineConfig;
 import com.jude.beam.Beam;
 import com.jude.utils.JFileManager;
 import com.jude.utils.JUtils;
@@ -26,8 +28,8 @@ public class APP extends Application{
         instance=this;
         Beam.init(this);
         Beam.setActivityLifeCycleDelegateProvider(ActivityDelegate::new);
-        Fresco.initialize(this);
-     //   mRefWatcher = LeakCanary.install(this);
+        Fresco.initialize(this, FrescoConfig.getConfig(this));
+        //   mRefWatcher = LeakCanary.install(this);
         Bmob.initialize(this,"633edd745d4d8630d88c73a16440cb9a");
         JUtils.initialize(this);
         JUtils.setDebug(true, "heheda");

@@ -67,7 +67,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:src="@drawable/ic_shouchang"
+                android:src="@drawable/ic_star_white"
                 app:borderWidth="0dp"
                 app:layout_anchor="@id/appbar"
                 app:layout_anchorGravity="bottom|right|end"

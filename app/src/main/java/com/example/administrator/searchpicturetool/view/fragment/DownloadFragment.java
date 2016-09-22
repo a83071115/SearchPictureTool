@@ -19,7 +19,7 @@ import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 public class DownloadFragment extends BeamListFragment<DownloadListPresenter,DownloadImg>{
     @Override
     protected ListConfig getConfig() {
-        return Constant.getUnloadMoreConfig().setContainerEmptyRes(R.layout.view_empty_user);
+        return Constant.getBaseConfig().setContainerEmptyRes(R.layout.view_empty_user);
     }
     @Override
     protected BaseViewHolder getViewHolder(ViewGroup parent, int viewType) {

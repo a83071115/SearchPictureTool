@@ -11,6 +11,8 @@ import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.listener.FindListener;
 import rx.Observable;
 import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by Administrator on 2016/5/13 0013.
@@ -29,13 +31,11 @@ public class MoreRecommendModel {
                     @Override
                     public void onSuccess(List<NewRecommendContent> list) {
                         subscriber.onNext(list);
-                        subscriber.onCompleted();
                     }
 
                     @Override
                     public void onError(int i, String s) {
                         subscriber.onError(new Throwable(s+"i: "+i));
-                        subscriber.onCompleted();
                     }
                 });
             }
@@ -53,13 +53,11 @@ public class MoreRecommendModel {
                     @Override
                     public void onSuccess(List<NewBanner> list) {
                         subscriber.onNext(list);
-                        subscriber.onCompleted();
                     }
 
                     @Override
                     public void onError(int i, String s) {
                         subscriber.onError(new Throwable(s+"i: "+i));
-                        subscriber.onCompleted();
                     }
                 });
             }

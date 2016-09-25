@@ -24,6 +24,7 @@ import android.widget.RelativeLayout;
 import com.example.administrator.searchpicturetool.R;
 import com.example.administrator.searchpicturetool.config.Constant;
 import com.example.administrator.searchpicturetool.presenter.activityPresenter.SearchActivityPresenter;
+import com.example.administrator.searchpicturetool.util.Utils;
 import com.example.administrator.searchpicturetool.view.fragment.SearchFragment;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.jude.beam.bijection.RequiresPresenter;
@@ -72,6 +73,7 @@ public class SearchActivity extends BeamBaseActivity<SearchActivityPresenter> {
         searchWord = getIntent().getBundleExtra("search").getString("search");
         collapsingToolbarLayout.setTitle(searchWord);
         marginTopStatusHeight();
+        marginNavigationBar(fab);
         imagUrl = getIntent().getBundleExtra("search").getString("imagUrl");
         uriType =getIntent().getBundleExtra("search").getString("uriType");
         if(TextUtils.isEmpty(imagUrl)){
@@ -107,6 +109,15 @@ public class SearchActivity extends BeamBaseActivity<SearchActivityPresenter> {
             mCoordinatorLayout.setLayoutParams(relativeLayoutParams);
             toolbar.setLayoutParams(frameLayoutParams);
         }
+    }
+
+    public void marginNavigationBar(View view){
+        if(!Utils.checkDeviceHasNavigationBar(this)){
+            return;
+        }
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)view.getLayoutParams();
+        layoutParams.setMargins(JUtils.dip2px(16),JUtils.dip2px(16),JUtils.dip2px(16),Utils.getNavigationBarHeight(this)/2);
+        view.setLayoutParams(layoutParams);
     }
 
     @Override
@@ -257,7 +268,7 @@ public class SearchActivity extends BeamBaseActivity<SearchActivityPresenter> {
                 .setAction(action,listener).show();
     }
     public void stopRefresh(int i){
-           if(searchFragment!=null){
+           if(searchFragment!=null&&searchFragment.getListView()!=null&&searchFragment.getListView().getSwipeToRefresh()!=null){
                searchFragment.getListView().getSwipeToRefresh().setEnabled(i==0);
            }
     }

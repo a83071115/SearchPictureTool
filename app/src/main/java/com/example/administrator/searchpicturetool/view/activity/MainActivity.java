@@ -17,12 +17,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.administrator.searchpicturetool.R;
 import com.example.administrator.searchpicturetool.config.ShareConfig;
 import com.example.administrator.searchpicturetool.presenter.activityPresenter.MainActivityPresenter;
+import com.example.administrator.searchpicturetool.util.Utils;
 import com.jude.beam.bijection.RequiresPresenter;
 import com.jude.beam.expansion.BeamBaseActivity;
 import com.jude.utils.JUtils;
@@ -53,6 +55,8 @@ public class MainActivity extends BeamBaseActivity<MainActivityPresenter> implem
     AppBarLayout appBarLayout;
     @BindView(R.id.fab)
     FloatingActionButton fab;
+    @BindView(R.id.main_fab_layout)
+    RelativeLayout fabLayout;
     private long exitTime = 0;
 
     @Override
@@ -67,7 +71,7 @@ public class MainActivity extends BeamBaseActivity<MainActivityPresenter> implem
         initAppBarSetting();
         initPush();
         UmengUpdateAgent.forceUpdate(this);
-        navigationView.setCheckedItem(R.id.nav_main);
+        marginNavigationBar(fab);
 
 
     }
@@ -161,11 +165,10 @@ public class MainActivity extends BeamBaseActivity<MainActivityPresenter> implem
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-       /* int id = item.getItemId();
-        if (id == R.id.action_settings) {
+        if(item.getItemId()==R.id.action_search){
+            searchView.showSearch();
             return true;
-        }*/
-
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -184,9 +187,9 @@ public class MainActivity extends BeamBaseActivity<MainActivityPresenter> implem
             startActivity(new Intent(this, UserActivity.class));
         } else if (id == R.id.nav_setting) {
             startActivity(new Intent(this, SettingActivity.class));
-        } else if (id == R.id.nav_share) {
+        }/* else if (id == R.id.nav_share) {
             openShare();
-        } else if (id == R.id.nav_rate) {
+        }*/ else if (id == R.id.nav_rate) {
             try {
                 openToRate();
             } catch (Throwable e) {
@@ -222,8 +225,8 @@ public class MainActivity extends BeamBaseActivity<MainActivityPresenter> implem
 
     public void exit() {
         boolean hasRated = JUtils.getSharedPreference().getBoolean("hasRated",false);
-        int count = JUtils.getSharedPreference().getInt("app_exit_count", 0);
-        if (!hasRated&&count/5==0) {
+        int count = JUtils.getSharedPreference().getInt("app_exit_count", 1);
+        if (!hasRated&&(count==5||count%10==0)) {
             count++;
             JUtils.getSharedPreference().edit().putInt("app_exit_count", count).commit();
             showRatingDialog();
@@ -261,5 +264,14 @@ public class MainActivity extends BeamBaseActivity<MainActivityPresenter> implem
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
+    }
+
+    public void marginNavigationBar(View view){
+        if(!Utils.checkDeviceHasNavigationBar(this)){
+            return;
+        }
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)view.getLayoutParams();
+        layoutParams.setMargins(JUtils.dip2px(16),JUtils.dip2px(16),JUtils.dip2px(16),Utils.getNavigationBarHeight(this)/2);
+        view.setLayoutParams(layoutParams);
     }
 }

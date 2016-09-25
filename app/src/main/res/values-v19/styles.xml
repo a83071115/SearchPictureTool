@@ -21,5 +21,6 @@
     <style name="AppTheme" parent="AppTheme.Base">
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:windowIsTranslucent">false</item>
     </style>
 </resources>

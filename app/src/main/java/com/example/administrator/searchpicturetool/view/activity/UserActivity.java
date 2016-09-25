@@ -13,8 +13,10 @@ import android.view.MenuItem;
 
 import com.example.administrator.searchpicturetool.R;
 import com.example.administrator.searchpicturetool.presenter.activityPresenter.UserActivityPresenter;
+import com.example.administrator.searchpicturetool.util.Utils;
 import com.jude.beam.bijection.RequiresPresenter;
 import com.jude.beam.expansion.BeamBaseActivity;
+import com.jude.utils.JUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,7 +44,7 @@ public class UserActivity extends BeamBaseActivity<UserActivityPresenter> implem
         setContentView(R.layout.activity_user);
         ButterKnife.bind(this);
         tabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.white));
-        tabLayout.setTabMode(TabLayout.MODE_FIXED);
+        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         initAppBarSetting();
         fab.hide();
         viewPager.addOnPageChangeListener(this);
@@ -67,8 +69,12 @@ public class UserActivity extends BeamBaseActivity<UserActivityPresenter> implem
                 if(!fab.isShown()){
                     fab.show();
                     showSnackbar();
+                    getPresenter().beginSelectImgs(true);
+                }else {
+                    fab.hide();
+                    getPresenter().doDelete();
                 }
-                getPresenter().beginSelectImgs(true);
+
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -114,8 +120,13 @@ public class UserActivity extends BeamBaseActivity<UserActivityPresenter> implem
 
     public void showSnackbar() {
         String text = "请选择要删除的图片";
-        Snackbar.make(fab, text, Snackbar.LENGTH_LONG)
-                .setActionTextColor(ContextCompat.getColor(this, R.color.colorPrimaryDark)).show();
+        if(!Utils.checkDeviceHasNavigationBar(this)){
+            Snackbar.make(fab, text, Snackbar.LENGTH_SHORT)
+                   .show();
+        }else {
+            JUtils.Toast(text);
+        }
+
     }
 
     @Override

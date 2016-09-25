@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import android.view.WindowInsets;
 import android.widget.LinearLayout;
 
-import com.jude.fitsystemwindowlayout.Utils;
+import com.example.administrator.searchpicturetool.R;
 import com.jude.utils.JUtils;
 
 /**
@@ -49,7 +49,7 @@ public class FitSystemWindowsLinearLayout extends LinearLayout{
         init();
     }
     protected void initAttrs(AttributeSet attrs) {
-        TypedArray a = getContext().obtainStyledAttributes(attrs, com.jude.fitsystemwindowlayout.R.styleable.fit_system_windows);
+        TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.fit_system_windows);
         try {
             int colorAttr;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -61,9 +61,9 @@ public class FitSystemWindowsLinearLayout extends LinearLayout{
             getContext().getTheme().resolveAttribute(colorAttr, outValue, true);
 
             if (outValue.resourceId!=0)mStatusBarColor = getResources().getColor(outValue.resourceId);
-            mStatusBarColor = a.getColor(com.jude.fitsystemwindowlayout.R.styleable.fit_system_windows_status_color,mStatusBarColor);
-            mPaddingStatusBar = a.getBoolean(com.jude.fitsystemwindowlayout.R.styleable.fit_system_windows_padding_status, true);
-            mPaddingNavigationBar = a.getBoolean(com.jude.fitsystemwindowlayout.R.styleable.fit_system_windows_padding_navigation, false);
+            mStatusBarColor = a.getColor(R.styleable.fit_system_windows_status_color,mStatusBarColor);
+            mPaddingStatusBar = a.getBoolean(R.styleable.fit_system_windows_padding_status, true);
+            mPaddingNavigationBar = a.getBoolean(R.styleable.fit_system_windows_padding_navigation, false);
             JUtils.Log(" mStatusBarColor"+mStatusBarColor+"  mPaddingStatusBar:"+mPaddingStatusBar+"  mPaddingStatusBar:"+mPaddingStatusBar);
         } finally {
             a.recycle();
@@ -178,9 +178,9 @@ public class FitSystemWindowsLinearLayout extends LinearLayout{
         public LayoutParams(Context context, AttributeSet attrs) {
             super(context, attrs);
             final TypedArray a = context.obtainStyledAttributes(attrs,
-                    com.jude.fitsystemwindowlayout.R.styleable.fit_system_windows);
+                    R.styleable.fit_system_windows);
             this.mPaddingNavigation = a.getBoolean(
-                    com.jude.fitsystemwindowlayout.R.styleable.fit_system_windows_padding_navigation,
+                    R.styleable.fit_system_windows_padding_navigation,
                     false);
             a.recycle();
         }

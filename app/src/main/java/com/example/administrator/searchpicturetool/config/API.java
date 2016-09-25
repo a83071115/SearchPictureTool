@@ -8,6 +8,7 @@ import com.example.administrator.searchpicturetool.util.Utils;
 public class API {
 
     public static final String imgPath= Utils.getSDPath()+"/DownloadPicture";
+    public static final String diskLrucacheCachePath= Utils.getSDPath()+"/SearchImgCache";
     //图片搜索接口
     public static final String baseUrl="http://pic.sogou.com";
     //笑话api

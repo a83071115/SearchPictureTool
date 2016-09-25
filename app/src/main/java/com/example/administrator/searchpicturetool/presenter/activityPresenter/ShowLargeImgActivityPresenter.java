@@ -23,6 +23,7 @@ import com.jude.utils.JUtils;
 
 import java.util.ArrayList;
 
+import rx.Subscriber;
 import rx.functions.Action1;
 
 /**
@@ -33,8 +34,8 @@ public class ShowLargeImgActivityPresenter extends Presenter<ShowLargeImgActivit
     int currentPosition = 0;
     ShowLargeImgAdapter adapter;
     //设置事件发生后的消费该事件的观察者
-    Action1<Integer> callbackSubscriber = new Action1<Integer>() {
-        @Override
+    Subscriber<Integer> callbackSubscriber = new Subscriber<Integer>() {
+       /* @Override
         public void call(Integer integer) {
             if (integer.intValue() == API.status.success) {
                 JUtils.Toast("设置成功！");
@@ -43,6 +44,27 @@ public class ShowLargeImgActivityPresenter extends Presenter<ShowLargeImgActivit
                 JUtils.Toast("设置失败...");
                 getView().dismissDialog();
             }
+        }*/
+
+        @Override
+        public void onNext(Integer integer) {
+            if (integer.intValue() == API.status.success) {
+                JUtils.Toast("设置成功！");
+                getView().dismissDialog();
+            } else {
+                JUtils.Toast("设置失败...");
+                getView().dismissDialog();
+            }
+        }
+
+        @Override
+        public void onCompleted() {
+
+        }
+
+        @Override
+        public void onError(Throwable e) {
+
         }
     };
     private NetImage netImage;
@@ -55,9 +77,9 @@ public class ShowLargeImgActivityPresenter extends Presenter<ShowLargeImgActivit
      */
     private int state = -1;
     //保存图片后的观察者
-    Action1<String> saveSubscriber = new Action1<String>() {
+    Subscriber<String> saveSubscriber = new Subscriber<String>() {
         @Override
-        public void call(String path) {
+        public void onNext(String path) {
 
             if (!path.equals(API.status.error + "")) {
                 if (state == 0) {
@@ -74,22 +96,17 @@ public class ShowLargeImgActivityPresenter extends Presenter<ShowLargeImgActivit
                 JUtils.Toast("未获取到读写sd卡权限！无法保存图片");
             }
         }
-    };
 
-    public static boolean checkDeviceHasNavigationBar(Context activity) {
+        @Override
+        public void onCompleted() {
 
-        //通过判断设备是否有返回键、菜单键(不是虚拟键,是手机屏幕外的按键)来确定是否有navigation bar
-        boolean hasMenuKey = ViewConfiguration.get(activity)
-                .hasPermanentMenuKey();
-        boolean hasBackKey = KeyCharacterMap
-                .deviceHasKey(KeyEvent.KEYCODE_BACK);
-
-        if (!hasMenuKey && !hasBackKey) {
-            // 做任何你需要做的,这个设备有一个导航栏
-            return true;
         }
-        return false;
-    }
+
+        @Override
+        public void onError(Throwable e) {
+
+        }
+    };
 
     @Override
     protected void onCreateView(ShowLargeImgActivity view) {
@@ -107,23 +124,34 @@ public class ShowLargeImgActivityPresenter extends Presenter<ShowLargeImgActivit
     @Override
     protected void onDestroyView() {
         super.onDestroyView();
-        netImages.clear();
-        netImages =null;
+        if(netImages!=null){
+            netImages.clear();
+            netImages =null;
+        }
         EasyImageLoader.getInstance(getView()).clearMemoryCache();
     }
 
     public void savePicture() {
         state = 0;
+        if(netImages==null||netImages.size()==0){
+            return;
+        }
         downloadBitmapToSdCard(getView(), netImages.get(currentPosition).getLargeImg(), netImages.get(currentPosition).getThumbImg());
     }
 
     public void collectPicture() {
+        if(netImages==null||netImages.size()==0){
+            return;
+        }
         SqlModel.addCollectImg(getView(), netImages.get(currentPosition));
         showSnackBar("已收藏","collect");
 
     }
 
     public void requestCollectPicture() {
+        if(netImages==null||netImages.size()==0){
+            return;
+        }
         SqlModel.deleteCollectImgByUrl(getView(), netImages.get(currentPosition).getLargeImg());
         getView().setResult(100);
         getView().finish();
@@ -132,16 +160,25 @@ public class ShowLargeImgActivityPresenter extends Presenter<ShowLargeImgActivit
     }
 
     public void sharePicture() {
+        if(netImages==null||netImages.size()==0){
+            return;
+        }
         state = 1;
         downloadBitmapEvent(getView(), netImages.get(currentPosition).getLargeImg());
     }
 
     public void setWallWrapper() {
+        if(netImages==null||netImages.size()==0){
+            return;
+        }
         state = 3;
         downloadBitmapEvent(getView(), netImages.get(currentPosition).getLargeImg());
     }
 
     public void setLockWrapper() {
+        if(netImages==null||netImages.size()==0){
+            return;
+        }
         state = 4;
         downloadBitmapEvent(getView(), netImages.get(currentPosition).getLargeImg());
     }
@@ -201,7 +238,7 @@ public class ShowLargeImgActivityPresenter extends Presenter<ShowLargeImgActivit
     }
 
     public void showSnackBar(String s,String action){
-        if(!checkDeviceHasNavigationBar(getView())){
+        if(!Utils.checkDeviceHasNavigationBar(getView())){
             getView().showSnackBar(null, s, "查看", new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

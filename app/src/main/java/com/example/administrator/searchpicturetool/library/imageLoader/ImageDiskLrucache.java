@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.StatFs;
 
+import com.example.administrator.searchpicturetool.config.API;
 import com.jakewharton.disklrucache.DiskLruCache;
 import com.jude.utils.*;
 import com.jude.utils.JUtils;
@@ -124,12 +125,15 @@ public class ImageDiskLrucache {
         //判断是否含有sd卡
         boolean externalStorageAvailable = Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
         final String cachePath;
-        if(externalStorageAvailable){
+        if(externalStorageAvailable&&context.getExternalCacheDir()!=null){
             cachePath =context.getExternalCacheDir().getPath();
-        }else{
+        }else if(context.getCacheDir()!=null){
             //获取app自带的缓存目录
             cachePath =context.getCacheDir().getPath();
+        }else {
+            cachePath = API.diskLrucacheCachePath;
         }
+
         return new File(cachePath +File.separator+uniqueName);
     }
     //获取该目录可用空间大小

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.jude.fitsystemwindowlayout.FitSystemWindowsRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.example.administrator.searchpicturetool.widght.fitsystemwindowlayout.FitSystemWindowsRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@android:color/background_dark"
     android:fitsSystemWindows="true"
-    app:status_color="@android:color/background_dark"
-    app:padding_navigation="true"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="vertical"
+    app:padding_navigation="false"
+    app:status_color="@android:color/background_dark">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -24,17 +24,20 @@
             android:id="@+id/linearlayout_img"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_alignParentBottom="true"
-            android:layout_margin="16dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
             >
 
             <TextView
                 android:id="@+id/large_page"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="3/48"
                 android:layout_centerVertical="true"
+                android:text="3/48"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"
                 />
@@ -42,34 +45,34 @@
                 android:id="@+id/large_more"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/ic_large_more_selector"
                 android:layout_alignParentRight="true"
+                android:src="@drawable/ic_large_more_selector"
                 />
 
             <ImageView
                 android:id="@+id/large_share"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
+                android:layout_marginRight="24dp"
+                android:layout_toLeftOf="@+id/large_more"
                 android:padding="2dp"
                 android:src="@drawable/ic_large_share_selector"
-                android:layout_toLeftOf="@+id/large_more"
-                android:layout_marginRight="24dp"
                 />
 
             <ImageView
                 android:id="@+id/large_download"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:layout_toLeftOf="@+id/large_share"
                 android:layout_marginRight="24dp"
+                android:layout_toLeftOf="@+id/large_share"
                 android:src="@drawable/ic_large_downlod_selectot"
                 />
             <ImageView
                 android:id="@+id/large_star"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:layout_toLeftOf="@+id/large_download"
                 android:layout_marginRight="24dp"
+                android:layout_toLeftOf="@+id/large_download"
                 android:src="@drawable/ic_large_star_selector"
                 />
 
@@ -78,4 +81,4 @@
     </RelativeLayout>
 
 
-</com.jude.fitsystemwindowlayout.FitSystemWindowsRelativeLayout>
+</com.example.administrator.searchpicturetool.widght.fitsystemwindowlayout.FitSystemWindowsRelativeLayout>

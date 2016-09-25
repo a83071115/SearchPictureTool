@@ -37,15 +37,7 @@
 
         <include layout="@layout/content_main" />
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_marginBottom="22dp"
-            android:layout_marginRight="@dimen/fab_margin"
-            android:layout_marginTop="@dimen/fab_margin"
-            android:src="@drawable/ic_top" />
+
 
     </android.support.design.widget.CoordinatorLayout>
 
@@ -53,6 +45,22 @@
         android:id="@+id/search_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"></com.search.material.library.MaterialSearchView>
+    <RelativeLayout
+        android:id="@+id/main_fab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+
+        >
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_margin="@dimen/fab_margin"
+            android:src="@drawable/ic_top" />
+    </RelativeLayout>
+
 
 </com.example.administrator.searchpicturetool.widght.fitsystemwindowlayout.FitSystemWindowsRelativeLayout>
 

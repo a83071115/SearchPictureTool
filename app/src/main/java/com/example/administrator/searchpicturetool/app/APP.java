@@ -32,7 +32,7 @@ public class APP extends Application{
         //   mRefWatcher = LeakCanary.install(this);
         Bmob.initialize(this,"633edd745d4d8630d88c73a16440cb9a");
         JUtils.initialize(this);
-        JUtils.setDebug(true, "heheda");
+        JUtils.setDebug(false, "heheda");
         JFileManager.getInstance().init(this, Dir.values());
     }
     //文件目录列表

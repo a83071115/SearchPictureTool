@@ -1,5 +1,6 @@
 package com.example.administrator.searchpicturetool.view.activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
@@ -9,13 +10,16 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.Theme;
 import com.example.administrator.searchpicturetool.R;
 import com.example.administrator.searchpicturetool.presenter.activityPresenter.ShowLargeImgActivityPresenter;
+import com.example.administrator.searchpicturetool.util.Utils;
 import com.example.administrator.searchpicturetool.widght.PinchImageViewPager;
 import com.jude.beam.bijection.RequiresPresenter;
 import com.jude.beam.expansion.BeamBaseActivity;
@@ -39,9 +43,10 @@ public class ShowLargeImgActivity extends BeamBaseActivity<ShowLargeImgActivityP
     @BindView(R.id.large_star)
     ImageView star;
     FragmentManager fragmentManager;
+    @BindView(R.id.linearlayout_img)
+    RelativeLayout bottomLayout;
     private boolean hasCollected =false;
     private MaterialDialog mProgressDialog;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +60,8 @@ public class ShowLargeImgActivity extends BeamBaseActivity<ShowLargeImgActivityP
         }
         fragmentManager = getSupportFragmentManager();
         viewPager.setOnClickListener(this);
+        marginNavigationBar(bottomLayout);
+        //hideNavigationBar();
     }
 
     @Override
@@ -146,7 +153,12 @@ public class ShowLargeImgActivity extends BeamBaseActivity<ShowLargeImgActivityP
                     }
                 }).show();
     }
+    public void hideNavigationBar(){
 
+        if(Build.VERSION.SDK_INT >=Build.VERSION_CODES.KITKAT){
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+        }
+    }
     public MaterialDialog showDialog(String title, String content){
             mProgressDialog = new MaterialDialog.Builder(this)
                     .theme(Theme.DARK)
@@ -169,6 +181,15 @@ public class ShowLargeImgActivity extends BeamBaseActivity<ShowLargeImgActivityP
         Snackbar.make(view, message, Snackbar.LENGTH_SHORT)
                 .setActionTextColor(ContextCompat.getColor(this,R.color.colorPrimaryDark))
                 .setAction(action,listener).show();
+    }
+
+    public void marginNavigationBar(RelativeLayout view){
+        if(!Utils.checkDeviceHasNavigationBar(this)){
+            return;
+        }
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)view.getLayoutParams();
+        layoutParams.setMargins(JUtils.dip2px(16),JUtils.dip2px(8),JUtils.dip2px(16),Utils.getNavigationBarHeight(this));
+        view.setLayoutParams(layoutParams);
     }
 
    /* @Override

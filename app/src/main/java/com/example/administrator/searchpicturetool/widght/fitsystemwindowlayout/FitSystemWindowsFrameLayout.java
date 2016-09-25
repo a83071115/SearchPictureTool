@@ -17,7 +17,7 @@ import android.view.ViewGroup;
 import android.view.WindowInsets;
 import android.widget.FrameLayout;
 
-import com.jude.fitsystemwindowlayout.Utils;
+import com.example.administrator.searchpicturetool.R;
 
 import java.util.ArrayList;
 
@@ -57,7 +57,7 @@ public class FitSystemWindowsFrameLayout extends FrameLayout{
     }
 
     protected void initAttrs(AttributeSet attrs) {
-        TypedArray a = getContext().obtainStyledAttributes(attrs, com.jude.fitsystemwindowlayout.R.styleable.fit_system_windows);
+        TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.fit_system_windows);
         try {
             int colorAttr;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -69,10 +69,10 @@ public class FitSystemWindowsFrameLayout extends FrameLayout{
             getContext().getTheme().resolveAttribute(colorAttr, outValue, true);
 
             if (outValue.resourceId!=0)mStatusBarColor = getResources().getColor(outValue.resourceId);
-            mStatusBarColor = a.getColor(com.jude.fitsystemwindowlayout.R.styleable.fit_system_windows_status_color,mStatusBarColor);
-            mPaddingStatusBar = a.getBoolean(com.jude.fitsystemwindowlayout.R.styleable.fit_system_windows_padding_status, true);
-            mPaddingNavigationBar = a.getBoolean(com.jude.fitsystemwindowlayout.R.styleable.fit_system_windows_padding_navigation, false);
-            com.jude.fitsystemwindowlayout.Utils.log("initAttrs"+" mStatusBarColor"+mStatusBarColor+"  mPaddingStatusBar:"+mPaddingStatusBar+"  mPaddingStatusBar:"+mPaddingStatusBar);
+            mStatusBarColor = a.getColor(R.styleable.fit_system_windows_status_color,mStatusBarColor);
+            mPaddingStatusBar = a.getBoolean(R.styleable.fit_system_windows_padding_status, true);
+            mPaddingNavigationBar = a.getBoolean(R.styleable.fit_system_windows_padding_navigation, false);
+            Utils.log("initAttrs"+" mStatusBarColor"+mStatusBarColor+"  mPaddingStatusBar:"+mPaddingStatusBar+"  mPaddingStatusBar:"+mPaddingStatusBar);
         } finally {
             a.recycle();
         }
@@ -84,17 +84,17 @@ public class FitSystemWindowsFrameLayout extends FrameLayout{
         setWillNotDraw(false);
         setFitsSystemWindows(false);//不然4.4就会绘制默认的statusBar遮罩
         mScreenOrientation = (getResources().getConfiguration().orientation== Configuration.ORIENTATION_PORTRAIT)?VERTICAL:HORIZONTAL;
-        STATUSBAR_HEIGHT = com.jude.fitsystemwindowlayout.Utils.getStatusBarHeight(getContext());
-        NAVIGATIONBAR_HEIGHT = com.jude.fitsystemwindowlayout.Utils.getNavigationBarHeight(getContext());
+        STATUSBAR_HEIGHT = Utils.getStatusBarHeight(getContext());
+        NAVIGATIONBAR_HEIGHT = Utils.getNavigationBarHeight(getContext());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT ){
             statusBarHeight = STATUSBAR_HEIGHT;
-            if (com.jude.fitsystemwindowlayout.Utils.hasSoftKeys(getContext())) navigationBarHeight = NAVIGATIONBAR_HEIGHT;
+            if (Utils.hasSoftKeys(getContext())) navigationBarHeight = NAVIGATIONBAR_HEIGHT;
         }
         mStatusBarHeight = statusBarHeight;
         mNavigationBarHeight = navigationBarHeight;
         mStatusBarPaint = new Paint();
         mStatusBarPaint.setColor(mStatusBarColor);
-        com.jude.fitsystemwindowlayout.Utils.log("init"+"  mStatusBarHeight:"+mStatusBarHeight+"  mNavigationBarHeight:"+mNavigationBarHeight);
+        Utils.log("init"+"  mStatusBarHeight:"+mStatusBarHeight+"  mNavigationBarHeight:"+mNavigationBarHeight);
     }
 
     @Override
@@ -114,7 +114,7 @@ public class FitSystemWindowsFrameLayout extends FrameLayout{
     @Override
     protected boolean fitSystemWindows(Rect insets) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            com.jude.fitsystemwindowlayout.Utils.log("fitSystemWindows"
+            Utils.log("fitSystemWindows"
                     +"  Left:"+insets.left
                     +"  Top:"+insets.top
                     +"  Right:"+insets.right
@@ -134,7 +134,7 @@ public class FitSystemWindowsFrameLayout extends FrameLayout{
     @Override
     public final WindowInsets onApplyWindowInsets(WindowInsets insets) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            com.jude.fitsystemwindowlayout.Utils.log("onApplyWindowInsets"
+            Utils.log("onApplyWindowInsets"
                     +"  Left:"+insets.getSystemWindowInsetLeft()
                     +"  Top:"+insets.getSystemWindowInsetTop()
                     +"  Right:"+insets.getSystemWindowInsetRight()
@@ -174,7 +174,7 @@ public class FitSystemWindowsFrameLayout extends FrameLayout{
                 final LayoutParams lp = (LayoutParams) child.getLayoutParams();
                 //将父布局的属性转换到子View上。
                 if (lp.isPaddingNavigation()&&mScreenOrientation==VERTICAL)
-                    com.jude.fitsystemwindowlayout.Utils.paddingToNavigationBar(child);
+                    Utils.paddingToNavigationBar(child);
                 if (!lp.hasSetMarginStatus())lp.setMarginStatus(mPaddingStatusBar);
                 if (!lp.hasSetMarginNavigation())lp.setMarginNavigation(mPaddingNavigationBar);
 
@@ -192,7 +192,7 @@ public class FitSystemWindowsFrameLayout extends FrameLayout{
                         mMatchParentChildren.add(child);
                     }
                 }
-                com.jude.fitsystemwindowlayout.Utils.log("measure "+ child.getClass().getSimpleName()+"  isMarginStatus:"+(lp.isMarginStatus()?"true":"false")+"  isMarginNavigation:"+(lp.isMarginNavigation()?"true":"false"));
+                Utils.log("measure "+ child.getClass().getSimpleName()+"  isMarginStatus:"+(lp.isMarginStatus()?"true":"false")+"  isMarginNavigation:"+(lp.isMarginNavigation()?"true":"false"));
             }
         }
 
@@ -321,7 +321,7 @@ public class FitSystemWindowsFrameLayout extends FrameLayout{
                 switch (verticalGravity) {
                     case Gravity.TOP:
                         childTop = parentTop + lp.topMargin + getStatusValue(lp);
-                        com.jude.fitsystemwindowlayout.Utils.log(child.getClass().getSimpleName()+" topMargin:"+lp.topMargin+" getStatusValue:"+getStatusValue(lp));
+                        Utils.log(child.getClass().getSimpleName()+" topMargin:"+lp.topMargin+" getStatusValue:"+getStatusValue(lp));
                         break;
                     case Gravity.CENTER_VERTICAL:
                         childTop = parentTop + (parentBottom - parentTop - height) / 2 +
@@ -329,7 +329,7 @@ public class FitSystemWindowsFrameLayout extends FrameLayout{
                         break;
                     case Gravity.BOTTOM:
                         childTop = parentBottom - height - lp.bottomMargin - getNavigationVerticalValue(lp);//减去竖屏时的导航栏
-                        com.jude.fitsystemwindowlayout.Utils.log(child.getClass().getSimpleName()+" bottomMargin:"+lp.bottomMargin+" getNavigationVerticalValue:"+getNavigationVerticalValue(lp));
+                        Utils.log(child.getClass().getSimpleName()+" bottomMargin:"+lp.bottomMargin+" getNavigationVerticalValue:"+getNavigationVerticalValue(lp));
                         break;
                     default:
                         childTop = parentTop + lp.topMargin + getStatusValue(lp);
@@ -377,18 +377,18 @@ public class FitSystemWindowsFrameLayout extends FrameLayout{
             super(context, attrs);
 
             final TypedArray a = context.obtainStyledAttributes(attrs,
-                    com.jude.fitsystemwindowlayout.R.styleable.fit_system_windows);
-            mHasSetMarginStatus = a.hasValue(com.jude.fitsystemwindowlayout.R.styleable.fit_system_windows_margin_status);
-            mHasSetMarginNavigation = a.hasValue(com.jude.fitsystemwindowlayout.R.styleable.fit_system_windows_margin_navigation);
+                    R.styleable.fit_system_windows);
+            mHasSetMarginStatus = a.hasValue(R.styleable.fit_system_windows_margin_status);
+            mHasSetMarginNavigation = a.hasValue(R.styleable.fit_system_windows_margin_navigation);
 
             this.mMarginStatus = a.getBoolean(
-                    com.jude.fitsystemwindowlayout.R.styleable.fit_system_windows_margin_status,
+                    R.styleable.fit_system_windows_margin_status,
                     false);
             this.mMarginNavigation = a.getBoolean(
-                    com.jude.fitsystemwindowlayout.R.styleable.fit_system_windows_margin_navigation,
+                    R.styleable.fit_system_windows_margin_navigation,
                     false);
             this.mPaddingNavigation = a.getBoolean(
-                    com.jude.fitsystemwindowlayout.R.styleable.fit_system_windows_padding_navigation,
+                    R.styleable.fit_system_windows_padding_navigation,
                     false);
             a.recycle();
             Utils.log("LayoutParams "

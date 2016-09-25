@@ -72,15 +72,17 @@
                 app:layout_anchor="@id/appbar"
                 app:layout_anchorGravity="bottom|right|end"
                 />
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/search_fab"
-                android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:layout_gravity="bottom|end"
-                android:layout_marginBottom="22dp"
-                android:layout_marginRight="@dimen/fab_margin"
-                android:src="@drawable/ic_top" />
+
         </android.support.design.widget.CoordinatorLayout>
 
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/search_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="@dimen/fab_margin"
+            android:src="@drawable/ic_top" />
     </RelativeLayout>
 
 </com.example.administrator.searchpicturetool.widght.fitsystemwindowlayout.FitSystemWindowsRelativeLayout>

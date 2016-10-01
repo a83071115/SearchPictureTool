@@ -11,7 +11,9 @@ import com.example.administrator.searchpicturetool.R;
 import com.example.administrator.searchpicturetool.model.SqlModel;
 import com.example.administrator.searchpicturetool.model.bean.NetImage;
 import com.example.administrator.searchpicturetool.presenter.BaseListFragmentPresenter;
+import com.example.administrator.searchpicturetool.presenter.activityPresenter.ShowCollectLargeImgActivityPresenter;
 import com.example.administrator.searchpicturetool.presenter.activityPresenter.ShowLargeImgActivityPresenter;
+import com.example.administrator.searchpicturetool.view.activity.ShowCollectLargeImgActivity;
 import com.example.administrator.searchpicturetool.view.activity.ShowLargeImgActivity;
 import com.example.administrator.searchpicturetool.view.fragment.CollectFragment;
 import com.jude.beam.expansion.list.BeamListFragmentPresenter;
@@ -76,8 +78,8 @@ public class CollectListPresenter extends BeamListFragmentPresenter<CollectFragm
         intent.putExtra("position", position);
        // intent.putExtra("netImages", netImages);
         intent.putExtra("hasCollected",true);
-        ShowLargeImgActivityPresenter.netImages =(ArrayList<NetImage>)netImages.clone();
-        intent.setClass(getView().getContext(), ShowLargeImgActivity.class);
+        ShowCollectLargeImgActivityPresenter.netImages =(ArrayList<NetImage>)netImages.clone();
+        intent.setClass(getView().getContext(), ShowCollectLargeImgActivity.class);
         getView().startActivityForResult(intent,100);
     }
 

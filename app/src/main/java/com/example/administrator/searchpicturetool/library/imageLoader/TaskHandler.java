@@ -32,7 +32,7 @@ public class TaskHandler extends Handler{
                 if(errorCallBack!=null){
                     errorCallBack.onError(imageView);
                 }else{
-                    imageView.setImageResource(R.drawable.ic_error);
+                    imageView.setImageResource(R.drawable.ic_no_network);
                 }
             }
 

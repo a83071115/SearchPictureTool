@@ -31,7 +31,7 @@ public class SearchFragment extends BaseListFragment<SerachFragmentListPresenter
 
     @Override
     protected ListConfig getConfig() {
-        return Constant.getLoadMoreConfig();
+        return Constant.getLoadMoreConfig().setContainerEmptyAble(false);
     }
     @Override
     protected BaseViewHolder getViewHolder(ViewGroup parent, int viewType) {

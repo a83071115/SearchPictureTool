@@ -57,13 +57,15 @@ public class RecommendAdapter extends RecyclerArrayAdapter<NewRecommendContent>{
     }*/
     }
 
-    public class  TipSpanSizeLookUp extends GridSpanSizeLookup{
+    public TipSpanSizeLookUp obtainTipSpanSizeLookUp(){
+        return new TipSpanSizeLookUp();
+    }
 
+    public class  TipSpanSizeLookUp extends GridSpanSizeLookup{
         public TipSpanSizeLookUp() {
             //列数默认为2
             super(2);
         }
-
         @Override
         public int getSpanSize(int position) {
             if (position < getHeaderCount()||position>=getCount()+getHeaderCount()) {
@@ -78,9 +80,6 @@ public class RecommendAdapter extends RecyclerArrayAdapter<NewRecommendContent>{
                 }
             }
         }
-    }
-    public TipSpanSizeLookUp obtainTipSpanSizeLookUp(){
-        return new TipSpanSizeLookUp();
     }
 
 

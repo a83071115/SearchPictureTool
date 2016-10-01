@@ -1,4 +1,5 @@
 package com.example.administrator.searchpicturetool.view.activity;
+
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
@@ -11,7 +12,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -19,12 +19,14 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.Theme;
 import com.example.administrator.searchpicturetool.R;
+import com.example.administrator.searchpicturetool.presenter.activityPresenter.ShowCollectLargeImgActivityPresenter;
 import com.example.administrator.searchpicturetool.presenter.activityPresenter.ShowLargeImgActivityPresenter;
 import com.example.administrator.searchpicturetool.util.Utils;
 import com.example.administrator.searchpicturetool.widght.PinchImageViewPager;
 import com.jude.beam.bijection.RequiresPresenter;
 import com.jude.beam.expansion.BeamBaseActivity;
 import com.jude.utils.JUtils;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -33,8 +35,8 @@ import butterknife.OnClick;
 /**
  * Created by wenhuaijun on 2015/11/4 0004.
  */
-@RequiresPresenter(ShowLargeImgActivityPresenter.class)
-public class ShowLargeImgActivity extends BeamBaseActivity<ShowLargeImgActivityPresenter> implements View.OnClickListener {
+@RequiresPresenter(ShowCollectLargeImgActivityPresenter.class)
+public class ShowCollectLargeImgActivity extends BeamBaseActivity<ShowCollectLargeImgActivityPresenter> implements View.OnClickListener {
    /* @BindView(R.id.toolbar)
     Toolbar toolbar;*/
     @BindView(R.id.large_page)
@@ -201,7 +203,7 @@ public class ShowLargeImgActivity extends BeamBaseActivity<ShowLargeImgActivityP
 
         }
     }
-    /* @Override
+   /* @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
 
         switch (requestCode){

@@ -2,10 +2,7 @@ package com.example.administrator.searchpicturetool.presenter.activityPresenter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.view.KeyCharacterMap;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewConfiguration;
 
 import com.example.administrator.searchpicturetool.config.API;
 import com.example.administrator.searchpicturetool.library.imageLoader.EasyImageLoader;
@@ -13,9 +10,10 @@ import com.example.administrator.searchpicturetool.model.SaveBitmapModel;
 import com.example.administrator.searchpicturetool.model.SqlModel;
 import com.example.administrator.searchpicturetool.model.WrapperModel;
 import com.example.administrator.searchpicturetool.model.bean.NetImage;
-import com.example.administrator.searchpicturetool.util.Utils;
-import com.example.administrator.searchpicturetool.view.activity.ShowLargeImgActivity;
 import com.example.administrator.searchpicturetool.presenter.adapter.ShowLargeImgAdapter;
+import com.example.administrator.searchpicturetool.util.Utils;
+import com.example.administrator.searchpicturetool.view.activity.ShowCollectLargeImgActivity;
+import com.example.administrator.searchpicturetool.view.activity.ShowLargeImgActivity;
 import com.example.administrator.searchpicturetool.view.activity.UserActivity;
 import com.example.administrator.searchpicturetool.widght.PinchImageViewPager;
 import com.jude.beam.bijection.Presenter;
@@ -24,12 +22,11 @@ import com.jude.utils.JUtils;
 import java.util.ArrayList;
 
 import rx.Subscriber;
-import rx.functions.Action1;
 
 /**
  * Created by wenhuaijun on 2015/11/4 0004.
  */
-public class ShowLargeImgActivityPresenter extends Presenter<ShowLargeImgActivity> implements PinchImageViewPager.OnPageChangeListener {
+public class ShowCollectLargeImgActivityPresenter extends Presenter<ShowCollectLargeImgActivity> implements PinchImageViewPager.OnPageChangeListener {
     public static ArrayList<NetImage> netImages;
     int currentPosition = 0;
     ShowLargeImgAdapter adapter;
@@ -112,7 +109,7 @@ public class ShowLargeImgActivityPresenter extends Presenter<ShowLargeImgActivit
     };
 
     @Override
-    protected void onCreateView(ShowLargeImgActivity view) {
+    protected void onCreateView(ShowCollectLargeImgActivity view) {
         super.onCreateView(view);
         //netImages = (ArrayList<NetImage>) view.getIntent().getSerializableExtra("netImages");
         currentPosition = view.getIntent().getIntExtra("position", 0);

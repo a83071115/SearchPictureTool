@@ -32,22 +32,43 @@ import rx.functions.Action1;
  * Created by wenhuaijun on 2016/2/13 0013.
  */
 public class JoyImageViewHolder extends BaseViewHolder<ImageJoy> implements View.OnClickListener{
-    private SimpleDraweeView simpleDraweeView;
-    private TextView title;
     float width;
     float height;
     float sccrenWidth;
-    private ImageView share;
-    private ImageView download;
-    private ImageView collect;
-    private ImageJoy data;
-    private int state =-1;
     /**
      * -1 初始化
      * 0 下载图片
      * 1 分享图片
      */
     ViewGroup.LayoutParams layoutParams;
+    private SimpleDraweeView simpleDraweeView;
+    private TextView title;
+    private ImageView share;
+    private ImageView download;
+    private ImageView collect;
+    private ImageJoy data;
+    private int state =-1;
+    //保存图片后的观察者
+    Action1<String> saveSubscriber = new Action1<String>() {
+        @Override
+        public void call(String path) {
+            if(!path.equals(API.status.error)){
+                if(state==0) {
+                    JUtils.Toast("图片已保存至：" + path);
+                    //保存到数据库
+                    SqlModel.addDownloadImg(getContext(),new NetImageImpl(data.getSourceurl(),data.getThumburl(),Integer.parseInt(data.getWidth()),Integer.parseInt(data.getHeight())), path);
+                }
+                if(state==1){
+                    //分享图片
+                    Utils.startShareImg(path,getContext());
+                }
+            }else{
+                JUtils.Toast("未知错误");
+            }
+            state =-1;
+        }
+    };
+
     public JoyImageViewHolder(ViewGroup parent) {
         super(parent, R.layout.itemview_joyimage);
         simpleDraweeView =$(R.id.joyImg);
@@ -113,24 +134,4 @@ public class JoyImageViewHolder extends BaseViewHolder<ImageJoy> implements View
         }, CallerThreadExecutor.getInstance());
 
     }
-    //保存图片后的观察者
-    Action1<String> saveSubscriber = new Action1<String>() {
-        @Override
-        public void call(String path) {
-            if(!path.equals(API.status.error)){
-                if(state==0) {
-                    JUtils.Toast("下载图片成功，已下载到SdCard的MyPictures目录里");
-                    //保存到数据库
-                    SqlModel.addDownloadImg(getContext(),new NetImageImpl(data.getSourceurl(),data.getThumburl(),Integer.parseInt(data.getWidth()),Integer.parseInt(data.getHeight())), path);
-                }
-                if(state==1){
-                    //分享图片
-                    Utils.startShareImg(path,getContext());
-                }
-            }else{
-                JUtils.Toast("未知错误");
-            }
-            state =-1;
-        }
-    };
 }

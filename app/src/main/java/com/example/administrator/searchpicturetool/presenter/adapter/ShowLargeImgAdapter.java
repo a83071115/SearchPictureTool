@@ -3,6 +3,7 @@ package com.example.administrator.searchpicturetool.presenter.adapter;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -53,6 +54,9 @@ public class ShowLargeImgAdapter extends PagerAdapter implements View.OnClickLis
 
     @Override
     public int getCount() {
+        if(netImages==null){
+            return 0;
+        }
         return netImages.size();
     }
 
@@ -70,7 +74,10 @@ public class ShowLargeImgAdapter extends PagerAdapter implements View.OnClickLis
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         view = inflater.inflate(R.layout.item_large_img, null);
-
+        if(netImages==null||netImages.get(position)==null){
+            container.addView(view);
+            return view;
+        }
         PinchImageView pinchImageView = (PinchImageView) view.findViewById(R.id.photoView);
         ProgressWheel progressWheel = (ProgressWheel)view.findViewById(R.id.progress_wheel);
         pinchImageView.setOnClickListener(this);
@@ -113,27 +120,37 @@ public class ShowLargeImgAdapter extends PagerAdapter implements View.OnClickLis
     @Override
     public void setPrimaryItem(ViewGroup container, int position, Object object) {
         super.setPrimaryItem(container, position, object);
+
         if (currentPosition != position&&object!=null) {
+            currentPosition = position;
+            if(netImages==null||netImages.get(position)==null){
+                return;
+            }
             PinchImageView pinchImageView = (PinchImageView) (((View) object).findViewById(R.id.photoView));
             ProgressWheel progressWheel = (ProgressWheel) (((View) object).findViewById(R.id.progress_wheel));
             if (pinchImageView.getTag() == null || !pinchImageView.getTag().equals(netImages.get(position).getLargeImg())) {
                 pinchImageView.setTag(netImages.get(position).getLargeImg());
-                EasyImageLoader.getInstance(context).getBitmap(netImages.get(position).getLargeImg(), new EasyImageLoader.BitmapCallback() {
-                    @Override
-                    public void onResponse(Bitmap bitmap) {
+                EasyImageLoader.getInstance(context).getBitmap(netImages.get(position).getLargeImg(), bitmap -> {
 
-                        if(bitmap!=null){
-                            if(progressWheel.isShown()){
-                                progressWheel.setVisibility(View.GONE);
-                            }
-                            pinchImageView.setImageBitmap(bitmap);
-                        }else {
-                            if(progressWheel.isShown()){
-                                progressWheel.setVisibility(View.GONE);
-                                EasyImageLoader.getInstance(context).bindBitmap(netImages.get(position).getThumbImg(), pinchImageView);
-                            }
-                            JUtils.Toast("该图没有高清图...");
+                    if(bitmap!=null){
+                        if(progressWheel.isShown()){
+                            progressWheel.setVisibility(View.GONE);
                         }
+                        pinchImageView.setImageBitmap(bitmap);
+                    }else {
+                        if(progressWheel.isShown()){
+                            progressWheel.setVisibility(View.GONE);
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if(pinchImageView.getDrawable()==null){
+                                        EasyImageLoader.getInstance(context).bindBitmap(netImages.get(position).getThumbImg(), pinchImageView);
+                                    }
+                                }
+                            },200);
+
+                        }
+                        toastErrorMessage();
                     }
                 });
             }
@@ -141,7 +158,7 @@ public class ShowLargeImgAdapter extends PagerAdapter implements View.OnClickLis
             if (getPinchImageViewPager() != null && pinchImageView != null) {
                 getPinchImageViewPager().setMainPinchImageView(pinchImageView);
             }
-            currentPosition = position;
+
         }
 
     }
@@ -157,5 +174,12 @@ public class ShowLargeImgAdapter extends PagerAdapter implements View.OnClickLis
 
     public void setPinchImageViewPager(PinchImageViewPager mPinchImageViewPager) {
         this.mPinchImageViewPager = mPinchImageViewPager;
+    }
+    public void toastErrorMessage(){
+        if(JUtils.isNetWorkAvilable()){
+            JUtils.Toast("该图没有高清图...");
+        }else {
+            JUtils.Toast("网络不给力,无法加载高清图");
+        }
     }
 }

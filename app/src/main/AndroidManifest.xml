@@ -56,6 +56,10 @@
         </activity>
         <activity android:name=".view.activity.SearchActivity"/>
         <activity android:name=".view.activity.ShowLargeImgActivity"
+            android:configChanges="orientation|keyboardHidden"
+            />
+        <activity android:name=".view.activity.ShowCollectLargeImgActivity"
+            android:configChanges="orientation|keyboardHidden"
             />
         <activity android:name=".view.activity.BannerListActivity"
             android:label="@string/menu_recommend"

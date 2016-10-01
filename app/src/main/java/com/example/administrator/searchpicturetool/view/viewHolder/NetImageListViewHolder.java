@@ -31,8 +31,9 @@ public class NetImageListViewHolder extends BaseViewHolder<NetImage>{
     }
 
     public static void loadImg(Uri uri, SimpleDraweeView draweeView,int width,int height){
+
         ImageRequest request = ImageRequestBuilder.newBuilderWithSource(uri)
-                .setResizeOptions(new ResizeOptions(width/2, height/2))
+                .setResizeOptions(new ResizeOptions((width/2)>0?width/2:150, (height/2)>0?height/2:150))
                 .build();
 
         DraweeController controller = Fresco.newDraweeControllerBuilder()

@@ -157,9 +157,6 @@ public class MainActivity extends BeamBaseActivity<MainActivityPresenter> implem
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
-        MenuItem item = menu.findItem(R.id.action_search);
-        searchView.setMenuItem(item);
-
         return true;
     }
 

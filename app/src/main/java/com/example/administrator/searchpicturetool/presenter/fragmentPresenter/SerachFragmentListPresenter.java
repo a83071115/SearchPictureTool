@@ -44,6 +44,10 @@ public class SerachFragmentListPresenter extends BaseListFragmentPresenter<Searc
       //  view.getListView().getErrorView().findViewById(R.id.view_net_btn).setOnClickListener(getView());
         tab =view.getArguments().getString("search");
         netImages = new ArrayList<NetImage>();
+        if(tab.equals("search")){
+            getRefreshSubscriber().onNext(netImages);
+            return;
+        }
         onRefresh();
 
     }

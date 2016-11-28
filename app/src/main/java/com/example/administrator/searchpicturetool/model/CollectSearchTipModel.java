@@ -2,7 +2,7 @@ package com.example.administrator.searchpicturetool.model;
 
 import android.content.Context;
 
-import com.example.administrator.searchpicturetool.db.DBManager;
+import com.example.administrator.searchpicturetool.model.db.DBManager;
 import com.example.administrator.searchpicturetool.model.bean.CollectSearchTip;
 
 import java.util.ArrayList;

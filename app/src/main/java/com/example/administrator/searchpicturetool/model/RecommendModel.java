@@ -4,14 +4,11 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.example.administrator.searchpicturetool.db.DBManager;
+import com.example.administrator.searchpicturetool.model.db.DBManager;
 import com.example.administrator.searchpicturetool.model.bean.NewRecommendContent;
-import com.example.administrator.searchpicturetool.model.bean.RecommendContent;
-import com.example.administrator.searchpicturetool.model.bean.RecommendTip;
 import com.example.administrator.searchpicturetool.util.RecommendComparator;
 import com.jude.utils.JUtils;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -20,7 +17,6 @@ import cn.bmob.v3.listener.FindListener;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 /**

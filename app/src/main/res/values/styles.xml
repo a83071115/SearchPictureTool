@@ -6,21 +6,18 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:colorBackground">@color/page_background</item>
         <!--android底色-->
        <!-- <item name="android:windowBackground">@color/gray_light</item>-->
     </style>
 
-    <style name="AppTheme" parent="AppTheme.Base"></style>
+    <style name="AppTheme" parent="AppTheme.Base">
+
+    </style>
 
     <style name="LaunchTheme" parent="AppTheme">
         <item name="android:background">@drawable/ic_launch</item>
     </style>
-   <!-- <style name="AppTheme.NoActionBar" parent="AppTheme.Base">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-   &lt;!&ndash;     <item name="android:colorBackground">@color/colorPrimaryDark</item>&ndash;&gt;
-    </style>-->
 
     <style name="AppTheme.Dark" parent="Theme.AppCompat.NoActionBar">
         <!-- Customize your theme here. -->

@@ -41,7 +41,7 @@
             android:value="${UMENG_CHANNEL}"/>
 
 
-        <activity android:name=".view.activity.LaunchActivity"
+        <activity android:name=".launch.LaunchActivity"
             android:theme="@style/LaunchTheme"
             >
             <intent-filter>
@@ -50,31 +50,31 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.activity.MainActivity"
+            android:name=".main.MainActivity"
             android:label="@string/app_name"
              >
         </activity>
-        <activity android:name=".view.activity.SearchActivity"/>
-        <activity android:name=".view.activity.ShowLargeImgActivity"
+        <activity android:name=".search.result.SearchResultActivity"/>
+        <activity android:name=".detail.ShowLargeImgActivity"
             android:configChanges="orientation|keyboardHidden"
             />
-        <activity android:name=".view.activity.ShowCollectLargeImgActivity"
+        <activity android:name=".user.collect.ShowCollectLargeImgActivity"
             android:configChanges="orientation|keyboardHidden"
             />
-        <activity android:name=".view.activity.BannerListActivity"
+        <activity android:name=".recommend.BannerListActivity"
             android:label="@string/menu_recommend"
             />
         <activity
-            android:name=".view.activity.UserActivity"
+            android:name=".user.UserActivity"
             android:label="我的图片"
             />
-        <activity android:name=".view.activity.ShowDownloadImgActivity"
+        <activity android:name=".user.download.ShowDownloadImgActivity"
             android:label=" "
             />
-        <activity android:name=".view.activity.SettingActivity"
+        <activity android:name=".setting.SettingActivity"
             android:label="设置"
             />
-        <activity android:name=".view.activity.MoreRecommendActivity"
+        <activity android:name=".recommend.MoreRecommendActivity"
             android:label="更多"
             />
 
